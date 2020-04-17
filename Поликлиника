@@ -1,0 +1,20 @@
+using System;
+
+namespace Clinic
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int people, onePersonIntakeTime = 5, hours, minutes;
+
+            Console.Write("Количество людей в очереди: ");
+            people = Convert.ToInt32(Console.ReadLine());
+            hours = people * onePersonIntakeTime / 60;
+            minutes = people * onePersonIntakeTime % 60;
+            Console.WriteLine($"Вам придётся отстоять в очереде {hours} часов, {minutes} минут");
+
+            Console.ReadKey();
+        }
+    }
+}
