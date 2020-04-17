@@ -1,0 +1,25 @@
+using System;
+
+namespace strings
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name, carMake, experience;
+            int age;
+
+            Console.Write("Как вас зовут: ");
+            name = Console.ReadLine();
+            Console.Write("Сколько вам лет: ");
+            age = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Какой у вас опыт работы: ");
+            experience = Console.ReadLine();
+            Console.Write("Какой марки у вас машины: ");
+            carMake = Console.ReadLine();
+            Console.WriteLine($"Вас зовут {name}, вам {age} лет, у вас опыт работы {experience} лет, у вас машина марки {carMake}");
+
+            Console.ReadKey();
+        }
+    }
+}
