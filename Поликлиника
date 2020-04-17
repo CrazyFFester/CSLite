@@ -6,7 +6,7 @@ namespace Clinic
     {
         static void Main(string[] args)
         {
-            int people, onePersonIntakeTime = 5, hours, minutes;
+            int people, onePersonIntakeTime = 10, hours, minutes;
 
             Console.Write("Количество людей в очереди: ");
             people = Convert.ToInt32(Console.ReadLine());
