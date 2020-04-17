@@ -6,16 +6,16 @@ namespace variables
     {
         static void Main(string[] args)
         {
-            int i;
-            uint ui;
-            string str;
-            bool b;
-            short s;
-            ushort us;
-            long l;
-            ulong ul;
-            float f;
-            double d;
+            int age;
+            uint numberOfLectures;
+            string name;
+            bool state;
+            char firstSymbol;
+            byte amountOfData;
+            long money;
+            ulong speedOfLight;
+            float speedOfCar;
+            short numberOfClasses;
         }
     }
 }
