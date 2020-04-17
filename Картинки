@@ -1,0 +1,18 @@
+using System;
+
+namespace Pictures
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int picturesInTheAlbum = 52, fullyFilledSeries, numberOfPicturesInASeries = 3, picturesBeyondMeasure;
+
+            fullyFilledSeries = picturesInTheAlbum / numberOfPicturesInASeries;
+            picturesBeyondMeasure = picturesInTheAlbum % numberOfPicturesInASeries;
+            Console.WriteLine($"Полность заполненный ряды - {fullyFilledSeries}. Картинки сверх меры - {picturesBeyondMeasure}");
+
+            Console.ReadKey();
+        }
+    }
+}
