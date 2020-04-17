@@ -1,0 +1,25 @@
+using System;
+
+namespace shop
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int amountOfGold, amountOfCrystal = 1, amountOfGoldPerCrystal = 10;
+            bool enoughGold;
+
+            Console.Write("Сколько у вас золота: ");
+            amountOfGold = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Вы можете купить {amountOfCrystal} кристалл за {amountOfGoldPerCrystal} золота.");
+            Console.Write("Сколько кристаллов вы хотите купить: ");
+            amountOfCrystal = Convert.ToInt32(Console.ReadLine());
+            enoughGold = amountOfGold >= amountOfCrystal * amountOfGoldPerCrystal;
+            amountOfCrystal *= Convert.ToInt32(enoughGold);
+            amountOfGold -= amountOfCrystal * amountOfGoldPerCrystal;
+            Console.WriteLine($"Ваши запасы: {amountOfCrystal} кристалл, {amountOfGold} золота.");
+
+            Console.ReadKey();
+        }
+    }
+}
