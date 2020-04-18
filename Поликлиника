@@ -6,13 +6,14 @@ namespace Clinic
     {
         static void Main(string[] args)
         {
-            int people, onePersonIntakeTime = 10, hours, minutes;
+            int peopleInLine, onePersonIntakeTime = 10,waitingTimeInMinutes, waitingTimeInHours;
 
             Console.Write("Количество людей в очереди: ");
-            people = Convert.ToInt32(Console.ReadLine());
-            hours = people * onePersonIntakeTime / 60;
-            minutes = people * onePersonIntakeTime % 60;
-            Console.WriteLine($"Вам придётся отстоять в очереде {hours} часов, {minutes} минут");
+            peopleInLine = Convert.ToInt32(Console.ReadLine());
+            waitingTimeInMinutes = peopleInLine * onePersonIntakeTime;
+            waitingTimeInHours = waitingTimeInMinutes / 60;
+            waitingTimeInMinutes %= 60;
+            Console.WriteLine($"Вам придётся отстоять в очереде {waitingTimeInHours} часов, {waitingTimeInMinutes} минут");
 
             Console.ReadKey();
         }
