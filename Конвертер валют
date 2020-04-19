@@ -18,7 +18,7 @@ namespace Sequence
             Console.Write("Введите ваше количество алмазов: ");
             amountOfDiamond = Convert.ToSingle(Console.ReadLine());
 
-            while(exchangeStatus == "да")
+            while (exchangeStatus == "да")
             {
                 Console.Write("\nЧто вы хотите приобрести: ");
                 userDesire = Console.ReadLine();
@@ -65,7 +65,7 @@ namespace Sequence
                         Console.WriteLine("Вы можете приобрести только золото или алмазы.");
                         continue;
                 }
-                Console.WriteLine("\nВы хотите ещё что-нибудь обменять: ");
+                Console.Write("\nВы хотите ещё что-нибудь обменять: ");
                 exchangeStatus = Console.ReadLine();
             }
 
