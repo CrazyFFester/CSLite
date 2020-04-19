@@ -1,0 +1,58 @@
+using System;
+
+namespace Currency Converter
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            float amountOfDiamondsTheUserWantsToPurchase, amountOfGoldTheUserWantsToPurchase;
+            float amountOfGoldPerDiamond = 100f, amountOfDiamondPerGold = 0.01f, amountOfGold, 
+                amountOfDiamond, amountOfExchangeOfGoldInDiamonds, amountOfExchangeOfDiamondsInGold;
+            string userDesire, exchangeStatus = "да";
+
+            Console.WriteLine($"Здравствуйте, сегодня вы можете обменять 1 золото на {amountOfDiamondPerGold} алмазов и" +
+                $"\n1 алмаз на {amountOfGoldPerDiamond} золота.");
+            Console.Write("Введите ваше количество золота: ");
+            amountOfGold = Convert.ToSingle(Console.ReadLine());
+            Console.Write("Введите ваше количество алмазов:");
+            amountOfDiamond = Convert.ToSingle(Console.ReadLine());
+
+            while (exchangeStatus == "да")
+            {
+                Console.Write("Что вы хотите приобрести: ");
+                userDesire = Console.ReadLine();
+
+                if(userDesire == "алмазы")
+                {
+                    Console.Write("Сколько алмазов вы хотите приобрести: ");
+                    amountOfDiamondsTheUserWantsToPurchase = Convert.ToInt32(Console.ReadLine());
+                    amountOfExchangeOfGoldInDiamonds = amountOfGoldPerDiamond * amountOfDiamondsTheUserWantsToPurchase;
+                    amountOfGold -= amountOfExchangeOfGoldInDiamonds;
+                    amountOfDiamond += amountOfDiamondsTheUserWantsToPurchase;
+                    Console.WriteLine($"{amountOfGold} - золото");
+                    Console.WriteLine($"{amountOfDiamond} - алмазы");
+                }
+                else if(userDesire == "золото")
+                {
+                    Console.Write("Сколько золота вы хотите приобрести: ");
+                    amountOfGoldTheUserWantsToPurchase = Convert.ToInt32(Console.ReadLine());
+                    amountOfExchangeOfDiamondsInGold = amountOfDiamondPerGold * amountOfGoldTheUserWantsToPurchase;
+                    amountOfDiamond -= amountOfExchangeOfDiamondsInGold;
+                    amountOfGold += amountOfGoldTheUserWantsToPurchase;
+                    Console.WriteLine($"{amountOfGold} - золото");
+                    Console.WriteLine($"{amountOfDiamond} - алмазы");
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка.");
+                    break;
+                }
+                Console.WriteLine("Вы хотите ещё что-нибудь обменять: ");
+                exchangeStatus = Console.ReadLine();
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
