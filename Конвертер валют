@@ -1,6 +1,6 @@
 using System;
 
-namespace Currency Converter
+namespace Sequence
 {
     class Program
     {
@@ -46,7 +46,7 @@ namespace Currency Converter
                 else
                 {
                     Console.WriteLine("Ошибка.");
-                    break;
+                    continue;
                 }
                 Console.WriteLine("Вы хотите ещё что-нибудь обменять: ");
                 exchangeStatus = Console.ReadLine();
