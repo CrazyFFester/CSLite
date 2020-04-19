@@ -1,0 +1,100 @@
+using System;
+
+namespace Bossfight
+{
+    class Program
+{
+    static void Main(string[] args)
+    {
+        //waterDragon - призыв водяного дракона, урон 50 хп
+        //spellsOfTheGreatFireball - создание огромного огненого шара, урон 100 хп
+        //lifeRestorationSpell - лечение всего здоровья, но пропуск двух ходов
+        //earthenWallSpell - каменная стена, защита от атаки врага, теряете 15 хп
+        int waterDragonSpell = 50, spellsOfTheGreatFireball = 100, lifeRestorationSpell = 100;
+        int enemyHealth = 500, enemyDamage = 25, userHealth = 100, earthenWallSpell = 15;
+        int spell;
+        bool status = true;
+
+        Console.WriteLine("На вас напал враг!");
+        Console.WriteLine("\nУ вас есть несколько заклинаний: " +
+            "\n1)waterDragonSpell - призыв водяного дракона, урон 50 хп." +
+            "\n2)spellsOfTheGreatFireball - создание огромного огненого шара, урон 100 хп." +
+            "\n3)lifeRestorationSpell - лечение всего здоровья, но пропуск двух ходов." +
+            "\n4)earthenWallSpell - каменная стена, защита от атаки врага, теряете 15 хп");
+        while (enemyHealth > 0 && userHealth > 0)
+        {
+            Console.Write("\nВыберите заклинание: ");
+            spell = Convert.ToInt32(Console.ReadLine());
+            switch (spell)
+            {
+                case 1:
+                    enemyHealth -= waterDragonSpell;
+                    if (status == false)
+                    {
+                        userHealth -= enemyDamage;
+                        status = true;
+                    }
+                    userHealth -= enemyDamage;
+                    Console.WriteLine($"{enemyHealth} - враг");
+                    Console.WriteLine($"{userHealth} - вы");
+                    break;
+                case 2:
+                    enemyHealth -= spellsOfTheGreatFireball;
+                    if (status == false)
+                    {
+                        userHealth -= enemyDamage;
+                        status = true;
+                    }
+                    userHealth -= enemyDamage;
+                    Console.WriteLine($"{enemyHealth} - враг");
+                    Console.WriteLine($"{userHealth} - вы");
+                    break;
+                case 3:
+                    userHealth -= enemyDamage;
+                    if (status == false)
+                    {
+                        userHealth -= enemyDamage;
+                        status = true;
+                    }
+                    userHealth -= enemyDamage;
+                    userHealth += lifeRestorationSpell;
+                    Console.WriteLine($"{enemyHealth} - враг");
+                    Console.WriteLine($"{userHealth} - вы");
+                    status = false;
+                    break;
+                case 4:
+                    if (status == false)
+                    {
+                        userHealth -= enemyDamage;
+                        status = true;
+                    }
+                    userHealth -= earthenWallSpell;
+                    Console.WriteLine($"{enemyHealth} - враг");
+                    Console.WriteLine($"{userHealth} - вы");
+                    break;
+                default:
+                    Console.WriteLine("Такого заклинания нет!");
+                    if (status == false)
+                    {
+                        userHealth -= enemyDamage;
+                        status = true;
+                    }
+                    userHealth -= enemyDamage;
+                    Console.WriteLine($"{enemyHealth} - враг");
+                    Console.WriteLine($"{userHealth} - вы");
+                    break;
+            }
+        }
+        if (enemyHealth <= 0)
+        {
+            Console.WriteLine("\nВы победили!!!");
+        }
+        else if (userHealth <= 0)
+        {
+            Console.WriteLine("\nВас убили, враг победил.");
+        }
+
+        Console.ReadKey();
+    }
+}
+}
