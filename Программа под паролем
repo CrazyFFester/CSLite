@@ -1,0 +1,35 @@
+using System;
+
+namespace Password
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string password = "gw2xtb", userPassword;
+            int numberOfAttempts = 3;
+            while(numberOfAttempts-- > 0)
+            {
+                Console.Write("Для входа в аккаунт, введите пароль: ");
+                userPassword = Console.ReadLine();
+
+                if(userPassword == password)
+                {
+                    Console.WriteLine("\nВы успешно вошли в аккаунт!");
+                    Console.WriteLine("Секретное сообщение: встречаемся завтра в 8 ч.");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Введён неверный пароль.");
+                }
+            }
+            if(numberOfAttempts <= 0)
+            {
+                Console.WriteLine("\nВы истратили все свои попытки, попробуйте позже.");
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
