@@ -1,0 +1,55 @@
+using System;
+
+namespace Consolemenu
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string userCommand, userPassword = "0", userPassword2 = "0";
+            bool programStatus = true;
+            
+            while(programStatus == true)
+            {
+                Console.WriteLine("\nКоманды:" +
+                "\n1)Time - узнать текущую дату и время." +
+                "\n2)SetPassword – установить пароль." +
+                "\n3)ClearConsole - очистить консоль." +
+                "\n4)Esc - выход из программы.");
+                Console.WriteLine();
+                userCommand = Console.ReadLine();
+
+                if (userPassword != "0")
+                {
+                    while(userPassword != userPassword2)
+                    {
+                        Console.Write("Чтоб получить права админа, введите пароль: ");
+                        userPassword2 = Console.ReadLine();
+                    }
+                }
+                switch (userCommand)
+                {
+                        case "Time":
+                            Console.WriteLine(DateTime.Now);
+                            break;
+                        case "SetPassword":
+                            Console.WriteLine("Введите пароль: ");
+                            userPassword = Console.ReadLine();
+                            break;
+                        case "ClearConsole":
+                            Console.Clear();
+                            break;
+                        case "Esc":
+                            Console.WriteLine("Программа закрывается...");
+                            programStatus = false;
+                            break;
+                    default:
+                        Console.WriteLine("Такой команды нет!");
+                        break;
+                }
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
