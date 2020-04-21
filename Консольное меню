@@ -7,9 +7,9 @@ namespace Consolemenu
         static void Main(string[] args)
         {
             string userCommand, userPassword = "0", userPassword2 = "0";
-            bool programStatus = true;
+            bool programState = true;
             
-            while(programStatus == true)
+            while(programState == true)
             {
                 Console.WriteLine("\nКоманды:" +
                 "\n1)Time - узнать текущую дату и время." +
@@ -41,7 +41,7 @@ namespace Consolemenu
                             break;
                         case "Esc":
                             Console.WriteLine("Программа закрывается...");
-                            programStatus = false;
+                            programState = false;
                             break;
                     default:
                         Console.WriteLine("Такой команды нет!");
