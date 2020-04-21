@@ -1,0 +1,28 @@
+using System;
+
+namespace Array
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[,] numbers = { { 1, 5, 10 }, { 5, 10, 15 }, { 10, 15, 20 } };
+            int secondRowAmount = 0, multiplyOfFirstColumn = 1;
+
+            for (int i = 0; i < numbers.GetLength(0); i++)
+            {
+                for (int j = 0; j < numbers.GetLength(1); j++)
+                {
+                    Console.Write(numbers[i, j] + " ");
+                }
+                Console.WriteLine();
+                secondRowAmount += numbers[1, i];
+                multiplyOfFirstColumn *= numbers[i, 0];
+            }
+            Console.WriteLine($"\nСумма второй строчки - {secondRowAmount}");
+            Console.WriteLine($"Произведение первого столбика - {multiplyOfFirstColumn}");
+
+            Console.ReadKey();
+        }
+    }
+}
