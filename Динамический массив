@@ -7,14 +7,8 @@ namespace Dynamic_array
         static void Main(string[] args)
         {
             int amountOfNumbers, sumOfNumbers = 0;
-            int[] arrayOfNumbersToBeAdded = new int[0];
-            int[] tempArrayOfNumbersToBeAdded = new int[arrayOfNumbersToBeAdded.Length + 1];
             bool programState = true;
 
-            for (int i = 0; i < arrayOfNumbersToBeAdded.Length; i++)
-            {
-                tempArrayOfNumbersToBeAdded[i] = arrayOfNumbersToBeAdded[i];
-            }
             while (programState == true)
             {
                 Console.WriteLine("Выберите команду: \n\n1)sum.\n\n2)exit.");
@@ -23,8 +17,12 @@ namespace Dynamic_array
                     case "sum":
                         Console.Write("\nСколько чисел будет использовано: ");
                         amountOfNumbers = Convert.ToInt32(Console.ReadLine());
-                        tempArrayOfNumbersToBeAdded = new int[amountOfNumbers];
-
+                        int[] arrayOfNumbersToBeAdded = new int[0];
+                        int[] tempArrayOfNumbersToBeAdded = new int[amountOfNumbers];
+                        for (int i = 0; i < arrayOfNumbersToBeAdded.Length; i++)
+                        {
+                            tempArrayOfNumbersToBeAdded[i] = arrayOfNumbersToBeAdded[i];
+                        }
                         for (int i = 0; i < tempArrayOfNumbersToBeAdded.Length; i++)
                         {
                             Console.Write($"Введите {i + 1} число: ");
