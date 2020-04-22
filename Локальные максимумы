@@ -6,7 +6,7 @@ namespace Local_highs
     {
         static void Main(string[] args)
         {
-            Random randomValue = new Random();
+            Random randomValues = new Random();
             int[] arrayOfNumber = new int[30];
             int maxElement = int.MinValue;
             Console.WriteLine("Изначальный массив:");
