@@ -1,0 +1,51 @@
+using System;
+
+namespace Dynamic_array
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int amountOfNumbers, sumOfNumbers = 0;
+            int[] arrayOfNumbersToBeAdded = new int[0];
+            int[] tempArrayOfNumbersToBeAdded = new int[arrayOfNumbersToBeAdded.Length + 1];
+            bool programState = true;
+
+            for(int i = 0; i < arrayOfNumbersToBeAdded.Length; i++)
+            {
+                tempArrayOfNumbersToBeAdded[i] = arrayOfNumbersToBeAdded[i];
+            }
+            while(programState == true)
+            {
+                Console.WriteLine("Выберите команду: \n\n1)sum.\n\n2)exit.");
+                switch (Console.ReadLine())
+                {
+                    case "sum":
+                        Console.Write("\nСколько чисел будет использовано: ");
+                        amountOfNumbers = Convert.ToInt32(Console.ReadLine());
+                        tempArrayOfNumbersToBeAdded = new int[amountOfNumbers];
+
+                        for (int i = 0; i < tempArrayOfNumbersToBeAdded.Length; i++)
+                        {
+                            Console.Write($"Введите {i+1} число: ");
+                            tempArrayOfNumbersToBeAdded[i] = Convert.ToInt32(Console.ReadLine());
+                            arrayOfNumbersToBeAdded = tempArrayOfNumbersToBeAdded;
+                            sumOfNumbers += arrayOfNumbersToBeAdded[i];
+                        }
+                        Console.WriteLine($"Сумма чисел - {sumOfNumbers}");
+                        sumOfNumbers = 0;
+                        break;
+                    case "exit":
+                        programState = false;
+                        Console.WriteLine("\nПрограмма закрывается...");
+                        break;
+                    default:
+                        Console.WriteLine("Такой команды нет!");
+                        break;
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+    }
+}
