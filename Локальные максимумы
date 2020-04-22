@@ -7,24 +7,24 @@ namespace Local_highs
         static void Main(string[] args)
         {
             Random randomValue = new Random();
-            int[] array = new int[30];
+            int[] arrayOfNumber = new int[30];
             int maxElement = 0;
             Console.WriteLine("Изначальный массив:");
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < arrayOfNumber.Length; i++)
             {
-                array[i] = randomValue.Next(0, 10);
-                if(maxElement < array[i])
+                arrayOfNumber[i] = randomValue.Next(0, 10);
+                if (maxElement < arrayOfNumber[i])
                 {
-                    maxElement = array[i];
+                    maxElement = arrayOfNumber[i];
                 }
-                Console.Write(array[i] + " ");
+                Console.Write(arrayOfNumber[i] + " ");
             }
             Console.WriteLine("\n\nМассив из локальных маскимумов:");
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < arrayOfNumber.Length; i++)
             {
-                if(array[i] == maxElement)
+                if (arrayOfNumber[i] == maxElement)
                 {
-                    Console.Write(array[i] + " ");
+                    Console.Write(arrayOfNumber[i] + " ");
                 }
             }
             Console.WriteLine();
