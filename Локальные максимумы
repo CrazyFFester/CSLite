@@ -12,7 +12,7 @@ namespace Local_highs
             Console.WriteLine("Изначальный массив:");
             for (int i = 0; i < arrayOfNumber.Length; i++)
             {
-                arrayOfNumber[i] = randomValue.Next(0, 10);
+                arrayOfNumber[i] = randomValues.Next(0, 10);
                 if (maxElement < arrayOfNumber[i])
                 {
                     maxElement = arrayOfNumber[i];
