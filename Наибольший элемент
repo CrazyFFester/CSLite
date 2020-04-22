@@ -1,0 +1,45 @@
+using System;
+
+namespace Largest_element
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Random randomValues = new Random();
+            int[,] arrayOfNumbers = new int[10, 10];
+            int maxElement = int.MinValue;
+
+            Console.WriteLine("Исходная матрица:");
+            for(int i = 0; i < arrayOfNumbers.GetLength(0); i++)
+            {
+                for (int j = 0; j < arrayOfNumbers.GetLength(1); j++)
+                {
+                    arrayOfNumbers[i, j] += randomValues.Next(1, 10);
+                    if (maxElement < arrayOfNumbers[i, j])
+                    {
+                        maxElement = arrayOfNumbers[i, j];
+                    }
+                    Console.Write(arrayOfNumbers[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("\nПолученная матрица:");
+            for (int i = 0; i < arrayOfNumbers.GetLength(0); i++)
+            {
+                for (int j = 0; j < arrayOfNumbers.GetLength(1); j++)
+                {
+                    if (arrayOfNumbers[i,j] == maxElement)
+                    {
+                        arrayOfNumbers[i, j] = 0;
+                    }
+                    Console.Write(arrayOfNumbers[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine($"\nНаибольшее число - {maxElement}");
+
+            Console.ReadKey();
+        }
+    }
+}
