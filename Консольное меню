@@ -6,10 +6,10 @@ namespace Consolemenu
     {
         static void Main(string[] args)
         {
-            string userCommand, userPassword = "0", userPassword2 = "0";
+            string userCommand, requestedPassword = "0", userPassword = "0";
             bool programState = true;
-            
-            while(programState == true)
+
+            while (programState == true)
             {
                 Console.WriteLine("\nКоманды:" +
                 "\n1)Time - узнать текущую дату и время." +
@@ -19,30 +19,30 @@ namespace Consolemenu
                 Console.WriteLine();
                 userCommand = Console.ReadLine();
 
-                if (userPassword != "0")
+                if (requestedPassword != "0")
                 {
-                    while(userPassword != userPassword2)
+                    while (requestedPassword != userPassword)
                     {
                         Console.Write("Чтоб получить права админа, введите пароль: ");
-                        userPassword2 = Console.ReadLine();
+                        userPassword = Console.ReadLine();
                     }
                 }
                 switch (userCommand)
                 {
-                        case "Time":
-                            Console.WriteLine(DateTime.Now);
-                            break;
-                        case "SetPassword":
-                            Console.WriteLine("Введите пароль: ");
-                            userPassword = Console.ReadLine();
-                            break;
-                        case "ClearConsole":
-                            Console.Clear();
-                            break;
-                        case "Esc":
-                            Console.WriteLine("Программа закрывается...");
-                            programState = false;
-                            break;
+                    case "Time":
+                        Console.WriteLine(DateTime.Now);
+                        break;
+                    case "SetPassword":
+                        Console.WriteLine("Введите пароль: ");
+                        requestedPassword = Console.ReadLine();
+                        break;
+                    case "ClearConsole":
+                        Console.Clear();
+                        break;
+                    case "Esc":
+                        Console.WriteLine("Программа закрывается...");
+                        programState = false;
+                        break;
                     default:
                         Console.WriteLine("Такой команды нет!");
                         break;
