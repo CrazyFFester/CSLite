@@ -6,43 +6,42 @@ namespace Dynamic_array
     {
         static void Main(string[] args)
         {
-            int amountOfNumbers, sumOfNumbers = 0;
+            int sumOfNumbers = 0;
             bool programState = true;
-
+            int[] arrayOfNumbersToBeSum = new int[0];
             while (programState == true)
             {
-                Console.WriteLine("Выберите команду: \n\n1)sum.\n\n2)exit.");
-                switch (Console.ReadLine())
+                string numberOrCommand = Console.ReadLine();
+                switch (numberOrCommand)
                 {
                     case "sum":
-                        Console.Write("\nСколько чисел будет использовано: ");
-                        amountOfNumbers = Convert.ToInt32(Console.ReadLine());
-                        int[] arrayOfNumbersToBeSum = new int[0];
-                        int[] tempArrayOfNumbersToBeSum = new int[amountOfNumbers];
                         for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
                         {
-                            tempArrayOfNumbersToBeSum[i] = arrayOfNumbersToBeSum[i];
-                        }
-                        for (int i = 0; i < tempArrayOfNumbersToBeSum.Length; i++)
-                        {
-                            Console.Write($"Введите {i + 1} число: ");
-                            tempArrayOfNumbersToBeSum[i] = Convert.ToInt32(Console.ReadLine());
-                            arrayOfNumbersToBeSum = tempArrayOfNumbersToBeSum;
                             sumOfNumbers += arrayOfNumbersToBeSum[i];
                         }
-                        Console.WriteLine($"\nСумма чисел - {sumOfNumbers}");
+                        Console.WriteLine("\nСумма чисел - " + sumOfNumbers);
+                        for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
+                        {
+                            arrayOfNumbersToBeSum[i] = 0;
+                        }
                         sumOfNumbers = 0;
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
                     case "exit":
                         programState = false;
                         Console.WriteLine("\nПрограмма закрывается...");
                         break;
                     default:
-                        Console.WriteLine("Такой команды нет!");
+                        int[] tempArrayOfNumbersToBeSum = new int[arrayOfNumbersToBeSum.Length + 1];
+                        tempArrayOfNumbersToBeSum[tempArrayOfNumbersToBeSum.Length - 1] = Convert.ToInt32(numberOrCommand);
+                        for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
+                        {
+                            tempArrayOfNumbersToBeSum[i] = arrayOfNumbersToBeSum[i];
+                        }
+                        arrayOfNumbersToBeSum = tempArrayOfNumbersToBeSum;
                         break;
                 }
-                Console.ReadKey();
-                Console.Clear();
             }
         }
     }
