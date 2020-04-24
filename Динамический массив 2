@@ -1,0 +1,44 @@
+using System;
+
+namespace Dynamic_array
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int sumOfNumbers = 0;
+            bool programState = true;
+            int[] arrayOfNumbersToBeSum = new int[0];
+            while (programState == true)
+            {
+                string numberOrCommand = Console.ReadLine();
+                switch (numberOrCommand)
+                {
+                    case "sum":
+                        for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
+                        {
+                            sumOfNumbers += arrayOfNumbersToBeSum[i];
+                        }
+                        Console.WriteLine("\nСумма чисел - " + sumOfNumbers);
+                        arrayOfNumbersToBeSum = new int[0];
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "exit":
+                        programState = false;
+                        Console.WriteLine("\nПрограмма закрывается...");
+                        break;
+                    default:
+                        int[] tempArrayOfNumbersToBeSum = new int[arrayOfNumbersToBeSum.Length + 1];
+                        tempArrayOfNumbersToBeSum[tempArrayOfNumbersToBeSum.Length - 1] = Convert.ToInt32(numberOrCommand);
+                        for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
+                        {
+                            tempArrayOfNumbersToBeSum[i] = arrayOfNumbersToBeSum[i];
+                        }
+                        arrayOfNumbersToBeSum = tempArrayOfNumbersToBeSum;
+                        break;
+                }
+            }
+        }
+    }
+}
