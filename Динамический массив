@@ -20,10 +20,7 @@ namespace Dynamic_array
                             sumOfNumbers += arrayOfNumbersToBeSum[i];
                         }
                         Console.WriteLine("\nСумма чисел - " + sumOfNumbers);
-                        for (int i = 0; i < arrayOfNumbersToBeSum.Length; i++)
-                        {
-                            arrayOfNumbersToBeSum[i] = 0;
-                        }
+                        arrayOfNumbersToBeSum = new int[0];
                         sumOfNumbers = 0;
                         Console.ReadKey();
                         Console.Clear();
