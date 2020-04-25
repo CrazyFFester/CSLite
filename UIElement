@@ -20,9 +20,9 @@ namespace UIElement
                 DrawBar(mana, maxMana, ConsoleColor.Blue, 1, '#');
 
                 Console.SetCursorPosition(12, 0);
-                Console.WriteLine("- " + (health *10) + "%.");
+                Console.WriteLine(" - " + (health * 10) + "%.");
                 Console.SetCursorPosition(12, 1);
-                Console.WriteLine("- " + (mana*10) + "%.");
+                Console.WriteLine(" - " + (mana * 10) + "%.");
 
                 Console.ReadKey();
                 Console.Clear();
@@ -33,7 +33,7 @@ namespace UIElement
             ConsoleColor defualtColor = Console.BackgroundColor;
             string bar = "";
 
-            for(int i = 0; i <value; i++)
+            for (int i = 0; i < value; i++)
             {
                 bar += filledFieldSymbol;
             }
@@ -46,7 +46,7 @@ namespace UIElement
 
             bar = "";
 
-            for(float i = value; i < maxValue; i++)
+            for (float i = value; i < maxValue; i++)
             {
                 bar += emptyFieldSymbol;
             }
