@@ -1,0 +1,56 @@
+using System;
+
+namespace UIElement
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int health, maxHealth = 10;
+            int mana, maxMana = 10;
+            while (true)
+            {
+                Console.Write("Сколько процентов хп будет: ");
+                health = Convert.ToInt32(Console.ReadLine()) / 10;
+                Console.Write("Сколько процентов маны будет: ");
+                mana = Convert.ToInt32(Console.ReadLine()) / 10;
+                Console.Clear();
+
+                DrawBar(health, maxHealth, ConsoleColor.Red, 0, '#');
+                DrawBar(mana, maxMana, ConsoleColor.Blue, 1, '#');
+
+                Console.SetCursorPosition(12, 0);
+                Console.WriteLine("- " + (health *10) + "%.");
+                Console.SetCursorPosition(12, 1);
+                Console.WriteLine("- " + (mana*10) + "%.");
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+        static void DrawBar(int value, int maxValue, ConsoleColor color, int position, char filledFieldSymbol = ' ', char emptyFieldSymbol = '_')
+        {
+            ConsoleColor defualtColor = Console.BackgroundColor;
+            string bar = "";
+
+            for(int i = 0; i <value; i++)
+            {
+                bar += filledFieldSymbol;
+            }
+
+            Console.SetCursorPosition(0, position);
+            Console.Write('[');
+            Console.BackgroundColor = color;
+            Console.Write(bar);
+            Console.BackgroundColor = defualtColor;
+
+            bar = "";
+
+            for(float i = value; i < maxValue; i++)
+            {
+                bar += emptyFieldSymbol;
+            }
+            Console.Write(bar + ']');
+        }
+    }
+}
