@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Personnel_accounting
+{
+    class Program
+    {
+        static void Main()
+        {
+            string[] fullName = new string[0];
+            string[] position = new string[0];
+            string searchLastName = "0";
+
+            while (true)
+            {
+                Console.WriteLine("\nМеню: " +
+                    "\n1)Добавить досье." +
+                    "\n2)Вывести все досье." +
+                    "\n3)Удалить досье." +
+                    "\n4)Поиск по фамилии." +
+                    "\n5)Выход.");
+                switch (Convert.ToInt32(Console.ReadLine()))
+                {
+                    case 1:
+                        FillingArrays(ref fullName, ref position);
+                        break;
+                    case 2:
+                        Console.WriteLine();
+                        for (int i = 0; i < fullName.Length; i++)
+                        {
+                            FormattedOutput(fullName, position, i);
+                        }
+                        break;
+                    case 3:
+                        Deletion(ref fullName, ref position, searchLastName);
+                        break;
+                    case 4:
+                        SearchByLastName(fullName, position, searchLastName);
+                        break;
+                    case 5:
+                        return;
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        static void FillingArrays(ref string[] fullName, ref string[] position)
+        {
+            string[] tempFullName = new string[fullName.Length + 1];
+            string[] tempPosition = new string[position.Length + 1];
+
+            Console.Write("\nВведите фио: ");
+            tempFullName[^1] = Console.ReadLine().ToLower();
+            Console.Write("Введите должность: ");
+            tempPosition[^1] = Console.ReadLine().ToLower();
+
+            for (int i = 0; i < fullName.Length; i++)
+            {
+                tempFullName[i] = fullName[i];
+            }
+            for (int i = 0; i < position.Length; i++)
+            {
+                tempPosition[i] = position[i];
+            }
+            fullName = tempFullName;
+            position = tempPosition;
+        }
+
+        static void FormattedOutput(string[] fullName, string[] position, int i)
+        {
+            Console.WriteLine($"{i + 1}){fullName[i]} - {position[i]}");
+        }
+
+        static void SearchByLastName(string[] fullName, string[] position, string searchLastName)
+        {
+            Console.Write("\nВведите фамилию: ");
+            searchLastName = Console.ReadLine();
+            for (int i = 0; i < fullName.Length; i++)
+            {
+                if (searchLastName == fullName[i])
+                {
+                    FormattedOutput(fullName, position, i);
+                }
+            }
+        }
+
+        static void Deletion(ref string[] fullName, ref string[] position, string searchLastName)
+        {
+            Console.Write("\nЧьё досье вы хотите удалить: ");
+            searchLastName = Console.ReadLine().ToLower();
+
+            for (int i = 0; i < fullName.Length; i++)
+            {
+                if (searchLastName == fullName[i])
+                {
+                    List<string> temp = fullName.ToList();
+                    List<string> temp1 = position.ToList();
+                    temp.RemoveAt(i);
+                    temp1.RemoveAt(i);
+                    fullName = temp.ToArray();
+                    position = temp1.ToArray();
+                }
+            }
+        }
+    }
+}
