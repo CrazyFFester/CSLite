@@ -7,6 +7,7 @@ namespace ReadInt
         static void Main(string[] args)
         {
             int userNumber;
+
             Conversion(out userNumber);
         }
         static void Conversion(out int userNumber)
