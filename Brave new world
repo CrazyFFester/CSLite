@@ -4,7 +4,7 @@ namespace Brave_new_world
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.CursorVisible = false;
             int userX = 6, userY = 6, numberOfAwards = 5;
@@ -31,7 +31,12 @@ namespace Brave_new_world
                   {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'} };
             while (true)
             {
-                ArrayFilling(bag);
+                Console.SetCursorPosition(0, 20);
+                Console.Write("Сумка: ");
+                for (int i = 0; i < bag.Length; i++)
+                {
+                    Console.Write(bag[i] + " ");
+                }
                 Console.SetCursorPosition(0, 0);
                 DrawMap(map);
                 Console.SetCursorPosition(userY, userX);
@@ -41,34 +46,26 @@ namespace Brave_new_world
                 switch (charKey.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if (map[userX - 1, userY] != '#')
-                        {
-                            userX--;
-                        }
+                        Move(map, ref userX, ref userY, -1, 0);
                         break;
                     case ConsoleKey.DownArrow:
-                        if (map[userX + 1, userY] != '#')
-                        {
-                            userX++;
-                        }
+                        Move(map, ref userX, ref userY, 1, 0);
                         break;
                     case ConsoleKey.LeftArrow:
-                        if (map[userX, userY - 1] != '#')
-                        {
-                            userY--;
-                        }
+                        Move(map, ref userX, ref userY, 0, -1);
                         break;
                     case ConsoleKey.RightArrow:
-                        if (map[userX, userY + 1] != '#')
-                        {
-                            userY++;
-                        }
+                        Move(map, ref userX, ref userY, 0, 1);
                         break;
                 }
                 if (map[userX, userY] == 'X')
                 {
+                    map[userX, userY] = 'o';
                     char[] tempBag = new char[bag.Length + 1];
-                    ArrayExpansion(map, userX, userY, bag, tempBag);
+                    for (int i = 0; i < bag.Length; i++)
+                    {
+                        tempBag[i] = bag[i];
+                    }
                     tempBag[tempBag.Length - 1] = 'X';
                     bag = tempBag;
                 }
@@ -82,7 +79,6 @@ namespace Brave_new_world
                 Console.Clear();
             }
         }
-
         static void DrawMap(char[,] map)
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -94,23 +90,12 @@ namespace Brave_new_world
                 Console.WriteLine();
             }
         }
-
-        static void ArrayExpansion(char[,] map, int userX, int userY, char[] bag, char[] tempBag)
+        static void Move(char[,] map, ref int userX, ref int userY, int theNumberByWhichUserXWillChange, int theNumberByWhichUserYWillChange)
         {
-            map[userX, userY] = 'o';
-            for (int i = 0; i < bag.Length; i++)
+            if (map[userX + theNumberByWhichUserXWillChange , userY + theNumberByWhichUserYWillChange] != '#')
             {
-                tempBag[i] = bag[i];
-            }
-        }
-        
-        static void ArrayFilling(char[] bag)
-        {
-            Console.SetCursorPosition(0, 20);
-            Console.Write("Сумка: ");
-            for (int i = 0; i < bag.Length; i++)
-            {
-                Console.Write(bag[i] + " ");
+                userX += theNumberByWhichUserXWillChange;
+                userY+= theNumberByWhichUserYWillChange;
             }
         }
     }
