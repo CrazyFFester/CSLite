@@ -29,14 +29,10 @@ namespace Brave_new_world
                   {'#', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#'},
                   {'#', 'X', ' ', ' ', ' ', ' ', ' ', '#', 'X', '#'},
                   {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'} };
+
             while (true)
             {
-                Console.SetCursorPosition(0, 20);
-                Console.Write("Сумка: ");
-                for (int i = 0; i < bag.Length; i++)
-                {
-                    Console.Write(bag[i] + " ");
-                }
+                ArrayExpansion(bag);
                 Console.SetCursorPosition(0, 0);
                 DrawMap(map);
                 Console.SetCursorPosition(userY, userX);
@@ -60,14 +56,7 @@ namespace Brave_new_world
                 }
                 if (map[userX, userY] == 'X')
                 {
-                    map[userX, userY] = 'o';
-                    char[] tempBag = new char[bag.Length + 1];
-                    for (int i = 0; i < bag.Length; i++)
-                    {
-                        tempBag[i] = bag[i];
-                    }
-                    tempBag[tempBag.Length - 1] = 'X';
-                    bag = tempBag;
+                    ArrayFilling(map, userX, userY, ref bag);
                 }
                 else if (bag.Length == numberOfAwards)
                 {
@@ -79,6 +68,7 @@ namespace Brave_new_world
                 Console.Clear();
             }
         }
+
         static void DrawMap(char[,] map)
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -90,12 +80,35 @@ namespace Brave_new_world
                 Console.WriteLine();
             }
         }
+
+        static void ArrayExpansion(char[] bag)
+        {
+            Console.SetCursorPosition(0, 20);
+            Console.Write("Сумка: ");
+            for (int i = 0; i < bag.Length; i++)
+            {
+                Console.Write(bag[i] + " ");
+            }
+        }
+
+        static void ArrayFilling(char[,] map, int userX, int userY, ref char[] bag)
+        {
+            map[userX, userY] = 'o';
+            char[] tempBag = new char[bag.Length + 1];
+            for (int i = 0; i < bag.Length; i++)
+            {
+                tempBag[i] = bag[i];
+            }
+            tempBag[^1] = 'X';
+            bag = tempBag;
+        }
+
         static void Move(char[,] map, ref int userX, ref int userY, int theNumberByWhichUserXWillChange, int theNumberByWhichUserYWillChange)
         {
-            if (map[userX + theNumberByWhichUserXWillChange , userY + theNumberByWhichUserYWillChange] != '#')
+            if (map[userX + theNumberByWhichUserXWillChange, userY + theNumberByWhichUserYWillChange] != '#')
             {
                 userX += theNumberByWhichUserXWillChange;
-                userY+= theNumberByWhichUserYWillChange;
+                userY += theNumberByWhichUserYWillChange;
             }
         }
     }
