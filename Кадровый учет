@@ -23,7 +23,10 @@ namespace Personnel_accounting
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        FillingArrays(ref fullName, ref position);
+                        Console.Write("\nВведите фио: ");
+                        FillingArrays(ref fullName);
+                        Console.Write("Введите должность: ");
+                        FillingArrays(ref position);
                         break;
                     case 2:
                         Console.WriteLine();
@@ -33,7 +36,10 @@ namespace Personnel_accounting
                         }
                         break;
                     case 3:
-                        Deletion(ref fullName, ref position, searchLastName);
+                        Console.Write("\nЧьё досье вы хотите удалить: ");
+                        searchLastName = Console.ReadLine().ToLower();
+                        Deletion(ref fullName, searchLastName);
+                        Deletion(ref position, searchLastName);
                         break;
                     case 4:
                         SearchByLastName(fullName, position, searchLastName);
@@ -46,26 +52,16 @@ namespace Personnel_accounting
             }
         }
 
-        static void FillingArrays(ref string[] fullName, ref string[] position)
+        static void FillingArrays(ref string[] dossier)
         {
-            string[] tempFullName = new string[fullName.Length + 1];
-            string[] tempPosition = new string[position.Length + 1];
+            string[] tempdossier = new string[dossier.Length + 1];
+            tempdossier[^1] = Console.ReadLine().ToLower();
 
-            Console.Write("\nВведите фио: ");
-            tempFullName[^1] = Console.ReadLine().ToLower();
-            Console.Write("Введите должность: ");
-            tempPosition[^1] = Console.ReadLine().ToLower();
-
-            for (int i = 0; i < fullName.Length; i++)
+            for (int i = 0; i < dossier.Length; i++)
             {
-                tempFullName[i] = fullName[i];
+                tempdossier[i] = dossier[i];
             }
-            for (int i = 0; i < position.Length; i++)
-            {
-                tempPosition[i] = position[i];
-            }
-            fullName = tempFullName;
-            position = tempPosition;
+            dossier = tempdossier;
         }
 
         static void FormattedOutput(string[] fullName, string[] position, int i)
@@ -86,21 +82,15 @@ namespace Personnel_accounting
             }
         }
 
-        static void Deletion(ref string[] fullName, ref string[] position, string searchLastName)
+        static void Deletion(ref string[] dossier, string searchLastName)
         {
-            Console.Write("\nЧьё досье вы хотите удалить: ");
-            searchLastName = Console.ReadLine().ToLower();
-
-            for (int i = 0; i < fullName.Length; i++)
+            for (int i = 0; i < dossier.Length; i++)
             {
-                if (searchLastName == fullName[i])
+                if (searchLastName == dossier[i])
                 {
-                    List<string> temp = fullName.ToList();
-                    List<string> temp1 = position.ToList();
-                    temp.RemoveAt(i);
-                    temp1.RemoveAt(i);
-                    fullName = temp.ToArray();
-                    position = temp1.ToArray();
+                    List<string> tempdossier = dossier.ToList();
+                    tempdossier.RemoveAt(i);
+                    dossier = tempdossier.ToArray();
                 }
             }
         }
