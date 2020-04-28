@@ -6,11 +6,13 @@ namespace ReadInt
     {
         static void Main(string[] args)
         {
-            int userNumber;
+            int userNumber = 0;
 
-            Conversion(out userNumber);
+            Console.WriteLine(Conversion(userNumber));
+
+            Console.ReadKey();
         }
-        static void Conversion(out int userNumber)
+        static int Conversion(int userNumber)
         {
             while (true)
             {
@@ -19,9 +21,7 @@ namespace ReadInt
                 bool success = int.TryParse(userInput, out userNumber);
                 if (success)
                 {
-                    Console.WriteLine(userNumber);
-                    Console.ReadKey();
-                    Console.Clear();
+                    return userNumber;
                 }
                 else
                 {
@@ -29,6 +29,7 @@ namespace ReadInt
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка!");
                     Console.ForegroundColor = defualtColor;
+                    
                 }
             }
         }
