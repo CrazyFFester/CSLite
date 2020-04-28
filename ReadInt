@@ -6,13 +6,12 @@ namespace ReadInt
     {
         static void Main(string[] args)
         {
-            int userNumber = 0;
-
-            Console.WriteLine(Conversion(userNumber));
+            Console.WriteLine(Conversion());
             Console.ReadKey();
         }
-        static int Conversion(int userNumber)
+        static int Conversion()
         {
+            int userNumber = 0;
             while (true)
             {
                 Console.Write("Введите число: ");
