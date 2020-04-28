@@ -37,23 +37,8 @@ namespace Brave_new_world
                 DrawMap(map);
                 Console.SetCursorPosition(userY, userX);
                 Console.Write('@');
-                ConsoleKeyInfo charKey = Console.ReadKey();
+                DeterminationOfDirection(map, ref userX, ref userY);
 
-                switch (charKey.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        Move(map, ref userX, ref userY, -1, 0);
-                        break;
-                    case ConsoleKey.DownArrow:
-                        Move(map, ref userX, ref userY, 1, 0);
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        Move(map, ref userX, ref userY, 0, -1);
-                        break;
-                    case ConsoleKey.RightArrow:
-                        Move(map, ref userX, ref userY, 0, 1);
-                        break;
-                }
                 if (map[userX, userY] == 'X')
                 {
                     ArrayFilling(map, userX, userY, ref bag);
@@ -102,7 +87,25 @@ namespace Brave_new_world
             tempBag[^1] = 'X';
             bag = tempBag;
         }
-
+        static void DeterminationOfDirection(char[,] map, ref int userX, ref int userY)
+        {
+            ConsoleKeyInfo charKey = Console.ReadKey();
+            switch (charKey.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    Move(map, ref userX, ref userY, -1, 0);
+                    break;
+                case ConsoleKey.DownArrow:
+                    Move(map, ref userX, ref userY, 1, 0);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    Move(map, ref userX, ref userY, 0, -1);
+                    break;
+                case ConsoleKey.RightArrow:
+                    Move(map, ref userX, ref userY, 0, 1);
+                    break;
+            }
+        }
         static void Move(char[,] map, ref int userX, ref int userY, int theNumberByWhichUserXWillChange, int theNumberByWhichUserYWillChange)
         {
             if (map[userX + theNumberByWhichUserXWillChange, userY + theNumberByWhichUserYWillChange] != '#')
@@ -111,5 +114,6 @@ namespace Brave_new_world
                 userY += theNumberByWhichUserYWillChange;
             }
         }
+
     }
 }
