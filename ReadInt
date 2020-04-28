@@ -9,7 +9,6 @@ namespace ReadInt
             int userNumber = 0;
 
             Console.WriteLine(Conversion(userNumber));
-
             Console.ReadKey();
         }
         static int Conversion(int userNumber)
@@ -29,7 +28,6 @@ namespace ReadInt
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка!");
                     Console.ForegroundColor = defualtColor;
-                    
                 }
             }
         }
