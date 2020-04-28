@@ -24,9 +24,9 @@ namespace Personnel_accounting
                 {
                     case 1:
                         Console.Write("\nВведите фио: ");
-                        FillingArrays(ref fullName);
+                        AddDossier(ref fullName);
                         Console.Write("Введите должность: ");
-                        FillingArrays(ref position);
+                        AddDossier(ref position);
                         break;
                     case 2:
                         Console.WriteLine();
@@ -38,8 +38,8 @@ namespace Personnel_accounting
                     case 3:
                         Console.Write("\nЧьё досье вы хотите удалить: ");
                         searchLastName = Console.ReadLine().ToLower();
-                        Deletion(ref fullName, searchLastName);
-                        Deletion(ref position, searchLastName);
+                        DeleteElement(ref fullName, searchLastName);
+                        DeleteElement(ref position, searchLastName);
                         break;
                     case 4:
                         SearchByLastName(fullName, position, searchLastName);
@@ -52,10 +52,10 @@ namespace Personnel_accounting
             }
         }
 
-        static void FillingArrays(ref string[] dossier)
+        static void AddDossier(ref string[] dossier)
         {
             string[] tempdossier = new string[dossier.Length + 1];
-            tempdossier[^1] = Console.ReadLine().ToLower();
+            tempdossier[tempdossier.Length - 1] = Console.ReadLine().ToLower();
 
             for (int i = 0; i < dossier.Length; i++)
             {
@@ -82,7 +82,7 @@ namespace Personnel_accounting
             }
         }
 
-        static void Deletion(ref string[] dossier, string searchLastName)
+        static void DeleteElement(ref string[] dossier, string searchLastName)
         {
             for (int i = 0; i < dossier.Length; i++)
             {
