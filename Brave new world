@@ -114,6 +114,5 @@ namespace Brave_new_world
                 userY += theNumberByWhichUserYWillChange;
             }
         }
-
     }
 }
