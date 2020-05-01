@@ -7,10 +7,11 @@ namespace Work_with_property
         private static void Main(string[] args)
         {
             Drawer drawer = new Drawer();
-            Player player = new Player(10,10);
+            Player player = new Player(10, 10);
 
             Console.SetCursorPosition(player.XPlayerPosition, player.YPlayerPosition);
             drawer.PlayerRendering();
+            Console.ReadKey();
         }
     }
     class Player
