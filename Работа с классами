@@ -1,0 +1,32 @@
+using System;
+
+namespace Work_with_classes
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Player player = new Player("Иван", 23, "повар");
+
+            player.ShowInfo();
+            Console.ReadKey();
+        }
+    }
+    class Player
+    {
+        private string _name;
+        private int _age;
+        private string _job;
+
+        public Player(string name, int age, string job)
+        {
+            _name = name;
+            _age = age;
+            _job = job;
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Имя - {_name}.\nВозраст - {_age}.\nРабота - {_job}.");
+        }
+    }
+}
