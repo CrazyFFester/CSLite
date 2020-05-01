@@ -1,0 +1,34 @@
+using System;
+
+namespace Work_with_property
+{
+    class Program
+    {
+        private static void Main(string[] args)
+        {
+            Drawer drawer = new Drawer();
+            Player player = new Player(10,10);
+
+            Console.SetCursorPosition(player.XPlayerPosition, player.YPlayerPosition);
+            drawer.PlayerRendering();
+        }
+    }
+    class Player
+    {
+        public int XPlayerPosition { get; private set; }
+        public int YPlayerPosition { get; private set; }
+
+        public Player(int xPlayerPosition, int yPlayerPosition)
+        {
+            XPlayerPosition = xPlayerPosition;
+            YPlayerPosition = yPlayerPosition;
+        }
+    }
+    class Drawer
+    {
+        public void PlayerRendering()
+        {
+            Console.WriteLine('@');
+        }
+    }
+}
