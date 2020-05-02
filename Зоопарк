@@ -1,0 +1,69 @@
+using System;
+
+namespace Zoo
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Aviary[] aviary =
+            {
+                new Aviary("львы", 7, "самцами", "рычат"),
+                new Aviary("обезьяны", 13, "самцами", "ревут"),
+                new Aviary("жирафы", 5, "самками", "мычат"),
+                new Aviary("гиппопотамы", 6, "самцами", "ревут")
+            };
+            Console.WriteLine($"Выберите вольер:" +
+                $"\n1){aviary[0].AnimalsLivingInAviary}." +
+                $"\n2){aviary[1].AnimalsLivingInAviary}." +
+                $"\n3){aviary[2].AnimalsLivingInAviary}." +
+                $"\n4){aviary[3].AnimalsLivingInAviary}.");
+
+            DisplayInformationAboutAviary(aviary);
+            Console.ReadKey();
+        }
+        private static void DisplayInformationAboutAviary(Aviary[] aviary)
+        {
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    aviary[0].ShowInfo();
+                    break;
+                case 2:
+                    aviary[1].ShowInfo();
+                    break;
+                case 3:
+                    aviary[2].ShowInfo();
+                    break;
+                case 4:
+                    aviary[3].ShowInfo();
+                    break;
+                default:
+                    Console.WriteLine("Такого вольера нет!");
+                    break;
+            }
+        }
+    }
+    class Aviary
+    {
+        public string AnimalsLivingInAviary { get; private set; }
+        private int _numberOfAnimals;
+        private string _genderOfAnimals;
+        private string _animalSound;
+
+        public Aviary(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
+        {
+            AnimalsLivingInAviary = animalsLivingInAviary;
+            _numberOfAnimals = numberOfAnimals;
+            _genderOfAnimals = genderOfAnimals;
+            _animalSound = animalSound;
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"\nЗдесь обитают {AnimalsLivingInAviary}, " +
+                $"\nих {_numberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {_genderOfAnimals}," +
+                $"\nони {_animalSound}.");
+        }
+    }
+}
