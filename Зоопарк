@@ -13,35 +13,17 @@ namespace Zoo
                 new Aviary("жирафы", 5, "самками", "мычат"),
                 new Aviary("гиппопотамы", 6, "самцами", "ревут")
             };
+            Animal animal = new Animal();
+
             Console.WriteLine($"Выберите вольер:" +
                 $"\n1){aviary[0].AnimalsLivingInAviary}." +
                 $"\n2){aviary[1].AnimalsLivingInAviary}." +
                 $"\n3){aviary[2].AnimalsLivingInAviary}." +
                 $"\n4){aviary[3].AnimalsLivingInAviary}.");
 
-            DisplayInformationAboutAviary(aviary);
+            animal.DisplayInformationAboutAviary(aviary);
+
             Console.ReadKey();
-        }
-        private static void DisplayInformationAboutAviary(Aviary[] aviary)
-        {
-            switch (Convert.ToInt32(Console.ReadLine()))
-            {
-                case 1:
-                    aviary[0].ShowInfo();
-                    break;
-                case 2:
-                    aviary[1].ShowInfo();
-                    break;
-                case 3:
-                    aviary[2].ShowInfo();
-                    break;
-                case 4:
-                    aviary[3].ShowInfo();
-                    break;
-                default:
-                    Console.WriteLine("Такого вольера нет!");
-                    break;
-            }
         }
     }
     class Aviary
@@ -64,6 +46,14 @@ namespace Zoo
                 $"\nих {_numberOfAnimals} особей," +
                 $"\nпо половой принадлежности они являются {_genderOfAnimals}," +
                 $"\nони {_animalSound}.");
+        }
+    }
+    class Animal
+    {
+        public void DisplayInformationAboutAviary(Aviary[] aviary)
+        {
+            Aviary userAviary = aviary[Convert.ToInt32(Console.ReadLine()) - 1];
+            userAviary.ShowInfo();
         }
     }
 }
