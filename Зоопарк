@@ -6,34 +6,41 @@ namespace Zoo
     {
         private static void Main()
         {
-            Aviary[] aviary =
+            Animal[] animal =
             {
-                new Aviary("львы", 7, "самцами", "рычат"),
-                new Aviary("обезьяны", 13, "самцами", "ревут"),
-                new Aviary("жирафы", 5, "самками", "мычат"),
-                new Aviary("гиппопотамы", 6, "самцами", "ревут")
+                new Animal("львы", 7, "самцами", "рычат"),
+                new Animal("обезьяны", 13, "самцами", "ревут"),
+                new Animal("жирафы", 5, "самками", "мычат"),
+                new Animal("гиппопотамы", 6, "самцами", "ревут")
             };
-            Animal animal = new Animal();
+            Aviary aviary = new Aviary();
 
-            Console.WriteLine($"Выберите вольер:" +
-                $"\n1){aviary[0].AnimalsLivingInAviary}." +
-                $"\n2){aviary[1].AnimalsLivingInAviary}." +
-                $"\n3){aviary[2].AnimalsLivingInAviary}." +
-                $"\n4){aviary[3].AnimalsLivingInAviary}.");
-
-            animal.DisplayInformationAboutAviary(aviary);
+            Console.WriteLine($"Выберите вольер:");
+            for (int i = 0; i < animal.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}){animal[i].AnimalsLivingInAviary}.");
+            }
+            aviary.DisplayInformationAboutAviary(animal);
 
             Console.ReadKey();
         }
     }
     class Aviary
     {
+        public void DisplayInformationAboutAviary(Animal[] animal)
+        {
+            Animal userAnimal = animal[Convert.ToInt32(Console.ReadLine()) - 1];
+            userAnimal.ShowInfo();
+        }
+    }
+    class Animal
+    {
         public string AnimalsLivingInAviary { get; private set; }
         private int _numberOfAnimals;
         private string _genderOfAnimals;
         private string _animalSound;
 
-        public Aviary(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
+        public Animal(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
         {
             AnimalsLivingInAviary = animalsLivingInAviary;
             _numberOfAnimals = numberOfAnimals;
@@ -46,14 +53,6 @@ namespace Zoo
                 $"\nих {_numberOfAnimals} особей," +
                 $"\nпо половой принадлежности они являются {_genderOfAnimals}," +
                 $"\nони {_animalSound}.");
-        }
-    }
-    class Animal
-    {
-        public void DisplayInformationAboutAviary(Aviary[] aviary)
-        {
-            Aviary userAviary = aviary[Convert.ToInt32(Console.ReadLine()) - 1];
-            userAviary.ShowInfo();
         }
     }
 }
