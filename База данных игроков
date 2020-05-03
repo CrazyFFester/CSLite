@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Player_Database
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Player[] player = new Player[0];
+            Players players = new Players();
+
+            while (true)
+            {
+                Console.SetCursorPosition(0, 20);
+                PlayerMapping(player);
+                Console.SetCursorPosition(0, 0);
+
+                Console.WriteLine("Команды:" +
+                    "\n1)Добавление игрока." +
+                    "\n2)Бан игрока." +
+                    "\n3)Разбан игрока." +
+                    "\n4)Удаление игрока");
+                InteractionsWithPlayers(ref player, players);
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private static void PlayerMapping(Player[] player)
+        {
+            Console.WriteLine("Список игроков:");
+            for (int i = 0; i < player.Length; i++)
+            {
+                player[i].ShowInfo( i);
+            }
+        }
+
+        private static void DeleteElement(ref Player[] player)
+        {
+            Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            for (int i = 0; i < player.Length; i++)
+            {
+                if (playerIndex == i)
+                {
+                    List<Player> tempPlayer = player.ToList();
+                    tempPlayer.RemoveAt(i);
+                    player = tempPlayer.ToArray();
+                }
+            }
+        }
+
+        private static void InteractionsWithPlayers(ref Player[] player, Players players)
+        {
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    players.AddPlayer(ref player);
+                    break;
+                case 2:
+                    players.PlayerStateChange(player, true, "забанить");
+                    break;
+                case 3:
+                    players.PlayerStateChange(player, false, "разбанить");
+                    break;
+                case 4:
+                    DeleteElement(ref player);
+                    break;
+                default:
+                    Console.WriteLine("Такой команды нет!!!");
+                    break;
+            }
+        }
+    }
+    class Player : Players
+    {
+        public Player(string nameOfPLayer, int level, bool isBanned)
+        {
+            _nameOfPLayer = nameOfPLayer;
+            _level = level;
+            _isBanned = isBanned;
+        }
+        public void ShowInfo(int i)
+        {
+            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {_isBanned}");
+        }
+    }
+    class Players
+    {
+        protected string _nameOfPLayer;
+        protected int _level;
+        protected bool _isBanned;
+
+        public void AddPlayer(ref Player[] player)
+        {
+            string nameOfPLayer;
+            int level;
+            Player[] tempPlayers = new Player[player.Length + 1];
+
+            Console.Write("\nВведите имя игрока: ");
+            nameOfPLayer = Console.ReadLine();
+            Console.Write("Введите уровень игрока: ");
+            level = Convert.ToInt32(Console.ReadLine());
+            tempPlayers[tempPlayers.Length - 1] = new Player(nameOfPLayer, level, false);
+
+            for (int i = 0; i < player.Length; i++)
+            {
+                tempPlayers[i] = player[i];
+            }
+            player = tempPlayers;
+        }
+
+        public void PlayerStateChange(Player[] player, bool playerState, string message)
+        {
+            Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            for (int i = 0; i < player.Length; i++)
+            {
+                if (playerIndex == i)
+                {
+                    player[i]._isBanned = playerState;
+                }
+            }
+        }
+    }
+}
