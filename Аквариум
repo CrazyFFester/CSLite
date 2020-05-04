@@ -54,7 +54,6 @@ namespace Aquarium
             {
                 AgeOfFish = ageOfFish;
                 MaximumAgeOfFish = maximumAgeOfFish;
-
             }
             public void ShowInfo(int i)
             {
