@@ -1,0 +1,77 @@
+using System;
+
+namespace PassengerTrainConfigurator
+{
+    class Program
+    {
+        private static void Main()
+        {
+            int numberOfPassengers = 0;
+            Train train = new Train();
+
+            while (true)
+            {
+                Console.Write("Введите точку отправления: ");
+                string pointOfDeparture = Console.ReadLine();
+                Console.Write("Введите точку остановки: ");
+                string stayPoint = Console.ReadLine();
+                Direction direction = new Direction(pointOfDeparture, stayPoint);
+                Console.Clear();
+
+                direction.ShowInfo();
+                Console.WriteLine();
+                SellTickets(ref numberOfPassengers);
+
+                if (numberOfPassengers == 0)
+                {
+                    Console.WriteLine("Поезд пуст!");
+                }
+                else
+                {
+                    Console.WriteLine("Количество пассажиров - " + numberOfPassengers);
+                    train.AmountRailwayCarriage(numberOfPassengers);
+                    Console.WriteLine("\nПоезд успешно отправлен!");
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private static void SellTickets(ref int numberOfPassengers)
+        {
+            Random randomValue = new Random();
+            numberOfPassengers = randomValue.Next(0, 51);
+        }
+    }
+    class Train
+    {
+        private int _amountRailwayCarriage;
+        private int _numberOfSeatsInRailwayCarriage = 10;
+
+        public void AmountRailwayCarriage(int numberOfPassengers)
+        {
+            _amountRailwayCarriage = numberOfPassengers / _numberOfSeatsInRailwayCarriage;
+            if (numberOfPassengers % 10 != 0)
+            {
+                _amountRailwayCarriage++;
+            }
+            Console.WriteLine("Количество вагонов в поезде - " + _amountRailwayCarriage);
+        }
+    }
+    class Direction
+    {
+        private string _pointOfDeparture;
+        private string _stayPoint;
+
+        public Direction(string pointOfDeparture, string stayPoint)
+        {
+            _pointOfDeparture = pointOfDeparture;
+            _stayPoint = stayPoint;
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine("Направление:");
+            Console.WriteLine($"{_pointOfDeparture} - {_stayPoint}");
+        }
+    }
+}
