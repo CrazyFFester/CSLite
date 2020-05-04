@@ -29,7 +29,7 @@ namespace PassengerTrainConfigurator
                 else
                 {
                     Console.WriteLine("Количество пассажиров - " + numberOfPassengers);
-                    train.AmountRailwayCarriage(numberOfPassengers);
+                    train.ShowAmountOfRailwayCarriage(numberOfPassengers);
                     Console.WriteLine("\nПоезд успешно отправлен!");
                 }
                 Console.ReadKey();
@@ -48,7 +48,7 @@ namespace PassengerTrainConfigurator
         private int _amountRailwayCarriage;
         private int _numberOfSeatsInRailwayCarriage = 10;
 
-        public void AmountRailwayCarriage(int numberOfPassengers)
+        public void ShowAmountOfRailwayCarriage(int numberOfPassengers)
         {
             _amountRailwayCarriage = numberOfPassengers / _numberOfSeatsInRailwayCarriage;
             if (numberOfPassengers % 10 != 0)
