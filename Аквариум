@@ -93,9 +93,9 @@ namespace Aquarium
                 {
                     if (fishNumber == i)
                     {
-                        List<Fish> tempFishes = fish.ToList();
-                        tempFishes.RemoveAt(i);
-                        fish = tempFishes.ToArray();
+                        List<Fish> tempFish = fish.ToList();
+                        tempFish.RemoveAt(i);
+                        fish = tempFish.ToArray();
                     }
                 }
             }
