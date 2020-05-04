@@ -10,11 +10,12 @@ namespace Player_Database
         {
             Player[] player = new Player[0];
             Players players = new Players();
+            List list = new List();
 
             while (true)
             {
                 Console.SetCursorPosition(0, 20);
-                PlayerMapping(player);
+                list.PlayerListDisplay(player);
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("Команды:" +
@@ -22,38 +23,14 @@ namespace Player_Database
                     "\n2)Бан игрока." +
                     "\n3)Разбан игрока." +
                     "\n4)Удаление игрока");
-                InteractionsWithPlayers(ref player, players);
+                CommandProcessing(ref player, players, list);
 
                 Console.ReadKey();
                 Console.Clear();
             }
         }
 
-        private static void PlayerMapping(Player[] player)
-        {
-            Console.WriteLine("Список игроков:");
-            for (int i = 0; i < player.Length; i++)
-            {
-                player[i].ShowInfo( i);
-            }
-        }
-
-        private static void DeleteElement(ref Player[] player)
-        {
-            Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
-            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < player.Length; i++)
-            {
-                if (playerIndex == i)
-                {
-                    List<Player> tempPlayer = player.ToList();
-                    tempPlayer.RemoveAt(i);
-                    player = tempPlayer.ToArray();
-                }
-            }
-        }
-
-        private static void InteractionsWithPlayers(ref Player[] player, Players players)
+        private static void CommandProcessing(ref Player[] player, Players players, List list)
         {
             switch (Convert.ToInt32(Console.ReadLine()))
             {
@@ -67,7 +44,7 @@ namespace Player_Database
                     players.PlayerStateChange(player, false, "разбанить");
                     break;
                 case 4:
-                    DeleteElement(ref player);
+                    list.DeletePlayer(ref player);
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!!!");
@@ -77,23 +54,23 @@ namespace Player_Database
     }
     class Player : Players
     {
+        private string _nameOfPLayer;
+        private int _level;
+        public bool IsBanned;
+
         public Player(string nameOfPLayer, int level, bool isBanned)
         {
             _nameOfPLayer = nameOfPLayer;
             _level = level;
-            _isBanned = isBanned;
+            IsBanned = isBanned;
         }
         public void ShowInfo(int i)
         {
-            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {_isBanned}");
+            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {IsBanned}");
         }
     }
     class Players
     {
-        protected string _nameOfPLayer;
-        protected int _level;
-        protected bool _isBanned;
-
         public void AddPlayer(ref Player[] player)
         {
             string nameOfPLayer;
@@ -121,8 +98,34 @@ namespace Player_Database
             {
                 if (playerIndex == i)
                 {
-                    player[i]._isBanned = playerState;
+                    player[i].IsBanned = playerState;
                 }
+            }
+        }
+    }
+    class List
+    {
+        public void DeletePlayer(ref Player[] player)
+        {
+            Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            for (int i = 0; i < player.Length; i++)
+            {
+                if (playerIndex == i)
+                {
+                    List<Player> tempPlayer = player.ToList();
+                    tempPlayer.RemoveAt(i);
+                    player = tempPlayer.ToArray();
+                }
+            }
+        }
+
+        public void PlayerListDisplay(Player[] player)
+        {
+            Console.WriteLine("Список игроков:");
+            for (int i = 0; i < player.Length; i++)
+            {
+                player[i].ShowInfo(i);
             }
         }
     }
