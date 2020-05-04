@@ -1,0 +1,151 @@
+using System;
+
+namespace Lesson
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Figther[] figthers =
+            {
+                new Wizard("Wizard", 130, 100, 0, "Может с помощью заклинания увеличить урон на 20 единиц"),
+                new Knight("Knight", 150, 95, 50, "Может помолиться и увеличить броню на 10 единиц"),
+                new Barbarian("Barbarian", 200, 50, 0, "Когда он кричит, у него отнимается 2 единицы брони, и увеличиватеся здоровье на 12 единиц"),
+                new Berserk("Berserk", 150, 65, 25, "Может съесть грибы, и его урон удвоется, но здоровье уменьшится на 20 единиц"),
+                new Magician("Magician", 120, 130, 0, "Может увеличить здоровье на 50 единиц")
+            };
+            //Wizard wizard = new Wizard("Wizard", 130, 100, 0, "Может с помощью заклинания увеличить урон на 20 единиц");
+            //Knight knight = new Knight("Knight", 150, 95, 50, "Может помолиться и увеличить броню на 10 единиц");
+            //Barbarian barbarian = new Barbarian("Barbarian", 200, 50, 0, "Когда он кричит, у него отнимается 2 единицы брони, и увеличиватеся здоровье на 12 единиц");
+            //Berserk berserk = new Berserk("Berserk", 150, 65, 25, "Может съесть грибы, и его урон удвоется, но здоровье уменьшится на 20 единиц");
+            //Magician magician = new Magician("Magician", 120, 130, 0, "Может увеличить здоровье на 50 единиц");
+
+            DisplayFighter(figthers);
+            Console.Write("\nВыберите бойца в синем углу: ");
+            Figther blueFigther = figthers[Convert.ToInt32(Console.ReadLine()) - 1];
+            Console.Write("Выберите бойца в красном углу: ");
+            Figther redFigther = figthers[Convert.ToInt32(Console.ReadLine()) - 1];
+
+            while (blueFigther.Health > 0 && redFigther.Health > 0)
+            {
+                Battle(blueFigther, redFigther);
+                Battle(redFigther, blueFigther);
+            }
+            Console.WriteLine();
+
+            if (blueFigther.Health <= 0 && redFigther.Health <= 0)
+            {
+                Console.WriteLine("Ничья");
+            }
+            else if (blueFigther.Health <= 0)
+            {
+                Console.WriteLine("Победил - " + redFigther.Name);
+            }
+            else
+            {
+                Console.WriteLine("Победил - " + blueFigther.Name);
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void Battle(Figther figther1, Figther figther2)
+        {
+            Console.WriteLine("Виды ударов:" +
+                "\n1) Обычный удар" +
+                "\n2) Супер способность");
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    figther1.TakeDamage(figther2.Damage);
+
+                    break;
+                case 2:
+                    break;
+            }
+            figther1.ShowStats();
+        }
+
+        private static void DisplayFighter(Figther[] figthers)
+        {
+            for (int i = 0; i < figthers.Length; i++)
+            {
+                Console.Write($"{i + 1})");
+                figthers[i].ShowStats();
+            }
+        }
+    }
+    class Figther
+    {
+        public string Name { get; private set; }
+        public int Health { get; protected set; }
+        public int Damage { get; protected set; }
+        protected static int Armor;
+        private string _superPower;
+
+        public Figther(string name, int health, int damage, int armor, string superPower)
+        {
+            Name = name;
+            Health = health;
+            Damage = damage;
+            Armor = armor;
+            _superPower = superPower;
+
+        }
+        public void TakeDamage(int damage)
+        {
+            Health -= damage - Armor;
+        }
+
+        public void ShowStats()
+        {
+            Console.WriteLine($"{Name}, HP - {Health}, DMG - {Damage}, Armor - {Armor},\nSuperPower - {_superPower}");
+        }
+    }
+    class Wizard : Figther
+    {
+        public Wizard(string name, int health, int damage, int armor, string superPower) : base(name, health, damage, armor, superPower) { }
+        public void PowerUp()
+        {
+            Damage += 20;
+        }
+    }
+    class Knight : Figther
+    {
+        public Knight(string name, int health, int damage, int armor, string superPower) : base(name, health, damage, armor, superPower) { }
+        public static void Pray()
+        {
+            Armor += 10;
+        }
+    }
+    class Barbarian : Figther
+    {
+        public Barbarian(string name, int health, int damage, int armor, string superPower) : base(name, health, damage, armor, superPower) { }
+        public void Howl()
+        {
+            Armor -= 2;
+            Health += 12;
+        }
+    }
+    class Berserk : Figther
+    {
+        public Berserk(string name, int health, int damage, int armor, string superPower) : base(name, health, damage, armor, superPower) { }
+        public void Mushrooms()
+        {
+            Damage *= 2;
+            Health -= 20;
+        }
+    }
+    class Magician : Figther
+    {
+        public Magician(string name, int health, int damage, int armor, string superPower) : base(name, health, damage, armor, superPower) { }
+        public void Treatment()
+        {
+            Health += 50;
+        }
+    }
+    interface ISuperPower: Figther
+    {
+
+    }
+}
