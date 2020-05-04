@@ -9,23 +9,23 @@ namespace Aquarium
         private static void Main()
         {
             Fish[] fish = new Fish[0];
-            Fishes fishes = new Fishes();
+            AquariumInhabitants aquariumInhabitants = new AquariumInhabitants();
 
             while (true)
             {
                 Console.SetCursorPosition(0, 18);
-                fishes.ShowFishesInAnAquarium(fish);
+                aquariumInhabitants.ShowFishesInAnAquarium(fish);
                 Console.SetCursorPosition(0, 0);
 
-                fishes.FishConditionCheck(ref fish);
-                СommandProcessing(ref fish, fishes);
+                aquariumInhabitants.FishConditionCheck(ref fish);
+                СommandProcessing(ref fish, aquariumInhabitants);
 
                 Console.ReadKey();
                 Console.Clear();
             }
         }
 
-        private static void СommandProcessing(ref Fish[] fish, Fishes fishes)
+        private static void СommandProcessing(ref Fish[] fish, AquariumInhabitants aquariumInhabitants)
         {
             int fishNumber;
 
@@ -36,19 +36,19 @@ namespace Aquarium
             switch (Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
-                    fishes.AddFish(ref fish);
+                    aquariumInhabitants.AddFish(ref fish);
                     break;
                 case 2:
                     Console.WriteLine("\nВвведите номер рыбы, которую хотите достать:");
                     fishNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-                    fishes.GetFishOutOfAquarium(ref fish, fishNumber);
+                    aquariumInhabitants.GetFishOutOfAquarium(ref fish, fishNumber);
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!!!");
                     break;
             }
         }
-        class Fish : Fishes
+        class Fish : AquariumInhabitants
         {
             public Fish(int ageOfFish, int maximumAgeOfFish)
             {
@@ -61,7 +61,7 @@ namespace Aquarium
                 Console.WriteLine($"{i + 1}){AgeOfFish}/{MaximumAgeOfFish}");
             }
         }
-        class Fishes
+        class AquariumInhabitants
         {
             protected int AgeOfFish;
             protected int MaximumAgeOfFish;
