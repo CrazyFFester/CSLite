@@ -8,23 +8,23 @@ namespace Aquarium
     {
         private static void Main()
         {
-            Fishes[] fishes = new Fishes[0];
-            AquariumInhabitants aquariumInhabitants = new AquariumInhabitants();
+            AquariumInhabitants[] aquariumInhabitants = new AquariumInhabitants[0];
+            Fish fishes = new Fish(0,0);
 
             while (true)
             {
                 Console.SetCursorPosition(0, 18);
-                aquariumInhabitants.ShowInhabitantsOfAquarium(fishes);
+                fishes.ShowInhabitantsOfAquarium(aquariumInhabitants);
                 Console.SetCursorPosition(0, 0);
 
-                aquariumInhabitants.ElementConditionCheck(ref fishes);
-                СommandProcessing(ref fishes, aquariumInhabitants);
+                fishes.ElementConditionCheck(ref aquariumInhabitants);
+                СommandProcessing(ref aquariumInhabitants, fishes);
 
                 Console.Clear();
             }
         }
 
-        private static void СommandProcessing(ref Fishes[] fishes, AquariumInhabitants aquariumInhabitants)
+        private static void СommandProcessing(ref AquariumInhabitants[] aquariumInhabitants, Fish fishes)
         {
             int fishNumber;
 
@@ -35,21 +35,24 @@ namespace Aquarium
             switch (Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
-                    aquariumInhabitants.AddElement(ref fishes);
+                    fishes.AddElement(ref aquariumInhabitants);
                     break;
                 case 2:
                     Console.WriteLine("\nВвведите номер рыбы, которую хотите достать:");
                     fishNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-                    aquariumInhabitants.DeleteElement(ref fishes, fishNumber);
+                    fishes.DeleteElement(ref aquariumInhabitants, fishNumber);
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!!!");
                     break;
             }
         }
-        class Fishes : AquariumInhabitants
+        class AquariumInhabitants
         {
-            public Fishes(int ageOfFish, int maximumAgeOfFish)
+            public int AgeOfFish;
+            public int MaximumAgeOfFish;
+
+            public AquariumInhabitants(int ageOfFish, int maximumAgeOfFish)
             {
                 AgeOfFish = ageOfFish;
                 MaximumAgeOfFish = maximumAgeOfFish;
@@ -59,15 +62,13 @@ namespace Aquarium
                 Console.WriteLine($"{i + 1}){AgeOfFish}/{MaximumAgeOfFish}");
             }
         }
-        class AquariumInhabitants
+        class Fish: AquariumInhabitants
         {
-            protected int AgeOfFish;
-            protected int MaximumAgeOfFish;
-
-            public void AddElement(ref Fishes[] fishes)
+            public Fish(int ageOfFish, int maximumAgeOfFish):base(ageOfFish, maximumAgeOfFish) { }
+            public void AddElement(ref AquariumInhabitants[] fishes)
             {
-                Fishes[] tempFishes = new Fishes[fishes.Length + 1];
-                tempFishes[tempFishes.Length - 1] = new Fishes(0, 10);
+                AquariumInhabitants[] tempFishes = new AquariumInhabitants[fishes.Length + 1];
+                tempFishes[tempFishes.Length - 1] = new AquariumInhabitants(0, 10);
                 for (int i = 0; i < fishes.Length; i++)
                 {
                     tempFishes[i] = fishes[i];
@@ -75,7 +76,7 @@ namespace Aquarium
                 fishes = tempFishes;
             }
 
-            public void ShowInhabitantsOfAquarium(Fishes[] fishes)
+            public void ShowInhabitantsOfAquarium(AquariumInhabitants[] fishes)
             {
                 Console.WriteLine("\nРыбы в аквариуме:");
                 for (int i = 0; i < fishes.Length; i++)
@@ -85,20 +86,20 @@ namespace Aquarium
                 }
             }
 
-            public void DeleteElement(ref Fishes[] fishes, int fishNumber)
+            public void DeleteElement(ref AquariumInhabitants[] fishes, int fishNumber)
             {
                 for (int i = 0; i < fishes.Length; i++)
                 {
                     if (fishNumber == i)
                     {
-                        List<Fishes> tempFishes = fishes.ToList();
+                        List<AquariumInhabitants> tempFishes = fishes.ToList();
                         tempFishes.RemoveAt(i);
                         fishes = tempFishes.ToArray();
                     }
                 }
             }
 
-            public void ElementConditionCheck(ref Fishes[] fishes)
+            public void ElementConditionCheck(ref AquariumInhabitants[] fishes)
             {
                 for (int i = 0; i < fishes.Length; i++)
                 {
