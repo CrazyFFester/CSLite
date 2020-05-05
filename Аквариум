@@ -14,7 +14,7 @@ namespace Aquarium
             while (true)
             {
                 Console.SetCursorPosition(0, 18);
-                aquariumInhabitants.ShowFishesInAnAquarium(fishes);
+                aquariumInhabitants.ShowInhabitantsOfAquarium(fishes);
                 Console.SetCursorPosition(0, 0);
 
                 aquariumInhabitants.ElementConditionCheck(ref fishes);
@@ -76,7 +76,7 @@ namespace Aquarium
                 fishes = tempFishes;
             }
 
-            public void ShowFishesInAnAquarium(Fishes[] fishes)
+            public void ShowInhabitantsOfAquarium(Fishes[] fishes)
             {
                 Console.WriteLine("\nРыбы в аквариуме:");
                 for (int i = 0; i < fishes.Length; i++)
