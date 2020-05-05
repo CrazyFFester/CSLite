@@ -46,16 +46,27 @@ namespace PassengerTrainConfigurator
     class Train
     {
         private int _amountRailwayCarriage;
-        private int _numberOfSeatsInRailwayCarriage = 10;
+        RailwayCarriage railway = new RailwayCarriage();
 
         public void ShowAmountOfRailwayCarriage(int numberOfPassengers)
         {
-            _amountRailwayCarriage = numberOfPassengers / _numberOfSeatsInRailwayCarriage;
-            if (numberOfPassengers % 10 != 0)
+            int numberOfSeatsInRailwayCarriage = railway.NumberOfSeatsInRailwayCarriage();
+            _amountRailwayCarriage = numberOfPassengers / numberOfSeatsInRailwayCarriage;
+            if (numberOfPassengers % numberOfSeatsInRailwayCarriage != 0)
             {
                 _amountRailwayCarriage++;
             }
             Console.WriteLine("Количество вагонов в поезде - " + _amountRailwayCarriage);
+        }
+    }
+    class RailwayCarriage
+    {
+        private int _numberOfSeatsInRailwayCarriage;
+        public int NumberOfSeatsInRailwayCarriage()
+        {
+            Console.Write("Сколько мест будет в одном вагоне: ");
+            _numberOfSeatsInRailwayCarriage = Convert.ToInt32(Console.ReadLine());
+            return _numberOfSeatsInRailwayCarriage;
         }
     }
     class Direction
