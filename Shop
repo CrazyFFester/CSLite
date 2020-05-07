@@ -53,9 +53,9 @@ namespace Lesson
         {
             Console.WriteLine();
             Console.WriteLine($"Инваентарь {inventoryOwner}:");
-            for(int i = 0; i < percon.Length; i++)
+            for (int i = 0; i < percon.Length; i++)
             {
-                Console.WriteLine($"{i+1}){percon[i]._product}");
+                Console.WriteLine($"{i + 1}){percon[i]._product}");
             }
         }
 
@@ -70,7 +70,7 @@ namespace Lesson
         {
             Player[] tempPlayer = new Player[player.Length + 1];
             seller[0].ShowInventory(seller, "продавца");
-            Console.Write("Введите товар, который хотите купить:");
+            Console.Write("Введите товар, который хотите купить: ");
             string product = Console.ReadLine();
             for (int i = 0; i < seller.Length; i++)
             {
@@ -88,12 +88,12 @@ namespace Lesson
         }
     }
 
-    class Player: Person
+    class Player : Person
     {
         public Player(string product) : base(product) { }
     }
 
-    class Seller: Person
+    class Seller : Person
     {
         public Seller(string product) : base(product) { }
     }
