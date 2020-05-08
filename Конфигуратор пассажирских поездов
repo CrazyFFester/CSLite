@@ -8,7 +8,7 @@ namespace PassengerTrainConfigurator
         {
             int numberOfPassengers = 0;
             Train train = new Train();
-            bool programState = true;
+            bool enoughPlaces = true;
 
             while (true)
             {
@@ -29,8 +29,8 @@ namespace PassengerTrainConfigurator
                 else
                 {
                     Console.WriteLine("\nКоличество пассажиров - " + numberOfPassengers);
-                    train.AmountOfRailwayCarriage(numberOfPassengers, ref programState);
-                    if (programState == true)
+                    train.AmountOfRailwayCarriage(numberOfPassengers, ref enoughPlaces);
+                    if(enoughPlaces == true)
                     {
                         Console.WriteLine("\nПоезд успешно отправлен!");
                     }
@@ -49,46 +49,47 @@ namespace PassengerTrainConfigurator
 
     class Train
     {
-        private int _amountRailwayCarriage;
-        public void AmountOfRailwayCarriage(int numberOfPassengers, ref bool programState)
+        public void AmountOfRailwayCarriage(int numberOfPassengers, ref bool enoughPlaces)
         {
+            RailwayCarriage railwayCarriage = new RailwayCarriage();
             int numberOfSeats = 0;
+
             Console.Write("\nСколько будет вагонов: ");
-            _amountRailwayCarriage = Convert.ToInt32(Console.ReadLine());
-            RailwayCarriage[] railwayCarriage = new RailwayCarriage[_amountRailwayCarriage];
-            for (int i = 0; i < _amountRailwayCarriage; i++)
+            int[] arrayOfRailwayCarriage = new int[Convert.ToInt32(Console.ReadLine())];
+            for(int i = 0; i < arrayOfRailwayCarriage.Length; i++)
             {
-                Console.Write($"Сколько будет мест в {i + 1} вагоне: ");
-                railwayCarriage[i] = new RailwayCarriage(Convert.ToInt32(Console.ReadLine()));
-                numberOfSeats += railwayCarriage[i]._numberOfSeatsInRailwayCarriage;
+                arrayOfRailwayCarriage[i] = railwayCarriage.NumberOfSeatsInRailwayCarriage(i);
+                numberOfSeats += arrayOfRailwayCarriage[i];
             }
             if(numberOfSeats < numberOfPassengers)
             {
                 Console.WriteLine("\nМало мест!");
-                programState = false;
+                enoughPlaces = false;
             }
             else
             {
-                ShowAmountOfRailwayCarriage(railwayCarriage);
+                ShowInfo(arrayOfRailwayCarriage);
             }
         }
 
-        public void ShowAmountOfRailwayCarriage(RailwayCarriage[] railwayCarriage)
+        public void ShowInfo(int[] arrayOfRailwayCarriage)
         {
-            Console.WriteLine("\nКоличество вагонов - " + railwayCarriage.Length);
-            for(int i = 0; i < railwayCarriage.Length; i++)
+            Console.WriteLine("\nКоличество вагонов - " + arrayOfRailwayCarriage.Length + ":");
+            for (int i = 0; i < arrayOfRailwayCarriage.Length; i++)
             {
-                Console.WriteLine($"{i+1} вагон - {railwayCarriage[i]._numberOfSeatsInRailwayCarriage} мест");
+                Console.WriteLine($"{i + 1} вагон - {arrayOfRailwayCarriage[i]} мест");
             }
         }
     }
 
     class RailwayCarriage
     {
-        public int _numberOfSeatsInRailwayCarriage;
-        public RailwayCarriage(int numberOfSeatsInRailwayCarriage)
+        private int _numberOfSeatsInRailwayCarriage;
+        public int NumberOfSeatsInRailwayCarriage(int i)
         {
-            _numberOfSeatsInRailwayCarriage = numberOfSeatsInRailwayCarriage;
+            Console.Write($"Сколько будет мест в {i + 1} вагоне: ");
+            _numberOfSeatsInRailwayCarriage = Convert.ToInt32(Console.ReadLine());
+            return _numberOfSeatsInRailwayCarriage;
         }
     }
 
