@@ -27,7 +27,7 @@ namespace PassengerTrainConfigurator
                 else
                 {
                     Console.WriteLine("\nКоличество пассажиров - " + numberOfPassengers);
-                    train.AmountOfRailwayCarriage(ref numberOfSeats);
+                    train.SettingOfTheTrain(ref numberOfSeats);
                     if (numberOfSeats < numberOfPassengers)
                     {
                         Console.WriteLine("\nМало мест!");
@@ -52,10 +52,9 @@ namespace PassengerTrainConfigurator
 
     class Train
     {
-        public void AmountOfRailwayCarriage(ref int numberOfSeats)
+        RailwayCarriage railwayCarriage = new RailwayCarriage();
+        public void SettingOfTheTrain(ref int numberOfSeats)
         {
-            RailwayCarriage railwayCarriage = new RailwayCarriage();
-
             Console.Write("\nСколько будет вагонов: ");
             int[] arrayOfRailwayCarriage = new int[Convert.ToInt32(Console.ReadLine())];
             for (int i = 0; i < arrayOfRailwayCarriage.Length; i++)
