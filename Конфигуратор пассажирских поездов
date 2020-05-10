@@ -19,7 +19,7 @@ namespace PassengerTrainConfigurator
 
                 Direction direction = new Direction(pointOfDeparture, stayPoint);
                 direction.ShowInfo();
-                SellTickets(ref numberOfPassengers);
+                numberOfPassengers = SellTickets(numberOfPassengers);
                 if (numberOfPassengers == 0)
                 {
                     Console.WriteLine("Поезд пуст!");
@@ -27,7 +27,7 @@ namespace PassengerTrainConfigurator
                 else
                 {
                     Console.WriteLine("\nКоличество пассажиров - " + numberOfPassengers);
-                    train.SettingOfTheTrain(ref numberOfSeats);
+                    numberOfSeats = train.SettingOfTheTrain(numberOfSeats);
                     if (numberOfSeats < numberOfPassengers)
                     {
                         Console.WriteLine("\nМало мест!");
@@ -43,17 +43,19 @@ namespace PassengerTrainConfigurator
             }
         }
 
-        private static void SellTickets(ref int numberOfPassengers)
+        private static int SellTickets(int numberOfPassengers)
         {
             Random randomValue = new Random();
             numberOfPassengers = randomValue.Next(0, 51);
+            return numberOfPassengers;
         }
     }
 
     class Train
     {
         RailwayCarriage railwayCarriage = new RailwayCarriage();
-        public void SettingOfTheTrain(ref int numberOfSeats)
+
+        public int SettingOfTheTrain(int numberOfSeats)
         {
             Console.Write("\nСколько будет вагонов: ");
             int[] arrayOfRailwayCarriage = new int[Convert.ToInt32(Console.ReadLine())];
@@ -63,6 +65,7 @@ namespace PassengerTrainConfigurator
                 numberOfSeats += arrayOfRailwayCarriage[i];
             }
             ShowInfo(arrayOfRailwayCarriage);
+            return numberOfSeats;
         }
 
         public void ShowInfo(int[] arrayOfRailwayCarriage)
@@ -78,6 +81,7 @@ namespace PassengerTrainConfigurator
     class RailwayCarriage
     {
         private int _numberOfSeatsInRailwayCarriage;
+
         public int NumberOfSeatsInRailwayCarriage(int i)
         {
             Console.Write($"Сколько будет мест в {i + 1} вагоне: ");
@@ -90,7 +94,6 @@ namespace PassengerTrainConfigurator
     {
         private string _pointOfDeparture;
         private string _stayPoint;
-
         public Direction(string pointOfDeparture, string stayPoint)
         {
             _pointOfDeparture = pointOfDeparture;
