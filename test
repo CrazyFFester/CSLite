@@ -10,8 +10,8 @@ namespace Lesson
             Figther[] figthers =
             {
                 new Wizard("Wizard", 130, 100, 0, "Может с помощью заклинания увеличить урон на 20 единиц"),
-                new Knight("Knight", 150, 95, 50, "Может помолиться и увеличить броню на 10 единиц"),
-                new Barbarian("Barbarian", 200, 50, 0, "Когда он кричит, у него отнимается 2 единицы брони, и увеличиватеся здоровье на 12 единиц"),
+                new Knight("Knight", 150, 75, 50, "Может помолиться и увеличить броню на 10 единиц"),
+                new Barbarian("Barbarian", 200, 65, 0, "Когда он кричит, у него отнимается 2 единицы брони, и увеличиватеся здоровье на 12 единиц"),
                 new Berserk("Berserk", 150, 65, 35, "Может съесть грибы, и его урон удвоется, но здоровье уменьшится на 20 единиц"),
                 new Magician("Magician", 120, 130, 0, "Может увеличить здоровье на 50 единиц")
             };
@@ -26,7 +26,7 @@ namespace Lesson
             while (fighterIsAlive)
             {
                 fighterIsAlive = CheckingTheStateOfAFighter(blueFigther, redFigther, fighterIsAlive);
-                fighterIsAlive = CheckingTheStateOfAFighter(redFigther, blueFigther, fighterIsAlive); 
+                fighterIsAlive = CheckingTheStateOfAFighter(redFigther, blueFigther, fighterIsAlive);
             }
 
             if (blueFigther.Health <= 0 && redFigther.Health <= 0)
@@ -47,7 +47,7 @@ namespace Lesson
 
         private static bool CheckingTheStateOfAFighter(Figther figther1, Figther figther2, bool fighterIsAlive)
         {
-            if(figther1.Health > 0 && figther2.Health > 0)
+            if (figther1.Health > 0 && figther2.Health > 0)
             {
                 Battle(figther1, figther2, figther1.Name);
             }
