@@ -131,7 +131,7 @@ namespace Gladiator_fights
         public Knight(string name, int health, int damage, int armor, string superAbility) : base(name, health, damage, armor, superAbility) { }
         public override void UseOfSuperAbility()
         {
-            Armor += 10;
+            Armor += 15;
         }
     }
 
