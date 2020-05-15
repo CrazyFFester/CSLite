@@ -1,6 +1,6 @@
 using System;
 
-namespace Lesson
+namespace Gladiator_fights
 {
     class Program
     {
