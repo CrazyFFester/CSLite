@@ -8,67 +8,54 @@ namespace Aquarium
     {
         private static void Main()
         {
-            AquariumInhabitants[] aquariumInhabitants = new AquariumInhabitants[0];
-            Fish fishes = new Fish(0, 0);
+            AquariumInhabitant[] aquariumInhabitants = new AquariumInhabitant[0];
+            AquariumInhabitant aquariumInhabitant = new AquariumInhabitant();
+            Fish fishes = new Fish();
 
             while (true)
             {
                 Console.SetCursorPosition(0, 18);
-                fishes.ShowInhabitantsOfAquarium(aquariumInhabitants);
+                fishes.ShowInfo(aquariumInhabitants);
                 Console.SetCursorPosition(0, 0);
-
                 fishes.ElementConditionCheck(ref aquariumInhabitants);
-                СommandProcessing(ref aquariumInhabitants, fishes);
+                ActionSelection(ref aquariumInhabitants, aquariumInhabitant);
 
                 Console.Clear();
             }
         }
 
-        private static void СommandProcessing(ref AquariumInhabitants[] aquariumInhabitants, Fish fishes)
+        private static void ActionSelection(ref AquariumInhabitant[] aquariumInhabitants, AquariumInhabitant aquariumInhabitant)
         {
             int fishNumber;
 
             Console.WriteLine("Выберите команду:" +
             "\n1)Добавить рыбу" +
             "\n2)Достать рыбу");
-
             switch (Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
-                    fishes.AddElement(ref aquariumInhabitants);
+                    aquariumInhabitant.AddElement(ref aquariumInhabitants);
                     break;
                 case 2:
                     Console.WriteLine("\nВвведите номер рыбы, которую хотите достать:");
                     fishNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-                    fishes.DeleteElement(ref aquariumInhabitants, fishNumber);
+                    aquariumInhabitant.DeleteElement(ref aquariumInhabitants, fishNumber);
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!!!");
                     break;
             }
         }
-        class AquariumInhabitants
+
+        class AquariumInhabitant
         {
             public int AgeOfFish;
-            public int MaximumAgeOfFish;
+            public int MaximumAgeOfFish = 10;
 
-            public AquariumInhabitants(int ageOfFish, int maximumAgeOfFish)
+            public void AddElement(ref AquariumInhabitant[] aquariumInhabitants)
             {
-                AgeOfFish = ageOfFish;
-                MaximumAgeOfFish = maximumAgeOfFish;
-            }
-            public void ShowInfo(int i)
-            {
-                Console.WriteLine($"{i + 1}){AgeOfFish}/{MaximumAgeOfFish}");
-            }
-        }
-        class Fish : AquariumInhabitants
-        {
-            public Fish(int ageOfFish, int maximumAgeOfFish) : base(ageOfFish, maximumAgeOfFish) { }
-            public void AddElement(ref AquariumInhabitants[] aquariumInhabitants)
-            {
-                AquariumInhabitants[] tempaquariumInhabitants = new AquariumInhabitants[aquariumInhabitants.Length + 1];
-                tempaquariumInhabitants[tempaquariumInhabitants.Length - 1] = new AquariumInhabitants(0, 10);
+                AquariumInhabitant[] tempaquariumInhabitants = new AquariumInhabitant[aquariumInhabitants.Length + 1];
+                tempaquariumInhabitants[tempaquariumInhabitants.Length - 1] = new AquariumInhabitant();
                 for (int i = 0; i < aquariumInhabitants.Length; i++)
                 {
                     tempaquariumInhabitants[i] = aquariumInhabitants[i];
@@ -76,30 +63,33 @@ namespace Aquarium
                 aquariumInhabitants = tempaquariumInhabitants;
             }
 
-            public void ShowInhabitantsOfAquarium(AquariumInhabitants[] aquariumInhabitants)
-            {
-                Console.WriteLine("\nРыбы в аквариуме:");
-                for (int i = 0; i < aquariumInhabitants.Length; i++)
-                {
-                    aquariumInhabitants[i].ShowInfo(i);
-                    aquariumInhabitants[i].AgeOfFish++;
-                }
-            }
-
-            public void DeleteElement(ref AquariumInhabitants[] aquariumInhabitants, int fishNumber)
+            public void DeleteElement(ref AquariumInhabitant[] aquariumInhabitants, int fishNumber)
             {
                 for (int i = 0; i < aquariumInhabitants.Length; i++)
                 {
                     if (fishNumber == i)
                     {
-                        List<AquariumInhabitants> tempaquariumInhabitants = aquariumInhabitants.ToList();
+                        List<AquariumInhabitant> tempaquariumInhabitants = aquariumInhabitants.ToList();
                         tempaquariumInhabitants.RemoveAt(i);
                         aquariumInhabitants = tempaquariumInhabitants.ToArray();
                     }
                 }
             }
+        }
 
-            public void ElementConditionCheck(ref AquariumInhabitants[] aquariumInhabitants)
+        class Fish : AquariumInhabitant
+        {
+            public void ShowInfo(AquariumInhabitant[] aquariumInhabitants)
+            {
+                Console.WriteLine("\nРыбы в аквариуме:");
+                for (int i = 0; i < aquariumInhabitants.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}){aquariumInhabitants[i].AgeOfFish}/{aquariumInhabitants[i].MaximumAgeOfFish}");
+                    aquariumInhabitants[i].AgeOfFish++;
+                }
+            }
+
+            public void ElementConditionCheck(ref AquariumInhabitant[] aquariumInhabitants)
             {
                 for (int i = 0; i < aquariumInhabitants.Length; i++)
                 {
