@@ -14,17 +14,16 @@ namespace Aquarium
             while (true)
             {
                 Console.SetCursorPosition(0, 18);
-                Console.WriteLine("\nРыбы в аквариуме:");
+                fishes.ShowFishInAquarium(aquariumInhabitants);
                 fishes.FishesAging(aquariumInhabitants);
                 Console.SetCursorPosition(0, 0);
                 fishes.FishConditionCheck(ref aquariumInhabitants);
-                ActionSelection(ref aquariumInhabitants);
-
+                ActionSelection(ref aquariumInhabitants, fishes);
                 Console.Clear();
             }
         }
 
-        private static void ActionSelection(ref AquariumInhabitant[] aquariumInhabitants)
+        private static void ActionSelection(ref AquariumInhabitant[] aquariumInhabitants, Fish fishes)
         {
             int fishNumber;
             AquariumInhabitant aquariumInhabitant = new AquariumInhabitant();
@@ -80,11 +79,19 @@ namespace Aquarium
 
         class Fish : AquariumInhabitant
         {
-            public void FishesAging(AquariumInhabitant[] aquariumInhabitants)
+            public void ShowFishInAquarium(AquariumInhabitant[] aquariumInhabitants)
             {
+                Console.WriteLine("\nРыбы в аквариуме:");
                 for (int i = 0; i < aquariumInhabitants.Length; i++)
                 {
                     Console.WriteLine($"{i + 1}){aquariumInhabitants[i].AgeOfFish}/{aquariumInhabitants[i].MaximumAgeOfFish}");
+                }
+            }
+
+            public void FishesAging(AquariumInhabitant[] aquariumInhabitants)
+            {
+                for(int i = 0;i < aquariumInhabitants.Length; i++)
+                {
                     aquariumInhabitants[i].AgeOfFish++;
                 }
             }
