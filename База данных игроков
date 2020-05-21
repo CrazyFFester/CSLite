@@ -9,7 +9,6 @@ namespace Player_Database
         private static void Main()
         {
             Player[] player = new Player[0];
-            Players players = new Players();
             List list = new List();
 
             while (true)
@@ -23,25 +22,24 @@ namespace Player_Database
                     "\n2)Бан игрока." +
                     "\n3)Разбан игрока." +
                     "\n4)Удаление игрока");
-                CommandProcessing(ref player, players, list);
+                CommandProcessing(ref player, list);
 
-                Console.ReadKey();
                 Console.Clear();
             }
         }
 
-        private static void CommandProcessing(ref Player[] player, Players players, List list)
+        private static void CommandProcessing(ref Player[] player, List list)
         {
             switch (Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
-                    players.AddPlayer(ref player);
+                    list.AddPlayer(ref player);
                     break;
                 case 2:
-                    players.PlayerStateChange(player, true, "забанить");
+                    list.PlayerStateChange(player, true, "забанить");
                     break;
                 case 3:
-                    players.PlayerStateChange(player, false, "разбанить");
+                    list.PlayerStateChange(player, false, "разбанить");
                     break;
                 case 4:
                     list.DeletePlayer(ref player);
@@ -52,7 +50,7 @@ namespace Player_Database
             }
         }
     }
-    class Player : Players
+    class Player
     {
         private string _nameOfPLayer;
         private int _level;
@@ -69,40 +67,7 @@ namespace Player_Database
             Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {IsBanned}");
         }
     }
-    class Players
-    {
-        public void AddPlayer(ref Player[] player)
-        {
-            string nameOfPLayer;
-            int level;
-            Player[] tempPlayers = new Player[player.Length + 1];
 
-            Console.Write("\nВведите имя игрока: ");
-            nameOfPLayer = Console.ReadLine();
-            Console.Write("Введите уровень игрока: ");
-            level = Convert.ToInt32(Console.ReadLine());
-            tempPlayers[tempPlayers.Length - 1] = new Player(nameOfPLayer, level, false);
-
-            for (int i = 0; i < player.Length; i++)
-            {
-                tempPlayers[i] = player[i];
-            }
-            player = tempPlayers;
-        }
-
-        public void PlayerStateChange(Player[] player, bool playerState, string message)
-        {
-            Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
-            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < player.Length; i++)
-            {
-                if (playerIndex == i)
-                {
-                    player[i].IsBanned = playerState;
-                }
-            }
-        }
-    }
     class List
     {
         public void DeletePlayer(ref Player[] player)
@@ -120,6 +85,19 @@ namespace Player_Database
             }
         }
 
+        public void PlayerStateChange(Player[] player, bool playerState, string message)
+        {
+            Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            for (int i = 0; i < player.Length; i++)
+            {
+                if (playerIndex == i)
+                {
+                    player[i].IsBanned = playerState;
+                }
+            }
+        }
+
         public void PlayerListDisplay(Player[] player)
         {
             Console.WriteLine("Список игроков:");
@@ -127,6 +105,25 @@ namespace Player_Database
             {
                 player[i].ShowInfo(i);
             }
+        }
+
+        public void AddPlayer(ref Player[] player)
+        {
+            string nameOfPLayer;
+            int level;
+            Player[] tempPlayers = new Player[player.Length + 1];
+
+            Console.Write("\nВведите имя игрока: ");
+            nameOfPLayer = Console.ReadLine();
+            Console.Write("Введите уровень игрока: ");
+            level = Convert.ToInt32(Console.ReadLine());
+            tempPlayers[tempPlayers.Length - 1] = new Player(nameOfPLayer, level, false);
+
+            for (int i = 0; i < player.Length; i++)
+            {
+                tempPlayers[i] = player[i];
+            }
+            player = tempPlayers;
         }
     }
 }
