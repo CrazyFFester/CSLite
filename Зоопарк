@@ -6,53 +6,51 @@ namespace Zoo
     {
         private static void Main()
         {
-            Aviary[] aviary =
+            Aviary aviary = new Aviary();
+            Animal[] animals =
             {
-                new Aviary("львы", 7, "самцами", "рычат"),
-                new Aviary("обезьяны", 13, "самцами", "ревут"),
-                new Aviary("жирафы", 5, "самками", "мычат"),
-                new Aviary("гиппопотамы", 6, "самцами", "ревут")
+                new Animal("львы", 7, "самцами", "рычат"),
+                new Animal("обезьяны", 13, "самцами", "ревут"),
+                new Animal("жирафы", 5, "самками", "мычат"),
+                new Animal("гиппопотамы", 6, "самцами", "ревут")
             };
-            Animal animal = new Animal();
 
             Console.WriteLine($"Выберите вольер:");
-            for (int i = 0; i < aviary.Length; i++)
+            for (int i = 0; i < animals.Length; i++)
             {
-                Console.WriteLine($"{i + 1}){aviary[i].AnimalsLivingInAviary}.");
+                Console.WriteLine($"{i + 1}){animals[i].AnimalsLivingInAviary}.");
             }
-            animal.ShowAnimalInformationInAviary(aviary);
+            int userAviary = Convert.ToInt32(Console.ReadLine()) -1;
+            aviary.ShowInfo(animals[userAviary]);
 
             Console.ReadKey();
         }
     }
+
     class Aviary
     {
-        public string AnimalsLivingInAviary { get; private set; }
-        private int _numberOfAnimals;
-        private string _genderOfAnimals;
-        private string _animalSound;
-
-        public Aviary(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
+        public void ShowInfo(Animal animals)
         {
-            AnimalsLivingInAviary = animalsLivingInAviary;
-            _numberOfAnimals = numberOfAnimals;
-            _genderOfAnimals = genderOfAnimals;
-            _animalSound = animalSound;
-        }
-        public void ShowInfo()
-        {
-            Console.WriteLine($"\nЗдесь обитают {AnimalsLivingInAviary}, " +
-                $"\nих {_numberOfAnimals} особей," +
-                $"\nпо половой принадлежности они являются {_genderOfAnimals}," +
-                $"\nони {_animalSound}.");
+            Console.WriteLine($"\nЗдесь обитают {animals.AnimalsLivingInAviary}, " +
+                $"\nих {animals.NumberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {animals.GenderOfAnimals}," +
+                $"\nони {animals.AnimalSound}.");
         }
     }
+
     class Animal
     {
-        public void ShowAnimalInformationInAviary(Aviary[] aviary)
+        public string AnimalsLivingInAviary { get; private set; }
+        public int NumberOfAnimals { get; private set; }
+        public string GenderOfAnimals { get; private set; }
+        public string AnimalSound { get; private set; }
+
+        public Animal(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
         {
-            Aviary userAviary = aviary[Convert.ToInt32(Console.ReadLine()) - 1];
-            userAviary.ShowInfo();
+            AnimalsLivingInAviary = animalsLivingInAviary;
+            NumberOfAnimals = numberOfAnimals;
+            GenderOfAnimals = genderOfAnimals;
+            AnimalSound = animalSound;
         }
     }
 }
