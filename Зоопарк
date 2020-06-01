@@ -9,6 +9,8 @@ namespace Zoo
             Aviary aviary = new Aviary();
 
             aviary.DisplayAviaries();
+            Console.WriteLine();
+            Console.Write("Ответ: ");
             int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
             aviary.ShowInfo(userAviary);
 
