@@ -7,21 +7,10 @@ namespace Zoo
         private static void Main()
         {
             Aviary aviary = new Aviary();
-            Animal[] animals =
-            {
-                new Animal("львы", 7, "самцами", "рычат"),
-                new Animal("обезьяны", 13, "самцами", "ревут"),
-                new Animal("жирафы", 5, "самками", "мычат"),
-                new Animal("гиппопотамы", 6, "самцами", "ревут")
-            };
 
-            Console.WriteLine($"Выберите вольер:");
-            for (int i = 0; i < animals.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}){animals[i].AnimalsLivingInAviary}.");
-            }
-            int userAviary = Convert.ToInt32(Console.ReadLine()) -1;
-            aviary.ShowInfo(animals[userAviary]);
+            aviary.DisplayAviaries();
+            int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
+            aviary.ShowInfo(userAviary);
 
             Console.ReadKey();
         }
@@ -29,12 +18,29 @@ namespace Zoo
 
     class Aviary
     {
-        public void ShowInfo(Animal animals)
+        private Animal[] _animals =
         {
-            Console.WriteLine($"\nЗдесь обитают {animals.AnimalsLivingInAviary}, " +
-                $"\nих {animals.NumberOfAnimals} особей," +
-                $"\nпо половой принадлежности они являются {animals.GenderOfAnimals}," +
-                $"\nони {animals.AnimalSound}.");
+                new Animal("львы", 7, "самцами", "рычат"),
+                new Animal("обезьяны", 13, "самцами", "ревут"),
+                new Animal("жирафы", 5, "самками", "мычат"),
+                new Animal("гиппопотамы", 6, "самцами", "ревут")
+        };
+
+        public void ShowInfo(int userAviary)
+        {
+            Console.WriteLine($"\nЗдесь обитают {_animals[userAviary].AnimalsLivingInAviary}, " +
+                $"\nих {_animals[userAviary].NumberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {_animals[userAviary].GenderOfAnimals}," +
+                $"\nони {_animals[userAviary].AnimalSound}.");
+        }
+
+        public void DisplayAviaries()
+        {
+            Console.WriteLine($"Выберите вольер:");
+            for (int i = 0; i < _animals.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}){_animals[i].AnimalsLivingInAviary}.");
+            }
         }
     }
 
