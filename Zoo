@@ -36,23 +36,23 @@ namespace Zoo
 
     class Aviary
     {
-        public Animal Animal { get; private set; }
+        private Animal _animal;
         public Aviary(Animal animal)
         {
-            Animal = animal;
+            _animal = animal;
         }
 
         public void ShowInfo()
         {
-            Console.WriteLine($"\nЗдесь обитают {Animal.AnimalsLivingInAviary}, " +
-                $"\nих {Animal.NumberOfAnimals} особей," +
-                $"\nпо половой принадлежности они являются {Animal.GenderOfAnimals}," +
-                $"\nони {Animal.AnimalSound}.");
+            Console.WriteLine($"\nЗдесь обитают {_animal.AnimalsLivingInAviary}, " +
+                $"\nих {_animal.NumberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {_animal.GenderOfAnimals}," +
+                $"\nони {_animal.AnimalSound}.");
         }
 
         public void DisplayAviaries(int i)
         {
-            Console.WriteLine($"{i + 1}){Animal.AnimalsLivingInAviary}.");
+            Console.WriteLine($"{i + 1}){_animal.AnimalsLivingInAviary}.");
         }
     }
 
