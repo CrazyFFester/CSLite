@@ -24,7 +24,6 @@ namespace Zoo
             {
                 aviary[i].DisplayAviaries(i);
             }
-
             Console.WriteLine();
             Console.Write("Ответ: ");
             int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
