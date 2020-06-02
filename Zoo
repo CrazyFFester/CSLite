@@ -1,0 +1,74 @@
+using System;
+
+namespace Zoo
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Animal[] animal =
+            {
+                new Animal("львы", 7, "самцами", "рычат"),
+                new Animal("обезьяны", 13, "самцами", "ревут"),
+                new Animal("жирафы", 5, "самками", "мычат"),
+                new Animal("гиппопотамы", 6, "самцами", "ревут")
+            };
+            Aviary[] aviary = new Aviary[animal.Length];
+            for(int i = 0; i < animal.Length; i++)
+            {
+                aviary[i] = new Aviary(animal[i]);
+            }
+
+            Console.WriteLine($"Выберите вольер:");
+            for (int i = 0; i < aviary.Length; i++)
+            {
+                aviary[i].DisplayAviaries(i);
+            }
+
+            Console.WriteLine();
+            Console.Write("Ответ: ");
+            int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
+            aviary[userAviary].ShowInfo();
+
+            Console.ReadKey();
+        }
+    }
+
+    class Aviary
+    {
+        public Animal Animals { get; private set; }
+        public Aviary(Animal animals)
+        {
+            Animals = animals;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"\nЗдесь обитают {Animals.AnimalsLivingInAviary}, " +
+                $"\nих {Animals.NumberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {Animals.GenderOfAnimals}," +
+                $"\nони {Animals.AnimalSound}.");
+        }
+
+        public void DisplayAviaries(int i)
+        {
+            Console.WriteLine($"{i + 1}){Animals.AnimalsLivingInAviary}.");
+        }
+    }
+
+    class Animal
+    {
+        public string AnimalsLivingInAviary { get; private set; }
+        public int NumberOfAnimals { get; private set; }
+        public string GenderOfAnimals { get; private set; }
+        public string AnimalSound { get; private set; }
+
+        public Animal(string animalsLivingInAviary, int numberOfAnimals, string genderOfAnimals, string animalSound)
+        {
+            AnimalsLivingInAviary = animalsLivingInAviary;
+            NumberOfAnimals = numberOfAnimals;
+            GenderOfAnimals = genderOfAnimals;
+            AnimalSound = animalSound;
+        }
+    }
+}
