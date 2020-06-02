@@ -6,17 +6,17 @@ namespace Zoo
     {
         private static void Main()
         {
-            Animal[] animal =
+            Animal[] animals =
             {
                 new Animal("львы", 7, "самцами", "рычат"),
                 new Animal("обезьяны", 13, "самцами", "ревут"),
                 new Animal("жирафы", 5, "самками", "мычат"),
                 new Animal("гиппопотамы", 6, "самцами", "ревут")
             };
-            Aviary[] aviary = new Aviary[animal.Length];
-            for(int i = 0; i < animal.Length; i++)
+            Aviary[] aviary = new Aviary[animals.Length];
+            for (int i = 0; i < animals.Length; i++)
             {
-                aviary[i] = new Aviary(animal[i]);
+                aviary[i] = new Aviary(animals[i]);
             }
 
             Console.WriteLine($"Выберите вольер:");
@@ -36,23 +36,23 @@ namespace Zoo
 
     class Aviary
     {
-        public Animal Animals { get; private set; }
-        public Aviary(Animal animals)
+        public Animal Animal { get; private set; }
+        public Aviary(Animal animal)
         {
-            Animals = animals;
+            Animal = animal;
         }
 
         public void ShowInfo()
         {
-            Console.WriteLine($"\nЗдесь обитают {Animals.AnimalsLivingInAviary}, " +
-                $"\nих {Animals.NumberOfAnimals} особей," +
-                $"\nпо половой принадлежности они являются {Animals.GenderOfAnimals}," +
-                $"\nони {Animals.AnimalSound}.");
+            Console.WriteLine($"\nЗдесь обитают {Animal.AnimalsLivingInAviary}, " +
+                $"\nих {Animal.NumberOfAnimals} особей," +
+                $"\nпо половой принадлежности они являются {Animal.GenderOfAnimals}," +
+                $"\nони {Animal.AnimalSound}.");
         }
 
         public void DisplayAviaries(int i)
         {
-            Console.WriteLine($"{i + 1}){Animals.AnimalsLivingInAviary}.");
+            Console.WriteLine($"{i + 1}){Animal.AnimalsLivingInAviary}.");
         }
     }
 
