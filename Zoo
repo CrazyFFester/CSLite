@@ -6,28 +6,22 @@ namespace Zoo
     {
         private static void Main()
         {
-            Animal[] animals =
+            Aviary aviary = new Aviary();
+            Aviary[] aviaries = new Aviary[aviary.Animals.Length];
+            for(int i = 0; i < aviaries.Length; i++)
             {
-                new Animal("львы", 7, "самцами", "рычат"),
-                new Animal("обезьяны", 13, "самцами", "ревут"),
-                new Animal("жирафы", 5, "самками", "мычат"),
-                new Animal("гиппопотамы", 6, "самцами", "ревут")
-            };
-            Aviary[] aviary = new Aviary[animals.Length];
-            for (int i = 0; i < animals.Length; i++)
-            {
-                aviary[i] = new Aviary(animals[i]);
+                aviaries[i] = new Aviary(aviary.Animals[i]);
             }
 
             Console.WriteLine($"Выберите вольер:");
-            for (int i = 0; i < aviary.Length; i++)
+            for (int i = 0; i < aviaries.Length; i++)
             {
-                aviary[i].DisplayAviaries(i);
+                aviaries[i].DisplayAviaries(i);
             }
             Console.WriteLine();
             Console.Write("Ответ: ");
             int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
-            aviary[userAviary].ShowInfo();
+            aviaries[userAviary].ShowInfo();
 
             Console.ReadKey();
         }
@@ -35,8 +29,22 @@ namespace Zoo
 
     class Aviary
     {
+        private Animal[] _animals =
+        {
+            new Animal("львы", 7, "самцами", "рычат"),
+            new Animal("обезьяны", 13, "самцами", "ревут"),
+            new Animal("жирафы", 5, "самками", "мычат"),
+            new Animal("гиппопотамы", 6, "самцами", "ревут")
+        };
+        public Animal[] Animals
+        {
+            get
+            {
+                return _animals;
+            }
+        }
         private Animal _animal;
-        public Aviary(Animal animal)
+        public Aviary(Animal animal = null)
         {
             _animal = animal;
         }
