@@ -4,10 +4,11 @@ namespace Zoo
 {
     class Program
     {
+        private static Aviary aviary = new Aviary();
+        private static Aviary[] aviaries = new Aviary[aviary.Animals.Length];
+
         private static void Main()
         {
-            Aviary aviary = new Aviary();
-            Aviary[] aviaries = new Aviary[aviary.Animals.Length];
             for(int i = 0; i < aviaries.Length; i++)
             {
                 aviaries[i] = new Aviary(aviary.Animals[i]);
