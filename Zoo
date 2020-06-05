@@ -4,27 +4,46 @@ namespace Zoo
 {
     class Program
     {
-        private static Aviary aviary = new Aviary();
-        private static Aviary[] aviaries = new Aviary[aviary.Animals.Length];
-
         private static void Main()
         {
-            for(int i = 0; i < aviaries.Length; i++)
-            {
-                aviaries[i] = new Aviary(aviary.Animals[i]);
-            }
+            Enclosures enclosures = new Enclosures();
 
+            enclosures.FillingAviaries();
             Console.WriteLine($"Выберите вольер:");
-            for (int i = 0; i < aviaries.Length; i++)
+            for (int i = 0; i < enclosures.Aviaries.Length; i++)
             {
-                aviaries[i].DisplayAviaries(i);
+                enclosures.Aviaries[i].DisplayAviaries(i);
             }
             Console.WriteLine();
             Console.Write("Ответ: ");
             int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
-            aviaries[userAviary].ShowInfo();
+            enclosures.Aviaries[userAviary].ShowInfo();
 
             Console.ReadKey();
+        }
+    }
+
+    class Enclosures
+    {
+        private static Aviary _aviary = new Aviary();
+        private Aviary[] _aviaries = new Aviary[_aviary.Animals.Length];
+        public Aviary[] Aviaries
+        {
+            get
+            {
+                return _aviaries;
+            }
+            private set
+            {
+                _aviaries = value;
+            }
+        }
+        public void FillingAviaries()
+        {
+            for (int i = 0; i < _aviaries.Length; i++)
+            {
+                _aviaries[i] = new Aviary(_aviary.Animals[i]);
+            }
         }
     }
 
