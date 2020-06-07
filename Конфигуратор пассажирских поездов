@@ -15,9 +15,9 @@ namespace PassengerTrainConfigurator
                 string pointOfDeparture = Console.ReadLine();
                 Console.Write("Введите точку остановки: ");
                 string stayPoint = Console.ReadLine();
+                Direction direction = new Direction(pointOfDeparture, stayPoint);
                 Console.Clear();
 
-                Direction direction = new Direction(pointOfDeparture, stayPoint);
                 numberOfPassengers = SellTickets(numberOfPassengers);
                 if (numberOfPassengers == 0)
                 {
@@ -27,7 +27,6 @@ namespace PassengerTrainConfigurator
                 {
                     Console.WriteLine("Количество пассажиров - " + numberOfPassengers);
                     train = SettingOfTheTrain(ref numberOfSeats);
-                    train.ShowInfo();
                     if (numberOfSeats < numberOfPassengers)
                     {
                         Console.WriteLine("\nМало мест!");
