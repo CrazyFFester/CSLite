@@ -1,100 +1,153 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
-namespace Lesson
+namespace Shop
 {
     class Program
     {
         private static void Main()
         {
-            Player[] player = new Player[0];
-            Seller[] seller =
-            {
-                new Seller("Алмазный меч"),
-                new Seller("Золотой меч"),
-                new Seller("Лук"),
-                new Seller("Алмазная броня"),
-                new Seller("Топор")
-            };
-            Person person = new Person("");
+            People people = new People();
+
+            people.FillingArrayOfPersons();
             while (true)
             {
                 Console.WriteLine("Комманды:" +
                 "\n1)Помотреть товары продавца." +
                 "\n2)Купить товар." +
                 "\n3)Посмотреть свой инвентарь.");
+                Console.Write("\nОтвет: ");
+
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        person.ShowInventory(seller, "продавца");
+                        people.Persons[0].ShowInventory(people.Persons[0], "продавца");
                         break;
                     case 2:
-                        person.AddingItemToPlayerInventory(ref player, ref seller);
+                        people.Persons[1] = people.Persons[1].AddingItemToPlayerInventory(ref people.Persons[0], people.Persons[1]);
                         break;
                     case 3:
-                        person.ShowInventory(player, "игрока");
+                        people.Persons[1].ShowInventory(people.Persons[1], "игрока");
                         break;
                 }
+
                 Console.ReadKey();
                 Console.Clear();
             }
         }
     }
 
-    class Person
+    class People
     {
-        private string _product;
-        public Person(string product)
-        {
-            _product = product;
-        }
-        public void ShowInventory(Person[] percon, string inventoryOwner)
-        {
-            Console.WriteLine();
-            Console.WriteLine($"Инваентарь {inventoryOwner}:");
-            for (int i = 0; i < percon.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}){percon[i]._product}");
-            }
-        }
+        public Person[] Persons { get; private set; }
 
-        public void RemoveItemFromSellerInventory(int i, ref Seller[] seller)
+        public void FillingArrayOfPersons()
         {
-            List<Seller> tempSeller = seller.ToList();
-            tempSeller.RemoveAt(i);
-            seller = tempSeller.ToArray();
-        }
+            Seller seller = new Seller();
+            Player player = new Player();
+            Person[] persons =
+            {
+                new Seller(seller.Goods),
+                new Player(player.Goods)
+            };
 
-        public void AddingItemToPlayerInventory(ref Player[] player, ref Seller[] seller)
+            for (int i = 0; i < persons.Length; i++)
+            {
+                persons[i].FillingInventory();
+            }
+            Persons = persons;
+        }
+    }
+}
+
+    class Goods
+    {
+        public string Product { get; private set; }
+        public Goods(string product)
         {
-            Player[] tempPlayer = new Player[player.Length + 1];
-            seller[0].ShowInventory(seller, "продавца");
-            Console.Write("Введите товар, который хотите купить: ");
-            string product = Console.ReadLine();
-            for (int i = 0; i < seller.Length; i++)
-            {
-                if (product == seller[i]._product)
-                {
-                    RemoveItemFromSellerInventory(i, ref seller);
-                    tempPlayer[tempPlayer.Length - 1] = new Player(product);
-                }
-            }
-            for (int i = 0; i < player.Length; i++)
-            {
-                tempPlayer[i] = player[i];
-            }
-            player = tempPlayer;
+            Product = product;
         }
     }
 
-    class Player : Person
+    abstract class Person
     {
-        public Player(string product) : base(product) { }
+        public Goods[] Goods { get; protected set; }
+        private Goods[] _Goods;
+        public Person(Goods[] Goods)
+        {
+            _Goods = Goods;
+        }
+
+        public void ShowInventory(Person person, string intventoryOwner)
+        {
+            Console.WriteLine($"\nИнвентарь {intventoryOwner}:");
+            for (int i = 0; i < person.Goods.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}){person.Goods[i].Product}");
+            }
+        }
+
+        public Person AddingItemToPlayerInventory(ref Person seller, Person player)
+        {
+            Goods[] tempGoodsOfPlayer = new Goods[player.Goods.Length + 1];
+
+            seller.ShowInventory(seller, "продавца");
+            Console.Write("\nВведите товар, который хотите купить: ");
+            int productNumber = Convert.ToInt32(Console.ReadLine()) -1;
+            for (int i = 0; i < seller.Goods.Length; i++)
+            {
+                if (seller.Goods[productNumber].Product == seller.Goods[i].Product)
+                {
+                    tempGoodsOfPlayer[tempGoodsOfPlayer.Length - 1] = new Goods(seller.Goods[i].Product);
+                    seller = seller.RemoveItemFromSellerInventory(i, seller);
+                }
+            }
+
+            for (int i = 0; i < player.Goods.Length; i++)
+            {
+                tempGoodsOfPlayer[i] = player.Goods[i];
+            }
+            player.Goods = tempGoodsOfPlayer;
+            return player;
+        }
+
+        public Person RemoveItemFromSellerInventory(int i, Person seller)
+        {
+            List<Goods> tempGoodsOfSeller = seller.Goods.ToList();
+            tempGoodsOfSeller.RemoveAt(i);
+            seller.Goods = tempGoodsOfSeller.ToArray();
+            return seller;
+        }
+
+        public abstract void FillingInventory();
     }
 
     class Seller : Person
     {
-        public Seller(string product) : base(product) { }
+        public Seller(Goods[] products = null) : base(products) {}
+
+        public override void FillingInventory()
+        {
+            Goods[] goods =
+            {
+                new Goods("Алмазный меч"),
+                new Goods("Золотой меч"),
+                new Goods("Лук"),
+                new Goods("Алмазная броня"),
+                new Goods("Топор")
+            };
+            Goods = goods;
+        }
     }
-}
+
+    class Player: Person
+    {
+        public Player(Goods[] products = null) : base(products) { }
+
+        public override void FillingInventory()
+        {
+            Goods[] goods = new Goods[0];
+            Goods = goods;
+        }
+    }
