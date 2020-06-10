@@ -22,18 +22,37 @@ namespace Shop
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        people.Persons[0].ShowInventory(people.Persons[0], "продавца");
+                        people.Persons[0].ShowInventory("продавца");
                         break;
                     case 2:
-                        people.Persons[1] = people.Persons[1].AddingItemToPlayerInventory(ref people.Persons[0], people.Persons[1]);
+                        PurchaseOfGoods(people);
                         break;
                     case 3:
-                        people.Persons[1].ShowInventory(people.Persons[1], "игрока");
+                        people.Persons[1].ShowInventory("игрока");
                         break;
                 }
 
                 Console.ReadKey();
                 Console.Clear();
+            }
+        }
+
+        private static void PurchaseOfGoods(People people)
+        {
+            Goods[] tempGoodsOfPlayer = new Goods[people.Persons[1].Goods.Length + 1];
+
+            people.Persons[0].ShowInventory("продавца");
+            Console.Write("\nВведите товар, который хотите купить: ");
+            int productNumber = Convert.ToInt32(Console.ReadLine()) - 1;
+
+            for (int i = 0; i < people.Persons[0].Goods.Length; i++)
+            {
+                if (people.Persons[0].Goods[productNumber].Product == people.Persons[0].Goods[i].Product)
+                {
+                    tempGoodsOfPlayer[tempGoodsOfPlayer.Length - 1] = new Goods(people.Persons[0].Goods[productNumber].Product);
+                    people.Persons[1].AddingItemToPlayerInventory(tempGoodsOfPlayer);
+                    people.Persons[0].RemoveItemFromSellerInventory(productNumber);
+                }
             }
         }
     }
@@ -44,12 +63,10 @@ namespace Shop
 
         public void FillingArrayOfPersons()
         {
-            Seller seller = new Seller();
-            Player player = new Player();
             Person[] persons =
             {
-                new Seller(seller.Goods),
-                new Player(player.Goods)
+                new Seller(),
+                new Player()
             };
 
             for (int i = 0; i < persons.Length; i++)
@@ -59,6 +76,7 @@ namespace Shop
             Persons = persons;
         }
     }
+
     class Goods
     {
         public string Product { get; private set; }
@@ -71,51 +89,30 @@ namespace Shop
     abstract class Person
     {
         public Goods[] Goods { get; protected set; }
-        private Goods[] _Goods;
-        public Person(Goods[] Goods)
-        {
-            _Goods = Goods;
-        }
 
-        public void ShowInventory(Person person, string intventoryOwner)
+        public void ShowInventory(string inventoryOwner)
         {
-            Console.WriteLine($"\nИнвентарь {intventoryOwner}:");
-            for (int i = 0; i < person.Goods.Length; i++)
+            Console.WriteLine($"\nИнвентарь {inventoryOwner}:");
+            for (int i = 0; i < Goods.Length; i++)
             {
-                Console.WriteLine($"{i + 1}){person.Goods[i].Product}");
+                Console.WriteLine($"{i + 1}){Goods[i].Product}");
             }
         }
 
-        public Person AddingItemToPlayerInventory(ref Person seller, Person player)
+        public void AddingItemToPlayerInventory(Goods[] tempGoodsOfPlayer)
         {
-            Goods[] tempGoodsOfPlayer = new Goods[player.Goods.Length + 1];
-
-            seller.ShowInventory(seller, "продавца");
-            Console.Write("\nВведите товар, который хотите купить: ");
-            int productNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < seller.Goods.Length; i++)
+            for (int i = 0; i < Goods.Length; i++)
             {
-                if (seller.Goods[productNumber].Product == seller.Goods[i].Product)
-                {
-                    tempGoodsOfPlayer[tempGoodsOfPlayer.Length - 1] = new Goods(seller.Goods[i].Product);
-                    seller = seller.RemoveItemFromSellerInventory(i, seller);
-                }
+                tempGoodsOfPlayer[i] = Goods[i];
             }
-
-            for (int i = 0; i < player.Goods.Length; i++)
-            {
-                tempGoodsOfPlayer[i] = player.Goods[i];
-            }
-            player.Goods = tempGoodsOfPlayer;
-            return player;
+            Goods = tempGoodsOfPlayer;
         }
 
-        public Person RemoveItemFromSellerInventory(int i, Person seller)
+        public void RemoveItemFromSellerInventory(int productNumber)
         {
-            List<Goods> tempGoodsOfSeller = seller.Goods.ToList();
-            tempGoodsOfSeller.RemoveAt(i);
-            seller.Goods = tempGoodsOfSeller.ToArray();
-            return seller;
+            List<Goods> tempGoodsOfSeller = Goods.ToList();
+            tempGoodsOfSeller.RemoveAt(productNumber);
+            Goods = tempGoodsOfSeller.ToArray();
         }
 
         public abstract void FillingInventory();
@@ -123,8 +120,6 @@ namespace Shop
 
     class Seller : Person
     {
-        public Seller(Goods[] products = null) : base(products) { }
-
         public override void FillingInventory()
         {
             Goods[] goods =
@@ -141,8 +136,6 @@ namespace Shop
 
     class Player : Person
     {
-        public Player(Goods[] products = null) : base(products) { }
-
         public override void FillingInventory()
         {
             Goods[] goods = new Goods[0];
