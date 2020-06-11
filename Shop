@@ -9,6 +9,7 @@ namespace Shop
         private static void Main()
         {
             int sellerIndex = 0, playerIndex = 1;
+            Player player = new Player(500);
             Person[] persons =
 {
                 new Seller(),
@@ -21,6 +22,7 @@ namespace Shop
 
             while (true)
             {
+                player.ShowBalance();
                 Console.WriteLine("Комманды:" +
                 "\n1)Помотреть товары продавца." +
                 "\n2)Купить товар." +
@@ -33,7 +35,7 @@ namespace Shop
                         persons[sellerIndex].ShowInventory("продавца");
                         break;
                     case 2:
-                        PurchaseOfGoods(persons, sellerIndex, playerIndex);
+                        PurchaseOfGoods(persons, sellerIndex, playerIndex, player);
                         break;
                     case 3:
                         persons[playerIndex].ShowInventory("игрока");
@@ -45,8 +47,9 @@ namespace Shop
             }
         }
 
-        private static void PurchaseOfGoods(Person[] persons, int sellerIndex, int playerIndex)
+        private static void PurchaseOfGoods(Person[] persons, int sellerIndex, int playerIndex, Player player)
         {
+            bool success = true;
             Goods[] tempGoodsOfPlayer = new Goods[persons[playerIndex].Goods.Length + 1];
 
             persons[sellerIndex].ShowInventory("продавца");
@@ -57,9 +60,13 @@ namespace Shop
             {
                 if (persons[sellerIndex].Goods[productNumber].Product == persons[sellerIndex].Goods[i].Product)
                 {
-                    tempGoodsOfPlayer[tempGoodsOfPlayer.Length - 1] = new Goods(persons[sellerIndex].Goods[productNumber].Product);
-                    persons[playerIndex].AddingItemToPlayerInventory(tempGoodsOfPlayer);
-                    persons[sellerIndex].RemoveItemFromSellerInventory(productNumber);
+                    success = player.MoneyTransfer(persons[sellerIndex].Goods[productNumber].ProductPrice, success);
+                    if(success == true)
+                    {
+                        tempGoodsOfPlayer[tempGoodsOfPlayer.Length - 1] = new Goods(persons[sellerIndex].Goods[productNumber].Product);
+                        persons[playerIndex].AddingItemToInventory(tempGoodsOfPlayer);
+                        persons[sellerIndex].RemoveItemFromInventory(productNumber);
+                    }
                 }
             }
         }
@@ -68,9 +75,11 @@ namespace Shop
     class Goods
     {
         public string Product { get; private set; }
-        public Goods(string product)
+        public int ProductPrice { get; private set; }
+        public Goods(string product, int productPrice = 0)
         {
             Product = product;
+            ProductPrice = productPrice;
         }
     }
 
@@ -83,11 +92,18 @@ namespace Shop
             Console.WriteLine($"\nИнвентарь {inventoryOwner}:");
             for (int i = 0; i < Goods.Length; i++)
             {
-                Console.WriteLine($"{i + 1}){Goods[i].Product}");
+                if(Goods[i].ProductPrice != 0)
+                {
+                    Console.WriteLine($"{i + 1}){Goods[i].Product} - {Goods[i].ProductPrice}");
+                }
+                else
+                {
+                    Console.WriteLine($"{i + 1}){Goods[i].Product}");
+                }
             }
         }
 
-        public void AddingItemToPlayerInventory(Goods[] tempGoodsOfPlayer)
+        public void AddingItemToInventory(Goods[] tempGoodsOfPlayer)
         {
             for (int i = 0; i < Goods.Length; i++)
             {
@@ -96,7 +112,7 @@ namespace Shop
             Goods = tempGoodsOfPlayer;
         }
 
-        public void RemoveItemFromSellerInventory(int productNumber)
+        public void RemoveItemFromInventory(int productNumber)
         {
             List<Goods> tempGoodsOfSeller = Goods.ToList();
             tempGoodsOfSeller.RemoveAt(productNumber);
@@ -112,11 +128,11 @@ namespace Shop
         {
             Goods[] goods =
             {
-                new Goods("Алмазный меч"),
-                new Goods("Золотой меч"),
-                new Goods("Лук"),
-                new Goods("Алмазная броня"),
-                new Goods("Топор")
+                new Goods("Алмазный меч", 200),
+                new Goods("Золотой меч", 100),
+                new Goods("Лук", 50),
+                new Goods("Алмазная броня", 300),
+                new Goods("Топор", 75)
             };
             Goods = goods;
         }
@@ -124,10 +140,37 @@ namespace Shop
 
     class Player : Person
     {
+        private int _money;
+        public Player(int money = 0)
+        {
+            _money = money;
+        }
+
         public override void FillingInventory()
         {
             Goods[] goods = new Goods[0];
             Goods = goods;
+        }
+
+        public void ShowBalance()
+        {
+            Console.SetCursorPosition(0, 20);
+            Console.WriteLine($"Ваш баланс - {_money}.");
+            Console.SetCursorPosition(0, 0);
+        }
+        
+        public bool MoneyTransfer(int productPrice, bool success)
+        {
+            if(_money < productPrice)
+            {
+                Console.WriteLine("\nНе достаточно средств!");
+                success = false;
+            }
+            else
+            {
+                _money -= productPrice;
+            }
+            return success;
         }
     }
 }
