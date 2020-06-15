@@ -9,15 +9,8 @@ namespace Zoo
             Enclosures enclosures = new Enclosures();
 
             enclosures.FillingAviaries();
-            Console.WriteLine($"Выберите вольер:");
-            for (int i = 0; i < enclosures.Aviaries.Length; i++)
-            {
-                enclosures.Aviaries[i].DisplayAviaries(i);
-            }
-            Console.WriteLine();
-            Console.Write("Ответ: ");
-            int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
-            enclosures.Aviaries[userAviary].ShowInfo();
+            int userAviary = enclosures.SelectionAviary();
+            enclosures.ShowInfoOfAviary(userAviary);
 
             Console.ReadKey();
         }
@@ -25,17 +18,37 @@ namespace Zoo
 
     class Enclosures
     {
-        public Aviary[] Aviaries { get; private set; }
+        private Aviary[] _aviaries;
+
         public void FillingAviaries()
         {
             Aviary aviary = new Aviary();
             aviary.FillingArrayOfAnimals();
-            Aviaries = new Aviary[aviary.Animals.Length];
+            _aviaries = new Aviary[aviary.Animals.Length];
 
-            for (int i = 0; i < Aviaries.Length; i++)
+            for (int i = 0; i < _aviaries.Length; i++)
             {
-                Aviaries[i] = new Aviary(aviary.Animals[i]);
+                _aviaries[i] = new Aviary(aviary.Animals[i]);
             }
+        }
+
+        public int SelectionAviary()
+        {
+            Console.WriteLine($"Выберите вольер:");
+            for (int i = 0; i < _aviaries.Length; i++)
+            {
+                _aviaries[i].DisplayAviaries(i);
+            }
+            Console.WriteLine();
+            Console.Write("Ответ: ");
+            int userAviary = Convert.ToInt32(Console.ReadLine()) - 1;
+
+            return userAviary;
+        }
+
+        public void ShowInfoOfAviary(int userAviary)
+        {
+            _aviaries[userAviary].ShowInfo();
         }
     }
 
