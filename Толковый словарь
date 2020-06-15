@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+
+namespace Explanatory_dictionary
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Dictionary<string, string> explanatoryDictionary = new Dictionary<string, string>();
+            explanatoryDictionary.Add("словарь", "Сборник слов в алфавитном порядке, с пояснениями, толкованиями или с переводом на другой язык.");
+            explanatoryDictionary.Add("слово", "Единица речи, служащая для выражения отдельного понятия.");
+            explanatoryDictionary.Add("речь", "Способность говорить, говорение.");
+
+            Console.Write("Введите слово: ");
+            string userWord = Console.ReadLine();
+            Console.WriteLine();
+            if (explanatoryDictionary.ContainsKey(userWord))
+            {
+                Console.WriteLine("Значение: " + explanatoryDictionary[userWord]);
+            }
+            else
+            {
+                Console.WriteLine("Такого слова нет словаре!");
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
