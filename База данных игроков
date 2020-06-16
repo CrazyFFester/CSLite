@@ -14,14 +14,16 @@ namespace Player_Database
             while (true)
             {
                 Console.SetCursorPosition(0, 20);
-                list.PlayerListDisplay(players);
+                list.DisplayListOfElement(players);
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("Команды:" +
                     "\n1)Добавление игрока." +
                     "\n2)Бан игрока." +
                     "\n3)Разбан игрока." +
-                    "\n4)Удаление игрока");
+                    "\n4)Удаление игрока.");
+                Console.WriteLine();
+                Console.Write("Ответ: ");
                 ActionSelection(ref players, list);
 
                 Console.Clear();
@@ -33,16 +35,16 @@ namespace Player_Database
             switch (Convert.ToInt32(Console.ReadLine()))
             {
                 case 1:
-                    list.AddPlayer(ref players);
+                    list.AddElement(ref players);
                     break;
                 case 2:
-                    list.PlayerStateChange(players, true, "забанить");
+                    list.ChangeStateOfElement(players, true, "забанить");
                     break;
                 case 3:
-                    list.PlayerStateChange(players, false, "разбанить");
+                    list.ChangeStateOfElement(players, false, "разбанить");
                     break;
                 case 4:
-                    list.DeletePlayer(ref players);
+                    list.DeleteElement(ref players);
                     break;
                 default:
                     Console.WriteLine("Такой команды нет!!!");
@@ -55,23 +57,29 @@ namespace Player_Database
     {
         private string _nameOfPLayer;
         private int _level;
-        public bool IsBanned;
+        private bool _isBanned;
 
         public Player(string nameOfPLayer, int level, bool isBanned)
         {
             _nameOfPLayer = nameOfPLayer;
             _level = level;
-            IsBanned = isBanned;
+            _isBanned = isBanned;
         }
+
         public void ShowInfo(int i)
         {
-            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {IsBanned}");
+            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {_isBanned}.");
+        }
+
+        public void StateChange(bool playerState)
+        {
+            _isBanned = playerState;
         }
     }
 
     class List
     {
-        public void DeletePlayer(ref Player[] players)
+        public void DeleteElement(ref Player[] players)
         {
             Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -86,7 +94,7 @@ namespace Player_Database
             }
         }
 
-        public void PlayerStateChange(Player[] players, bool playerState, string message)
+        public void ChangeStateOfElement(Player[] players, bool playerState, string message)
         {
             Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -94,12 +102,12 @@ namespace Player_Database
             {
                 if (playerIndex == i)
                 {
-                    players[i].IsBanned = playerState;
+                    players[i].StateChange(playerState);
                 }
             }
         }
 
-        public void PlayerListDisplay(Player[] players)
+        public void DisplayListOfElement(Player[] players)
         {
             Console.WriteLine("Список игроков:");
             for (int i = 0; i < players.Length; i++)
@@ -108,7 +116,7 @@ namespace Player_Database
             }
         }
 
-        public void AddPlayer(ref Player[] players)
+        public void AddElement(ref Player[] players)
         {
             string nameOfPLayer;
             int level;
