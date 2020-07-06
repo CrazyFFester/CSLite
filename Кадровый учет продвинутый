@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+
+namespace HR_accounting_advanced
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Dictionary<string, string> users = new Dictionary<string, string>();
+
+            while (true)
+            {
+                Console.WriteLine("Меню: " +
+                   "\n1)Добавить досье." +
+                   "\n2)Вывести все досье." +
+                   "\n3)Удалить досье." +
+                   "\n4)Выход.");
+                Console.WriteLine();
+                Console.Write("Ответ: ");
+
+                switch (Convert.ToInt32(Console.ReadLine()))
+                {
+                    case 1:
+                        AddUser(users);
+                        break;
+                    case 2:
+                        ShowAllUsers(users);
+                        break;
+                    case 3:
+                        RemoveUser(users);
+                        break;
+                    case 4: 
+                        return;
+                }
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private static void AddUser(Dictionary<string, string> users)
+        {
+            Console.WriteLine();
+            Console.Write("Введите фио: ");
+            string fullName = Console.ReadLine();
+            Console.Write("Введите должность: ");
+            string position = Console.ReadLine();
+            users.Add(fullName, position);
+        }
+
+        private static void ShowAllUsers(Dictionary<string, string> users)
+        {
+            Console.WriteLine();
+            foreach (var user in users)
+            {
+                Console.WriteLine($"{user.Key} - {user.Value}");
+            }
+        }
+
+        private static void RemoveUser(Dictionary<string, string> users)
+        {
+            Console.WriteLine();
+            Console.Write("Введите фио пользователя, которого хотите удалить: ");
+            users.Remove(Console.ReadLine());
+        }
+    }
+}
