@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+
+namespace Dynamic_array_advanced
+{
+    class Program
+    {
+        private static void Main()
+        {
+            int sumOfNumbers = 0;
+            bool programState = true;
+            List<int> numbersToAdd = new List<int>();
+
+            while (programState)
+            {
+                string userInput = Console.ReadLine();
+                switch (userInput)
+                {
+                    case "sum":
+                        foreach(int numberToAdd in numbersToAdd)
+                        {
+                            sumOfNumbers += numberToAdd;
+                        }
+                        Console.WriteLine("\nСумма чисел - " + sumOfNumbers);
+                        numbersToAdd = new List<int>();
+                        sumOfNumbers = 0;
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "exit":
+                        programState = false;
+                        break;
+                    default:
+                        int userNumber;
+                        bool isInt = int.TryParse(userInput, out userNumber);
+                        if (isInt)
+                        {
+                            numbersToAdd.Add(userNumber);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Такого числа нет!");
+                        }
+                        break;
+                }
+            }
+        }
+    }
+}
