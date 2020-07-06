@@ -1,0 +1,17 @@
+using System;
+
+namespace Exit_control
+{
+    class Program
+    {
+        private static void Main()
+        {
+            string userInput = "";
+
+            while (userInput != "exit")
+            {
+                userInput = Console.ReadLine();
+            }
+        }
+    }
+}
