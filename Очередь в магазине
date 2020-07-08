@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+
+namespace Queue_in_the_store
+{
+    class Program
+    {
+        private static void Main()
+        {
+            int moneyInTheWallet = 0;
+            Dictionary<string, int> clients = new Dictionary<string, int>();
+
+            clients.Add("Василий", 100);
+            clients.Add("Пётр", 200);
+            clients.Add("Иван", 500);
+
+            foreach(var client in clients)
+            {
+                Console.WriteLine("Вы обслужили клиента!");
+                Console.WriteLine($"Получено {client.Value}р от клиента по имени {client.Key}.");
+                moneyInTheWallet += client.Value;
+                Console.SetCursorPosition(0, 20);
+                Console.WriteLine("Кошелёк - " + moneyInTheWallet + "р.");
+                Console.SetCursorPosition(0, 0);
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+    }
+}
