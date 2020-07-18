@@ -1,0 +1,164 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace War
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Platoon firstPlatoon = new Platoon(new Soldier[] { 
+                new Soldier(100, 100, 100),
+                new Soldier(130, 70, 102),
+                new Soldier(70, 150, 50)});
+            Platoon secondPlatoon = new Platoon(new Soldier[]
+            {
+                new Soldier(150, 110, 25),
+                new Soldier(50, 150, 100),
+                new Soldier(100, 130, 75)
+            });
+            bool firstPlatoonAlive = true, secondPlatoonAlive = true;
+
+            while (firstPlatoonAlive && secondPlatoonAlive)
+            {
+                ShowPlatoon(firstPlatoon, "Первый");
+                Console.WriteLine();
+                ShowPlatoon(secondPlatoon, "Второй");
+                Console.WriteLine();
+                Soldier firstPlatoonSoldier = firstPlatoon.СhooseSoldier("первого");
+                Soldier secondPlatoonSoldier = secondPlatoon.СhooseSoldier("второго");
+                Console.WriteLine();
+
+                while (firstPlatoonSoldier.Health > 0 && secondPlatoonSoldier.Health > 0)
+                {
+                    AttackOnEnemy(firstPlatoonSoldier, secondPlatoonSoldier);
+                    AttackOnEnemy(secondPlatoonSoldier, firstPlatoonSoldier);
+                }
+
+                if (firstPlatoonSoldier.Health <= 0 && secondPlatoonSoldier.Health <= 0)
+                {
+                    Console.WriteLine("Ничья");
+                    firstPlatoon.DeathOfSoldier(firstPlatoonSoldier);
+                    secondPlatoon.DeathOfSoldier(secondPlatoonSoldier);
+                }
+                else if (firstPlatoonSoldier.Health <= 0)
+                {
+                    Console.WriteLine("Победил солдат второго взвода");
+                    firstPlatoon.DeathOfSoldier(firstPlatoonSoldier);
+                }
+                else if(secondPlatoonSoldier.Health <=0)
+                {
+                    Console.WriteLine("Победил солдат первого взвода");
+                    secondPlatoon.DeathOfSoldier(secondPlatoonSoldier);
+                }
+
+                Console.ReadKey();
+                Console.Clear();
+
+                firstPlatoonAlive = firstPlatoon.PlatoonStatusCheck(firstPlatoonAlive);
+                secondPlatoonAlive = secondPlatoon.PlatoonStatusCheck(secondPlatoonAlive);
+            }
+
+            if(firstPlatoonAlive == false && secondPlatoonAlive == false)
+            {
+                Console.WriteLine("Оба взвода полностью уничтожены");
+                Console.WriteLine("Ничья!");
+            }
+            else if(firstPlatoonAlive == false)
+            {
+                Console.WriteLine("Первый взвод полностью уничтожен");
+                Console.WriteLine("Победил второй взвод!");
+            }
+            else if(secondPlatoonAlive == false)
+            {
+                Console.WriteLine("Второй взвод полностью уничтожен");
+                Console.WriteLine("Победил первый взвод!");
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void ShowPlatoon(Platoon platoon, string platoonNumber)
+        {
+            platoon.ShowPlatoonSoldiers(platoonNumber);
+        }
+
+        private static void AttackOnEnemy(Soldier attackingSoldier, Soldier defendingSoldier)
+        {
+            defendingSoldier.TakeDamage(attackingSoldier.Damage);
+        }
+
+        class Platoon
+        {
+            private Soldier[] _soldiers;
+
+            public Platoon(Soldier[] soldiers)
+            {
+                _soldiers = soldiers;
+            }
+
+            public void ShowPlatoonSoldiers(string platoonNumber)
+            {
+                Console.WriteLine($"{platoonNumber} возод:");
+                for (int i = 0; i < _soldiers.Length; i++)
+                {
+                    Console.Write($"{i+1})");
+                    _soldiers[i].ShowInfo();
+                }
+            }
+
+            public Soldier СhooseSoldier(string platoonNumber)
+            {
+                Console.Write($"Выберите бойца {platoonNumber} взвода: ");
+                return _soldiers[Convert.ToInt32(Console.ReadLine()) -1];
+            }
+
+            public void DeathOfSoldier(Soldier soldier)
+            {
+                for (int i = 0; i < _soldiers.Length; i++)
+                {
+                    if(_soldiers[i] == soldier)
+                    {
+                        List<Soldier> tempSoldiers = _soldiers.ToList();
+                        tempSoldiers.RemoveAt(i);
+                        _soldiers = tempSoldiers.ToArray();
+                    }
+                }
+            }
+
+            public bool PlatoonStatusCheck(bool platoonAlive)
+            {
+                if(_soldiers.Length == 0)
+                {
+                    platoonAlive = false;
+                }
+                return platoonAlive;
+            }
+        }
+
+        class Soldier
+        {
+            public int Health { get; private set; }
+            public int Damage { get; private set; }
+            private int _armor;
+
+            public Soldier(int health, int damage, int armor)
+            {
+                Health = health;
+                Damage = damage;
+                _armor = armor;
+            }
+
+            public void TakeDamage(int damage)
+            {
+                Health -= damage - _armor;
+            }
+
+            public void ShowInfo()
+            {
+                Console.WriteLine($"Health - {Health}, Damage {Damage}, Armor {_armor}");
+            }
+        }
+    }
+}
