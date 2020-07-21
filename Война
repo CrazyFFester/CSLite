@@ -8,7 +8,7 @@ namespace War
     {
         private static void Main()
         {
-            Platoon firstPlatoon = new Platoon(new Soldier[] { 
+            Platoon firstPlatoon = new Platoon(new Soldier[] {
                 new Soldier(100, 100, 100),
                 new Soldier(130, 70, 102),
                 new Soldier(70, 150, 50)});
@@ -39,18 +39,18 @@ namespace War
                 if (firstPlatoonSoldier.Health <= 0 && secondPlatoonSoldier.Health <= 0)
                 {
                     Console.WriteLine("Ничья");
-                    firstPlatoon.DeathOfSoldier(firstPlatoonSoldier);
-                    secondPlatoon.DeathOfSoldier(secondPlatoonSoldier);
+                    firstPlatoon.RemoveSoldier(firstPlatoonSoldier);
+                    secondPlatoon.RemoveSoldier(secondPlatoonSoldier);
                 }
                 else if (firstPlatoonSoldier.Health <= 0)
                 {
                     Console.WriteLine("Победил солдат второго взвода");
-                    firstPlatoon.DeathOfSoldier(firstPlatoonSoldier);
+                    firstPlatoon.RemoveSoldier(firstPlatoonSoldier);
                 }
-                else if(secondPlatoonSoldier.Health <=0)
+                else if (secondPlatoonSoldier.Health <= 0)
                 {
                     Console.WriteLine("Победил солдат первого взвода");
-                    secondPlatoon.DeathOfSoldier(secondPlatoonSoldier);
+                    secondPlatoon.RemoveSoldier(secondPlatoonSoldier);
                 }
 
                 Console.ReadKey();
@@ -60,17 +60,17 @@ namespace War
                 secondPlatoonAlive = secondPlatoon.PlatoonStatusCheck(secondPlatoonAlive);
             }
 
-            if(firstPlatoonAlive == false && secondPlatoonAlive == false)
+            if (firstPlatoonAlive == false && secondPlatoonAlive == false)
             {
                 Console.WriteLine("Оба взвода полностью уничтожены");
                 Console.WriteLine("Ничья!");
             }
-            else if(firstPlatoonAlive == false)
+            else if (firstPlatoonAlive == false)
             {
                 Console.WriteLine("Первый взвод полностью уничтожен");
                 Console.WriteLine("Победил второй взвод!");
             }
-            else if(secondPlatoonAlive == false)
+            else if (secondPlatoonAlive == false)
             {
                 Console.WriteLine("Второй взвод полностью уничтожен");
                 Console.WriteLine("Победил первый взвод!");
@@ -103,7 +103,7 @@ namespace War
                 Console.WriteLine($"{platoonNumber} возод:");
                 for (int i = 0; i < _soldiers.Length; i++)
                 {
-                    Console.Write($"{i+1})");
+                    Console.Write($"{i + 1})");
                     _soldiers[i].ShowInfo();
                 }
             }
@@ -111,14 +111,14 @@ namespace War
             public Soldier СhooseSoldier(string platoonNumber)
             {
                 Console.Write($"Выберите бойца {platoonNumber} взвода: ");
-                return _soldiers[Convert.ToInt32(Console.ReadLine()) -1];
+                return _soldiers[Convert.ToInt32(Console.ReadLine()) - 1];
             }
 
-            public void DeathOfSoldier(Soldier soldier)
+            public void RemoveSoldier(Soldier soldier)
             {
                 for (int i = 0; i < _soldiers.Length; i++)
                 {
-                    if(_soldiers[i] == soldier)
+                    if (_soldiers[i] == soldier)
                     {
                         List<Soldier> tempSoldiers = _soldiers.ToList();
                         tempSoldiers.RemoveAt(i);
@@ -129,7 +129,7 @@ namespace War
 
             public bool PlatoonStatusCheck(bool platoonAlive)
             {
-                if(_soldiers.Length == 0)
+                if (_soldiers.Length == 0)
                 {
                     platoonAlive = false;
                 }
