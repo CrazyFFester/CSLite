@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Supermarket
+{
+    class Program
+    {
+        private static void Main()
+        {
+            Queue<Client> clients = new Queue<Client>();
+            clients.Enqueue(new Client(500, new Product[] { new Product("Сыр", 100), new Product("Молоко", 200), new Product("Кефир", 250), new Product("Чипсы", 300) }));
+            clients.Enqueue(new Client(700, new Product[] { new Product("Хлеб", 100), new Product("Масло", 75), new Product("Чай", 150), new Product("Ябоки", 175), new Product("Колбаса", 150) }));
+            clients.Enqueue(new Client(200, new Product[] { new Product("Арбуз", 250), new Product("Хлеб", 100), new Product("Печенья", 65) }));
+            int vendorMoney = 0;
+            bool successfulTranslation = false;
+
+            foreach(Client client in clients)
+            {
+                while (successfulTranslation == false)
+                {
+                    Console.SetCursorPosition(0, 20);
+                    Console.WriteLine("Деньги в кассе: " + vendorMoney);
+                    Console.SetCursorPosition(0, 0);
+                    Console.WriteLine("Товары:");
+                    client.ShowProducts();
+                    successfulTranslation = Transaction(client, ref vendorMoney, successfulTranslation);
+                }
+                successfulTranslation = false;
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+            Console.SetCursorPosition(0, 20);
+            Console.WriteLine("Деньги в кассе: " + vendorMoney);
+
+            Console.ReadKey();
+        }
+
+        private static bool Transaction(Client client, ref int vendorMoney, bool successfulTranslation)
+        {
+            int totalAmount = client.CalculationOfTotalAmount();
+
+            if (totalAmount > client.Money)
+            {
+                client.DeleteOfProduct();
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                vendorMoney += client.PaymentForProducts(totalAmount, vendorMoney);
+                successfulTranslation = true;
+            }
+            return successfulTranslation;
+        }
+    }
+
+    class Client
+    {
+        public int Money { get; private set; }
+        private Product[] _products;
+
+        public Client(int money, Product[] products)
+        {
+            Money = money;
+            _products = products;
+        }
+
+        public void ShowProducts()
+        {
+            for (int i = 0; i < _products.Length; i++)
+            {
+                Console.WriteLine($"{i+1}) {_products[i].Name} - {_products[i].CostOfProduct}р");
+            }
+        }
+
+        public int CalculationOfTotalAmount()
+        {
+            int totalAmount = 0;
+            foreach (Product product in _products)
+            {
+                totalAmount += product.CostOfProduct;
+            }
+            return totalAmount;
+        }
+
+        public void DeleteOfProduct()
+        {
+            Random randomValue = new Random();
+            List<Product> tempProducts = _products.ToList();
+            tempProducts.RemoveAt(randomValue.Next(0, _products.Length - 1));
+            _products = tempProducts.ToArray();
+        }
+
+        public int PaymentForProducts(int totalAmount, int vendorMoney)
+        {
+            Money -= totalAmount;
+            vendorMoney += totalAmount;
+            return vendorMoney;
+        }
+    }
+
+    class Product
+    {
+        public string Name { get; private set; }
+        public int CostOfProduct { get; private set; }
+
+        public Product(string name, int costOfProduct)
+        {
+            Name = name;
+            CostOfProduct = costOfProduct;
+        }
+    }
+}
