@@ -35,16 +35,11 @@ namespace Car_service
                 Console.WriteLine();
                 Console.Write("Выберите действие: ");
                 int actionNumber = Convert.ToInt32(Console.ReadLine());
-                if(actionNumber == 1)
+                if (actionNumber == 1)
                 {
                     Console.Write("Выберите деталь: ");
                     int detailNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-                    success = ReplacementDetail(detailNumber, carService, сustomersСars[i], priceForWork, success);
-                    if(success == true)
-                    {
-                        Console.Clear();
-                        carService.ShowBill(i, priceForWork);
-                    }
+                    ReplacementDetail(detailNumber, carService, сustomersСars[i], priceForWork, success);
                 }
                 else
                 {
@@ -55,16 +50,19 @@ namespace Car_service
             }
         }
 
-        private static bool ReplacementDetail(int detailNumber, CarService carService, CustomersCar customersCar, int priceForWork, bool success)
+        private static void ReplacementDetail(int detailNumber, CarService carService, CustomersCar customersCar, int priceForWork, bool success)
         {
             success = carService.DeleteDetail(detailNumber, success, customersCar, priceForWork);
-            if(success == false)
+            Console.WriteLine();
+            if (success == false)
             {
                 Console.WriteLine("Ошибка: замена не удалась.");
                 carService.PayFine();
             }
-
-            return success;
+            else
+            {
+                Console.WriteLine("Заказ успешно выполнен!");
+            }
         }
 
         private static void Order(int i, CustomersCar[] customersCars)
@@ -99,9 +97,9 @@ namespace Car_service
         {
             for (int i = 0; i < _details.Length; i++)
             {
-                if(detailNumber == i)
+                if (detailNumber == i)
                 {
-                    if(_details[i].NameOfDetail == customersCar.Breaking)
+                    if (_details[i].NameOfDetail == customersCar.Breaking)
                     {
                         List<Detail> tempDetails = _details.ToList();
                         tempDetails.RemoveAt(i);
@@ -117,7 +115,7 @@ namespace Car_service
 
         public void PayFine()
         {
-            if(Money < 100)
+            if (Money < 100)
             {
                 Console.WriteLine("Ошибка: Недостаточно средств для выплаты штрафа.");
                 Console.ReadKey();
@@ -130,15 +128,6 @@ namespace Car_service
         public void BalanceReplenishment(int priceForWork, int detailNumber)
         {
             Money += priceForWork + _details[detailNumber].DetailCost;
-        }
-
-        public void ShowBill(int i, int priceForWork)
-        {
-            Console.WriteLine("Заказ успешно выполнен!");
-            Console.WriteLine();
-            Console.WriteLine($"Деталь: {_details[i].NameOfDetail} - {_details[i].DetailCost}$.");
-            Console.WriteLine("Цена за работу - " + priceForWork + "$.");
-            Console.WriteLine("Итог: " + (_details[i].DetailCost + priceForWork) + "$.");
         }
     }
 
