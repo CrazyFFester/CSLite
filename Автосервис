@@ -1,0 +1,166 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Car_service
+{
+    class Program
+    {
+        private static void Main()
+        {
+            int priceForWork = 50;
+            bool success = false;
+            CarService carService = new CarService(100, new Detail[] { new Detail("мотор.", 100), new Detail("выхлопная труба.", 100), new Detail("тормоза.", 100) });
+
+            CustomersCar[] сustomersСars =
+            {
+                new CustomersCar("мотор."),
+                new CustomersCar("Лобовое стекло."),
+                new CustomersCar("тормоза.")
+            };
+
+            for (int i = 0; i < сustomersСars.Length; i++)
+            {
+                Console.SetCursorPosition(0, 20);
+                Console.WriteLine("Ваш баланс: " + carService.Money + "$");
+                Console.SetCursorPosition(0, 0);
+
+                Order(i, сustomersСars);
+                Console.WriteLine();
+                carService.ShowDetails();
+                Console.WriteLine();
+                Console.WriteLine("Действия:" +
+                "\n1)принять заказ." +
+                "\n2)отказаться.");
+                Console.WriteLine();
+                Console.Write("Выберите действие: ");
+                int actionNumber = Convert.ToInt32(Console.ReadLine());
+                if(actionNumber == 1)
+                {
+                    Console.Write("Выберите деталь: ");
+                    int detailNumber = Convert.ToInt32(Console.ReadLine()) - 1;
+                    success = ReplacementDetail(detailNumber, carService, сustomersСars[i], priceForWork, success);
+                    if(success == true)
+                    {
+                        Console.Clear();
+                        carService.ShowBill(i, priceForWork);
+                    }
+                }
+                else
+                {
+                    carService.PayFine();
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private static bool ReplacementDetail(int detailNumber, CarService carService, CustomersCar customersCar, int priceForWork, bool success)
+        {
+            success = carService.DeleteDetail(detailNumber, success, customersCar, priceForWork);
+            if(success == false)
+            {
+                Console.WriteLine("Ошибка: замена не удалась.");
+                carService.PayFine();
+            }
+
+            return success;
+        }
+
+        private static void Order(int i, CustomersCar[] customersCars)
+        {
+            Console.WriteLine("Заказ номер #" + (i + 1));
+            Console.WriteLine();
+            Console.WriteLine("Поломанка: " + customersCars[i].Breaking);
+        }
+    }
+
+    class CarService
+    {
+        public int Money { get; private set; }
+        private Detail[] _details;
+
+        public CarService(int money, Detail[] details)
+        {
+            Money = money;
+            _details = details;
+        }
+
+        public void ShowDetails()
+        {
+            Console.WriteLine("Ваши детали:");
+            for (int i = 0; i < _details.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}){_details[i].NameOfDetail}");
+            }
+        }
+
+        public bool DeleteDetail(int detailNumber, bool success, CustomersCar customersCar, int priceForWork)
+        {
+            for (int i = 0; i < _details.Length; i++)
+            {
+                if(detailNumber == i)
+                {
+                    if(_details[i].NameOfDetail == customersCar.Breaking)
+                    {
+                        List<Detail> tempDetails = _details.ToList();
+                        tempDetails.RemoveAt(i);
+                        _details = tempDetails.ToArray();
+                        success = true;
+                        BalanceReplenishment(priceForWork, i);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public void PayFine()
+        {
+            if(Money < 100)
+            {
+                Console.WriteLine("Ошибка: Недостаточно средств для выплаты штрафа.");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            Money -= 100;
+            Console.WriteLine("Вы заплатили штраф в размере 100$");
+        }
+
+        public void BalanceReplenishment(int priceForWork, int detailNumber)
+        {
+            Money += priceForWork + _details[detailNumber].DetailCost;
+        }
+
+        public void ShowBill(int i, int priceForWork)
+        {
+            Console.WriteLine("Заказ успешно выполнен!");
+            Console.WriteLine();
+            Console.WriteLine($"Деталь: {_details[i].NameOfDetail} - {_details[i].DetailCost}$.");
+            Console.WriteLine("Цена за работу - " + priceForWork + "$.");
+            Console.WriteLine("Итог: " + (_details[i].DetailCost + priceForWork) + "$.");
+        }
+    }
+
+    class Detail
+    {
+        public string NameOfDetail { get; private set; }
+        public int DetailCost { get; private set; }
+
+        public Detail(string nameOfDetail, int detailCost)
+        {
+            NameOfDetail = nameOfDetail;
+            DetailCost = detailCost;
+        }
+    }
+
+    class CustomersCar
+    {
+        public string Breaking { get; private set; }
+
+        public CustomersCar(string breaking)
+        {
+            Breaking = breaking;
+        }
+    }
+}
