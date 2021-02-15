@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Search_for_criminal
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<Criminal> criminals = new List<Criminal> { new Criminal("Ivan", false, 170, 70, "Russian"), new Criminal("Jack", false, 180, 75, "American"), new Criminal("Finn", false, 175, 69, "German") };
+
+            while(true)
+            {
+                DataRequest(out int hight, out int weight, out string nationality);
+
+                var filteredCriminals = from Criminal criminal in criminals
+                                        where criminal.Concluded == false
+                                        where criminal.Hight == hight
+                                        where criminal.Weight == weight
+                                        where criminal.Nationality == nationality
+                                        select criminal;
+
+                Console.WriteLine();
+                foreach (var criminal in filteredCriminals)
+                {
+                    criminal.ShowInfo();
+                    criminal.Detention();
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static void DataRequest(out int hight, out int weight, out string nationality)
+        {
+            Console.Write("Рост: ");
+            hight = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Вес: ");
+            weight = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Национальность: ");
+            nationality = Console.ReadLine();
+        }
+    }
+
+    class Criminal
+    {
+        private string _name;
+        public bool Concluded { get; private set; }
+        public int Hight { get; private set; }
+        public int Weight { get; private set; }
+        public string Nationality { get; private set; }
+
+        public Criminal(string name, bool concluded, int hight, int weight, string nationality)
+        {
+            _name = name;
+            Concluded = concluded;
+            Hight = hight;
+            Weight = weight;
+            Nationality = nationality;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Name: {_name} - Hight - {Hight}, Weight - {Weight}, Nationality - {Nationality}");
+        }
+
+        public void Detention()
+        {
+            Concluded = true;
+        }
+    }
+}
