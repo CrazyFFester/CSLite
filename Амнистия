@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Amnesty
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<Prisoner> prisoners = new List<Prisoner> { new Prisoner("Василий", "антиправительственное"), new Prisoner("Михаил", "антиправительственное"), new Prisoner("Флоид", "мелкая краша"), new Prisoner("Питер", "убийство человека")};
+            var filteredPrisoners = prisoners.SkipWhile(prisoner => prisoner.Crime == "антиправительственное");
+
+            Console.WriteLine("До:");
+            foreach (var prisoner in prisoners)
+            {
+                prisoner.ShowInfo();
+            }
+            Console.WriteLine();
+            Console.WriteLine("После:");
+            foreach (var prisoner in filteredPrisoners)
+            {
+                prisoner.ShowInfo();
+            }
+        }
+    }
+
+    class Prisoner
+    {
+        private string _name;
+        public string Crime { get; private set; }
+
+        public Prisoner(string name, string crime)
+        {
+            _name = name;
+            Crime = crime;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Имя -  {_name}, Преступление - {Crime}");
+        }
+    }
+}
