@@ -61,7 +61,7 @@ namespace Search_for_criminal
 
         public void ShowInfo()
         {
-            Console.WriteLine($"Name: {_name} - Hight - {Hight}, Weight - {Weight}, Nationality - {Nationality}");
+            Console.WriteLine($"Name - {_name}, Hight - {Hight}, Weight - {Weight}, Nationality - {Nationality}");
         }
 
         public void Detention()
