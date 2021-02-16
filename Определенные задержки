@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Сertain_delays
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<Stew> stews = new List<Stew> { new Stew("Любимый дом", 2016, 2), new Stew("Гродфуд", 2017, 3), new Stew("Снов", 2018, 3) };
+            int yearNow = 2021;
+            int placeInList = 1;
+
+            var filteredStews = stews.Where(stews => stews.ProductionYear + stews.ShelfLife < yearNow);
+            Console.WriteLine("Просроченные банки тушенки:");
+            foreach(var stew in filteredStews)
+            {
+                stew.ShowInfo(placeInList);
+            }
+        }
+    }
+
+    class Stew
+    {
+        private string _name;
+
+        public int ProductionYear { get; private set; }
+        public int ShelfLife { get; private set; }
+
+        public Stew(string name, int productionYear, int shelfLife)
+        {
+            _name = name;
+            ProductionYear = productionYear;
+            ShelfLife = shelfLife;
+        }
+
+        public void ShowInfo(int placeInList)
+        {
+            Console.WriteLine($"{placeInList}){_name}");
+        }
+    }
+}
