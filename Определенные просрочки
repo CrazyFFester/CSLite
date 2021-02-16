@@ -14,9 +14,10 @@ namespace Сertain_delays
 
             var filteredStews = stews.Where(stews => stews.ProductionYear + stews.ShelfLife < yearNow);
             Console.WriteLine("Просроченные банки тушенки:");
-            foreach(var stew in filteredStews)
+            foreach (var stew in filteredStews)
             {
                 stew.ShowInfo(placeInList);
+                placeInList++;
             }
         }
     }
