@@ -10,10 +10,9 @@ namespace Anarchy_in_hospital
         {
             List<SickPerson> sickPeople = new List<SickPerson> { new SickPerson("Джо", 19, "Аденоиды"), new SickPerson("Боб", 36, "ВИЧ"), new SickPerson("Владимир", 16, "ОРВИ"), new SickPerson("Николай", 18, "ВИЧ"), new SickPerson("Степан", 49, "Сахарный диабет"),
                 new SickPerson("Дмитрий", 29, "Рак гортани"), new SickPerson("Никита", 12, "Рак гортани"), new SickPerson("Том", 21, "Рак гортани"), new SickPerson("Валерий", 25, "Аденоиды"), new SickPerson("Брайан", 30, "Сахарный диабет")};
-            List<SickPerson> filteredSickPeople;
-            bool isOn = true;
+            bool programIsOn = true;
 
-            while (isOn)
+            while (programIsOn)
             {
                 Console.WriteLine("1)Отсортировать всех больных по фио" +
                     "\n2)Отсортировать всех больных по возрасту" +
@@ -25,41 +24,21 @@ namespace Anarchy_in_hospital
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        Console.WriteLine();
-                        Console.WriteLine("Сортировка по фио");
-
-                        filteredSickPeople = SortAllPatientsByName(sickPeople);
-                        foreach (var sickPerson in filteredSickPeople)
-                        {
-                            sickPerson.ShowInfo();
-                        }
+                        ShowSortedPatientsByName(sickPeople);
                         break;
                     case 2:
-                        Console.WriteLine();
-                        Console.WriteLine("Сортировка по возрасту:");
-
-                        filteredSickPeople = SortAllPatientsByAge(sickPeople);
-                        foreach (var sickPerson in filteredSickPeople)
-                        {
-                            sickPerson.ShowInfo();
-                        }
+                        ShowSortedPatientsByAge(sickPeople);
                         break;
                     case 3:
                         Console.WriteLine();
                         Console.Write("Введите заболевание: ");
                         string disease = Console.ReadLine();
-                        Console.WriteLine();
-                        Console.WriteLine("Сортировка по определенному заболеванию:");
 
-                        filteredSickPeople = SortAllPatientsByDisease(sickPeople, disease);
-                        foreach (var sickPerson in filteredSickPeople)
-                        {
-                            sickPerson.ShowInfo();
-                        }
+                        ShowSortedPatientsByDisease(sickPeople, disease);
                         break;
                     case 4:
-                        isOn = false;
-                    break;
+                        programIsOn = false;
+                        break;
                 }
 
                 Console.ReadKey();
@@ -67,25 +46,40 @@ namespace Anarchy_in_hospital
             }
         }
 
-        private static List<SickPerson> SortAllPatientsByName(List<SickPerson> sickPeople)
+        private static void ShowSortedPatientsByName(List<SickPerson> sickPeople)
         {
+            Console.WriteLine();
+            Console.WriteLine("Сортировка по фио");
+
             var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Name);
-
-            return filteredSickPeople.ToList();
+            foreach (var sickPerson in filteredSickPeople)
+            {
+                sickPerson.ShowInfo();
+            }
         }
 
-        private static List<SickPerson> SortAllPatientsByAge(List<SickPerson> sickPeople)
+        private static void ShowSortedPatientsByAge(List<SickPerson> sickPeople)
         {
+            Console.WriteLine();
+            Console.WriteLine("Сортировка по возрасту:");
+
             var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Age);
-
-            return filteredSickPeople.ToList();
+            foreach (var sickPerson in filteredSickPeople)
+            {
+                sickPerson.ShowInfo();
+            }
         }
 
-        private static List<SickPerson> SortAllPatientsByDisease(List<SickPerson> sickPeople, string disease)
+        private static void ShowSortedPatientsByDisease(List<SickPerson> sickPeople, string disease)
         {
-            var filteredSickPeople = sickPeople.Where(sickPerson => sickPerson.Disease == disease);
+            Console.WriteLine();
+            Console.WriteLine("Сортировка по определенному заболеванию:");
 
-            return filteredSickPeople.ToList();
+            var filteredSickPeople = sickPeople.Where(sickPerson => sickPerson.Disease.ToUpper() == disease.ToUpper());
+            foreach (var sickPerson in filteredSickPeople)
+            {
+                sickPerson.ShowInfo();
+            }
         }
     }
 
