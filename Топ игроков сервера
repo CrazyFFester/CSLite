@@ -10,24 +10,24 @@ namespace Server_top_players
         {
             List<Player> players = new List<Player> {new Player("Никита", 11, 1111), new Player("Дмитрий", 21, 1217), new Player("Джек", 43, 2001), new Player("Саймон", 50, 1300), new Player("Пётр", 100, 1980),
                 new Player("Том", 28, 1703), new Player("Майкл", 69, 1920), new Player("Мишель", 80, 1500), new Player("Мария", 81, 1901), new Player("Анастасия", 99, 2000)};
-            int placeInTable = 1;
+            int placeInLeaderBoard = 1;
 
             var filteredPlayersByLevel = players.OrderByDescending(player => player.Level).Take(3);
             var filteredPlayersByPower = players.OrderByDescending(player => player.Power).Take(3);
 
-            ShowTable(filteredPlayersByLevel, placeInTable, "Лучшие игроки по уровню");
+            ShowLeaderBoard(filteredPlayersByLevel, placeInLeaderBoard, "Лучшие игроки по уровню");
             Console.WriteLine();
-            ShowTable(filteredPlayersByPower, placeInTable, "Лучшие игроки по силе");
+            ShowLeaderBoard(filteredPlayersByPower, placeInLeaderBoard, "Лучшие игроки по силе");
         }
 
-        private static void ShowTable(IEnumerable<Player> players, int placeInList, string nameOfTable)
+        private static void ShowLeaderBoard(IEnumerable<Player> players, int placeInLeaderBoard, string nameOfLeaderBoard)
         {
-            Console.WriteLine($"{nameOfTable}:");
-            
+            Console.WriteLine($"{nameOfLeaderBoard}:");
+
             foreach (var player in players)
             {
-                player.ShowInfo(placeInList);
-                placeInList++;
+                player.ShowInfo(placeInLeaderBoard);
+                placeInLeaderBoard++;
             }
         }
     }
@@ -46,9 +46,9 @@ namespace Server_top_players
             Power = power;
         }
 
-        public void ShowInfo(int placeInList)
+        public void ShowInfo(int placeInLeaderBoard)
         {
-            Console.WriteLine($"{placeInList})Имя - {_name}, Уровень - {Level}, Сила - {Power}");
+            Console.WriteLine($"{placeInLeaderBoard})Имя - {_name}, Уровень - {Level}, Сила - {Power}");
         }
     }
 }
