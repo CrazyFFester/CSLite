@@ -8,8 +8,8 @@ namespace Amnesty
     {
         private static void Main()
         {
-            List<Prisoner> prisoners = new List<Prisoner> { new Prisoner("Василий", "антиправительственное"), new Prisoner("Михаил", "антиправительственное"), new Prisoner("Флоид", "мелкая краша"), new Prisoner("Питер", "убийство человека")};
-            var filteredPrisoners = prisoners.SkipWhile(prisoner => prisoner.Crime == "антиправительственное");
+            List<Prisoner> prisoners = new List<Prisoner> { new Prisoner("Василий", "антиправительственное"), new Prisoner("Михаил", "антиправительственное"), new Prisoner("Флоид", "мелкая краша"), new Prisoner("Питер", "убийство человека") };
+            var filteredPrisoners = prisoners.Where(prisoner => prisoner.Crime != "антиправительственное");
 
             Console.WriteLine("До:");
             foreach (var prisoner in prisoners)
