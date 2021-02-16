@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Unification_of_troops
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<Soldier> firstSquad = new List<Soldier> { new Soldier("Борисов"), new Soldier("Иванов"), new Soldier("Фёдоров") };
+            List<Soldier> secondSquad = new List<Soldier> { new Soldier("Соловьёв"), new Soldier("Генадьев"), new Soldier("Гребельников") };
+
+            var updatedFirstSquad = firstSquad.SkipWhile(firstSquad => firstSquad.Name.StartsWith("Б"));
+            var updatedSecondSquad = secondSquad.Union(firstSquad.Where(firstSquad => firstSquad.Name.StartsWith("Б")));
+
+            Console.WriteLine("До:");
+            ShowSquad("Первый", firstSquad);
+
+            Console.WriteLine();
+            ShowSquad("Второй", secondSquad);
+            Console.WriteLine();
+
+            Console.WriteLine();
+            Console.WriteLine("После:");
+            ShowSquad("Первый", updatedFirstSquad);
+            Console.WriteLine();
+            ShowSquad("Второй", updatedSecondSquad);
+        }
+
+        private static void ShowSquad(string numberOfSquad, IEnumerable<Soldier> squad)
+        {
+            Console.Write($"{numberOfSquad} отряд - ");
+            foreach (var soldier in squad)
+            {
+                soldier.ShowInfo();
+            }
+        }
+    }
+
+    class Soldier
+    {
+        public string Name { get; private set; }
+
+        public Soldier(string name)
+        {
+            Name = name;
+        }
+
+        public void ShowInfo()
+        {
+            Console.Write(Name + "; ");
+        }
+    }
+}
