@@ -40,7 +40,7 @@ namespace Amnesty
 
         public void ShowInfo()
         {
-            Console.WriteLine($"Имя -  {_name}, Преступление - {Crime}");
+            Console.WriteLine($"Имя - {_name}, Преступление - {Crime}");
         }
     }
 }
