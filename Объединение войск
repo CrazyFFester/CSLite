@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unification_of_troops
+namespace Lesson
 {
     class Program
     {
@@ -16,7 +16,6 @@ namespace Unification_of_troops
 
             Console.WriteLine("До:");
             ShowSquad("Первый", firstSquad);
-
             Console.WriteLine();
             ShowSquad("Второй", secondSquad);
             Console.WriteLine();
