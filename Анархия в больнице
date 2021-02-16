@@ -1,0 +1,110 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Anarchy_in_hospital
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<SickPerson> sickPeople = new List<SickPerson> { new SickPerson("Джо", 19, "Аденоиды"), new SickPerson("Боб", 36, "ВИЧ"), new SickPerson("Владимир", 16, "ОРВИ"), new SickPerson("Николай", 18, "ВИЧ"), new SickPerson("Степан", 49, "Сахарный диабет"),
+                new SickPerson("Дмитрий", 29, "Рак гортани"), new SickPerson("Никита", 12, "Рак гортани"), new SickPerson("Том", 21, "Рак гортани"), new SickPerson("Валерий", 25, "Аденоиды"), new SickPerson("Брайан", 30, "Сахарный диабет")};
+            List<SickPerson> filteredSickPeople;
+            bool isOn = true;
+
+            while (isOn)
+            {
+                Console.WriteLine("1)Отсортировать всех больных по фио" +
+                    "\n2)Отсортировать всех больных по возрасту" +
+                    "\n3)Вывести больных с определенным заболеванием" +
+                    "\n4)Выйти");
+                Console.WriteLine();
+                Console.Write("Ответ: ");
+
+                switch (Convert.ToInt32(Console.ReadLine()))
+                {
+                    case 1:
+                        Console.WriteLine();
+                        Console.WriteLine("Сортировка по фио");
+
+                        filteredSickPeople = SortAllPatientsByName(sickPeople);
+                        foreach (var sickPerson in filteredSickPeople)
+                        {
+                            sickPerson.ShowInfo();
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine();
+                        Console.WriteLine("Сортировка по возрасту:");
+
+                        filteredSickPeople = SortAllPatientsByAge(sickPeople);
+                        foreach (var sickPerson in filteredSickPeople)
+                        {
+                            sickPerson.ShowInfo();
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine();
+                        Console.Write("Введите заболевание: ");
+                        string disease = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Сортировка по определенному заболеванию:");
+
+                        filteredSickPeople = SortAllPatientsByDisease(sickPeople, disease);
+                        foreach (var sickPerson in filteredSickPeople)
+                        {
+                            sickPerson.ShowInfo();
+                        }
+                        break;
+                    case 4:
+                        isOn = false;
+                    break;
+                }
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private static List<SickPerson> SortAllPatientsByName(List<SickPerson> sickPeople)
+        {
+            var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Name);
+
+            return filteredSickPeople.ToList();
+        }
+
+        private static List<SickPerson> SortAllPatientsByAge(List<SickPerson> sickPeople)
+        {
+            var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Age);
+
+            return filteredSickPeople.ToList();
+        }
+
+        private static List<SickPerson> SortAllPatientsByDisease(List<SickPerson> sickPeople, string disease)
+        {
+            var filteredSickPeople = sickPeople.Where(sickPerson => sickPerson.Disease == disease);
+
+            return filteredSickPeople.ToList();
+        }
+    }
+
+    class SickPerson
+    {
+        public string Name { get; private set; }
+        public int Age { get; private set; }
+        public string Disease { get; private set; }
+
+        public SickPerson(string name, int age, string disease)
+        {
+            Name = name;
+            Age = age;
+            Disease = disease;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Имя - {Name}, Возраст - {Age}, Заболевание - {Disease}");
+        }
+    }
+}
