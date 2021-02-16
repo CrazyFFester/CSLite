@@ -24,17 +24,17 @@ namespace Anarchy_in_hospital
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        ShowSortedPatientsByName(sickPeople);
+                        ShowFilteredPatientByName(sickPeople);
                         break;
                     case 2:
-                        ShowSortedPatientsByAge(sickPeople);
+                        ShowFilteredPatientsByAge(sickPeople);
                         break;
                     case 3:
                         Console.WriteLine();
                         Console.Write("Введите заболевание: ");
                         string disease = Console.ReadLine();
 
-                        ShowSortedPatientsByDisease(sickPeople, disease);
+                        ShowFilteredPatientsByDisease(sickPeople, disease);
                         break;
                     case 4:
                         programIsOn = false;
@@ -46,7 +46,7 @@ namespace Anarchy_in_hospital
             }
         }
 
-        private static void ShowSortedPatientsByName(List<SickPerson> sickPeople)
+        private static void ShowFilteredPatientByName(List<SickPerson> sickPeople)
         {
             Console.WriteLine();
             Console.WriteLine("Сортировка по фио");
@@ -58,7 +58,7 @@ namespace Anarchy_in_hospital
             }
         }
 
-        private static void ShowSortedPatientsByAge(List<SickPerson> sickPeople)
+        private static void ShowFilteredPatientsByAge(List<SickPerson> sickPeople)
         {
             Console.WriteLine();
             Console.WriteLine("Сортировка по возрасту:");
@@ -70,7 +70,7 @@ namespace Anarchy_in_hospital
             }
         }
 
-        private static void ShowSortedPatientsByDisease(List<SickPerson> sickPeople, string disease)
+        private static void ShowFilteredPatientsByDisease(List<SickPerson> sickPeople, string disease)
         {
             Console.WriteLine();
             Console.WriteLine("Сортировка по определенному заболеванию:");
