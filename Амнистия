@@ -16,6 +16,7 @@ namespace Amnesty
             {
                 prisoner.ShowInfo();
             }
+
             Console.WriteLine();
             Console.WriteLine("После:");
             foreach (var prisoner in filteredPrisoners)
@@ -28,6 +29,7 @@ namespace Amnesty
     class Prisoner
     {
         private string _name;
+
         public string Crime { get; private set; }
 
         public Prisoner(string name, string crime)
