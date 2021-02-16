@@ -10,15 +10,15 @@ namespace Server_Top_Players
         {
             List<Player> players = new List<Player> {new Player("Никита", 11, 1111), new Player("Дмитрий", 21, 1217), new Player("Джек", 43, 2001), new Player("Саймон", 50, 1300), new Player("Пётр", 100, 1980),
                 new Player("Том", 28, 1703), new Player("Майкл", 69, 1920), new Player("Мишель", 80, 1500), new Player("Мария", 81, 1901), new Player("Анастасия", 99, 2000)};
+            int placeInList = 1;
 
-            ShowFilteredPlayersByLevel(players);
+            ShowFilteredPlayersByLevel(players, placeInList);
             Console.WriteLine();
-            ShowFilteredPlayersByPower(players);
+            ShowFilteredPlayersByPower(players, placeInList);
         }
 
-        private static void ShowFilteredPlayersByLevel(List<Player> players)
+        private static void ShowFilteredPlayersByLevel(List<Player> players, int placeInList)
         {
-            int placeInList = 1;
             Console.WriteLine("Список лучших игроков по уровню:");
 
             var filteredPlayers = players.OrderByDescending(player => player.Level).Take(3);
@@ -29,9 +29,8 @@ namespace Server_Top_Players
             }
         }
 
-        private static void ShowFilteredPlayersByPower(List<Player> players)
+        private static void ShowFilteredPlayersByPower(List<Player> players, int placeInList)
         {
-            int placeInList = 1;
             Console.WriteLine("Список лучших игроков по силе:");
 
             var filteredPlayers = players.OrderByDescending(player => player.Power).Take(3);
