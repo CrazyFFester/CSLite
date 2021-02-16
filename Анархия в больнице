@@ -14,9 +14,9 @@ namespace Anarchy_in_hospital
 
             while (programIsOn)
             {
-                Console.WriteLine("1)Отсортировать всех больных по фио" +
-                    "\n2)Отсортировать всех больных по возрасту" +
-                    "\n3)Вывести больных с определенным заболеванием" +
+                Console.WriteLine("1)Сортировать больных по фио" +
+                    "\n2)Сортировать больных по возрасту" +
+                    "\n3)Сортировать больных с определенным заболеванием" +
                     "\n4)Выйти");
                 Console.WriteLine();
                 Console.Write("Ответ: ");
@@ -24,17 +24,19 @@ namespace Anarchy_in_hospital
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        ShowFilteredPatientByName(sickPeople);
+                        var filteredSickPeopleByName = sickPeople.OrderBy(sickPerson => sickPerson.Name);
+                        ShowFilteredPatient(filteredSickPeopleByName, "Сортировка по фио");
                         break;
                     case 2:
-                        ShowFilteredPatientsByAge(sickPeople);
+                        var filteredSickPeopleByAge = sickPeople.OrderBy(sickPerson => sickPerson.Age);
+                        ShowFilteredPatient(filteredSickPeopleByAge, "Сортировка по возрасту");
                         break;
                     case 3:
                         Console.WriteLine();
                         Console.Write("Введите заболевание: ");
                         string disease = Console.ReadLine();
-
-                        ShowFilteredPatientsByDisease(sickPeople, disease);
+                        var filteredSickPeopleByDisease = sickPeople.Where(sickPerson => sickPerson.Disease.ToUpper() == disease.ToUpper());
+                        ShowFilteredPatient(filteredSickPeopleByDisease, "Сортировка по определенному заболеванию");
                         break;
                     case 4:
                         programIsOn = false;
@@ -46,36 +48,11 @@ namespace Anarchy_in_hospital
             }
         }
 
-        private static void ShowFilteredPatientByName(List<SickPerson> sickPeople)
+        private static void ShowFilteredPatient(IEnumerable<SickPerson> filteredSickPeople, string filtrationType)
         {
             Console.WriteLine();
-            Console.WriteLine("Сортировка по фио");
+            Console.WriteLine($"{filtrationType}:");
 
-            var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Name);
-            foreach (var sickPerson in filteredSickPeople)
-            {
-                sickPerson.ShowInfo();
-            }
-        }
-
-        private static void ShowFilteredPatientsByAge(List<SickPerson> sickPeople)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Сортировка по возрасту:");
-
-            var filteredSickPeople = sickPeople.OrderBy(sickPerson => sickPerson.Age);
-            foreach (var sickPerson in filteredSickPeople)
-            {
-                sickPerson.ShowInfo();
-            }
-        }
-
-        private static void ShowFilteredPatientsByDisease(List<SickPerson> sickPeople, string disease)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Сортировка по определенному заболеванию:");
-
-            var filteredSickPeople = sickPeople.Where(sickPerson => sickPerson.Disease.ToUpper() == disease.ToUpper());
             foreach (var sickPerson in filteredSickPeople)
             {
                 sickPerson.ShowInfo();
