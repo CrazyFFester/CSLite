@@ -8,31 +8,31 @@ namespace Combining_troops
     {
         private static void Main()
         {
-            List<Soldier> firstSquad = new List<Soldier> { new Soldier("Борисов"), new Soldier("Иванов"), new Soldier("Фёдоров") };
-            List<Soldier> secondSquad = new List<Soldier> { new Soldier("Соловьёв"), new Soldier("Генадьев"), new Soldier("Гребельников") };
-
-            var updatedFirstSquad = firstSquad.SkipWhile(firstSquad => firstSquad.Name.StartsWith("Б"));
-            var updatedSecondSquad = secondSquad.Union(firstSquad.Where(firstSquad => firstSquad.Name.StartsWith("Б")));
+            List<Soldier> soldiersOfFirstSquad = new List<Soldier> { new Soldier("Борисов"), new Soldier("Иванов"), new Soldier("Фёдоров") };
+            List<Soldier> soldiersOfSecondSquad = new List<Soldier> { new Soldier("Соловьёв"), new Soldier("Генадьев"), new Soldier("Гребельников") };
 
             Console.WriteLine("До:");
-            ShowSquad("Первый", firstSquad);
+            ShowSquad("Первый", soldiersOfFirstSquad);
             Console.WriteLine();
-            ShowSquad("Второй", secondSquad);
+            ShowSquad("Второй", soldiersOfSecondSquad);
             Console.WriteLine();
+
+            soldiersOfSecondSquad = soldiersOfSecondSquad.Union(soldiersOfFirstSquad.Where(soldierOfFirstSquad => soldierOfFirstSquad.Name.StartsWith('Б'))).ToList();
+            soldiersOfFirstSquad = soldiersOfFirstSquad.SkipWhile(soldierOfFirstSquad => soldierOfFirstSquad.Name.StartsWith('Б')).ToList();
 
             Console.WriteLine();
             Console.WriteLine("После:");
-            ShowSquad("Первый", updatedFirstSquad);
+            ShowSquad("Первый", soldiersOfFirstSquad);
             Console.WriteLine();
-            ShowSquad("Второй", updatedSecondSquad);
+            ShowSquad("Второй", soldiersOfSecondSquad);
         }
 
-        private static void ShowSquad(string numberOfSquad, IEnumerable<Soldier> squad)
+        private static void ShowSquad(string numberOfSquad, List<Soldier> soliersOfSquad)
         {
             Console.Write($"{numberOfSquad} отряд - ");
-            foreach (var soldier in squad)
+            foreach (var soldierOfSquad in soliersOfSquad)
             {
-                soldier.ShowInfo();
+                soldierOfSquad.ShowInfo();
             }
         }
     }
