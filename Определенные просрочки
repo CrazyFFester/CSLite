@@ -12,7 +12,7 @@ namespace Definition_of_delay
             int yearNow = 2021;
             int placeInList = 1;
 
-            var filteredStews = stews.Where(stews => stews.ProductionYear + stews.ShelfLife < yearNow);
+            var filteredStews = stews.Where(stew => stew.ProductionYear + stew.ShelfLife < yearNow);
             Console.WriteLine("Просроченные банки тушенки:");
             foreach (var stew in filteredStews)
             {
