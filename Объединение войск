@@ -8,7 +8,7 @@ namespace Combining_troops
     {
         private static void Main()
         {
-            List<Soldier> soldiersOfFirstSquad = new List<Soldier> { new Soldier("Борисов"), new Soldier("Иванов"), new Soldier("Фёдоров") };
+            List<Soldier> soldiersOfFirstSquad = new List<Soldier> { new Soldier("Борисов"), new Soldier("Иванов"), new Soldier("Фёдоров")};
             List<Soldier> soldiersOfSecondSquad = new List<Soldier> { new Soldier("Соловьёв"), new Soldier("Генадьев"), new Soldier("Гребельников") };
 
             Console.WriteLine("До:");
@@ -18,7 +18,7 @@ namespace Combining_troops
             Console.WriteLine();
 
             soldiersOfSecondSquad = soldiersOfSecondSquad.Union(soldiersOfFirstSquad.Where(soldierOfFirstSquad => soldierOfFirstSquad.Name.StartsWith('Б'))).ToList();
-            soldiersOfFirstSquad = soldiersOfFirstSquad.SkipWhile(soldierOfFirstSquad => soldierOfFirstSquad.Name.StartsWith('Б')).ToList();
+            soldiersOfFirstSquad = soldiersOfFirstSquad.Where(soldierOfFirstSquad => soldierOfFirstSquad.Name.StartsWith('Б') == false).ToList();
 
             Console.WriteLine();
             Console.WriteLine("После:");
