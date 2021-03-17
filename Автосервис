@@ -8,68 +8,48 @@ namespace Car_service
     {
         private static void Main()
         {
-            int priceForWork = 50;
-            bool success = false;
-            CarService carService = new CarService(100, new Detail[] { new Detail("мотор.", 100), new Detail("выхлопная труба.", 100), new Detail("тормоза.", 100) });
+            CarService carService = new CarService(100, new Detail[] { new Detail("мотор", 100), new Detail("выхлопная труба", 100), new Detail("тормоза", 100) });
 
             CustomersCar[] сustomersСars =
             {
-                new CustomersCar("мотор."),
-                new CustomersCar("Лобовое стекло."),
-                new CustomersCar("тормоза.")
+                new CustomersCar("мотор"),
+                new CustomersCar("лобовое стекло"),
+                new CustomersCar("тормоза")
             };
 
             for (int i = 0; i < сustomersСars.Length; i++)
             {
-                Console.SetCursorPosition(0, 20);
-                Console.WriteLine("Ваш баланс: " + carService.Money + "$");
+                Console.SetCursorPosition(0, 21);
+                Console.WriteLine($"Ваш баланс: {carService.Money}$");
                 Console.SetCursorPosition(0, 0);
 
-                Order(i, сustomersСars);
+                Console.WriteLine("Поломанка: " + сustomersСars[i].Breaking);
                 Console.WriteLine();
+                Console.SetCursorPosition(0, 16);
                 carService.ShowDetails();
+                Console.SetCursorPosition(0, 1);
                 Console.WriteLine();
+
                 Console.WriteLine("Действия:" +
-                "\n1)принять заказ." +
-                "\n2)отказаться.");
+                "\n1)принять заказ" +
+                "\n2)отказаться");
                 Console.WriteLine();
                 Console.Write("Выберите действие: ");
-                int actionNumber = Convert.ToInt32(Console.ReadLine());
-                if (actionNumber == 1)
+                switch (Convert.ToInt32(Console.ReadLine()))
                 {
-                    Console.Write("Выберите деталь: ");
-                    int detailNumber = Convert.ToInt32(Console.ReadLine()) - 1;
-                    ReplacementDetail(detailNumber, carService, сustomersСars[i], priceForWork, success);
+                    case 1:
+                        Console.Write("Выберите деталь: ");
+                        int detailNumber = Convert.ToInt32(Console.ReadLine()) - 1;
+                        carService.ReplaceDetail(detailNumber, carService, сustomersСars[i]);
+                        break;
+                    default:
+                        carService.PayFine();
+                        break;
                 }
-                else
-                {
-                    carService.PayFine();
-                }
+
                 Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        private static void ReplacementDetail(int detailNumber, CarService carService, CustomersCar customersCar, int priceForWork, bool success)
-        {
-            success = carService.DeleteDetail(detailNumber, success, customersCar, priceForWork);
-            Console.WriteLine();
-            if (success == false)
-            {
-                Console.WriteLine("Ошибка: замена не удалась.");
-                carService.PayFine();
-            }
-            else
-            {
-                Console.WriteLine("Заказ успешно выполнен!");
-            }
-        }
-
-        private static void Order(int i, CustomersCar[] customersCars)
-        {
-            Console.WriteLine("Заказ номер #" + (i + 1));
-            Console.WriteLine();
-            Console.WriteLine("Поломанка: " + customersCars[i].Breaking);
         }
     }
 
@@ -93,7 +73,7 @@ namespace Car_service
             }
         }
 
-        public bool DeleteDetail(int detailNumber, bool success, CustomersCar customersCar, int priceForWork)
+        public bool DeleteDetail(int detailNumber, bool success, CustomersCar customersCar)
         {
             for (int i = 0; i < _details.Length; i++)
             {
@@ -101,16 +81,33 @@ namespace Car_service
                 {
                     if (_details[i].NameOfDetail == customersCar.Breaking)
                     {
-                        List<Detail> tempDetails = _details.ToList();
-                        tempDetails.RemoveAt(i);
-                        _details = tempDetails.ToArray();
+                        ReplenishBalance(i);
+                        _details = _details.Where(detail => detail.NameOfDetail != _details[i].NameOfDetail).ToArray();
+                        
                         success = true;
-                        BalanceReplenishment(priceForWork, i);
+
                     }
                 }
             }
 
             return success;
+        }
+
+        public void ReplaceDetail(int detailNumber, CarService carService, CustomersCar customersCar)
+        {
+            bool success = false;
+
+            success = carService.DeleteDetail(detailNumber, success, customersCar);
+            Console.WriteLine();
+            if (success == true)
+            {
+                Console.WriteLine("Заказ успешно выполнен!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка: замена не удалась.");
+                carService.PayFine();
+            }
         }
 
         public void PayFine()
@@ -125,8 +122,9 @@ namespace Car_service
             Console.WriteLine("Вы заплатили штраф в размере 100$");
         }
 
-        public void BalanceReplenishment(int priceForWork, int detailNumber)
+        public void ReplenishBalance(int detailNumber)
         {
+            int priceForWork = 50;
             Money += priceForWork + _details[detailNumber].DetailCost;
         }
     }
