@@ -8,13 +8,12 @@ namespace Player_Database
     {
         private static void Main()
         {
-            Player[] players = new Player[0];
             List list = new List();
 
             while (true)
             {
                 Console.SetCursorPosition(0, 20);
-                list.DisplayListOfElement(players);
+                list.DisplayListOfElement();
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("Команды:" +
@@ -24,31 +23,26 @@ namespace Player_Database
                     "\n4)Удаление игрока.");
                 Console.WriteLine();
                 Console.Write("Ответ: ");
-                ActionSelection(ref players, list);
+                switch (Convert.ToInt32(Console.ReadLine()))
+                {
+                    case 1:
+                        list.AddElement();
+                        break;
+                    case 2:
+                        list.ChangeStateOfElement(true, "забанить");
+                        break;
+                    case 3:
+                        list.ChangeStateOfElement(false, "разбанить");
+                        break;
+                    case 4:
+                        list.DeleteElement();
+                        break;
+                    default:
+                        Console.WriteLine("Такой команды нет!!!");
+                        break;
+                }
 
                 Console.Clear();
-            }
-        }
-
-        private static void ActionSelection(ref Player[] players, List list)
-        {
-            switch (Convert.ToInt32(Console.ReadLine()))
-            {
-                case 1:
-                    list.AddElement(ref players);
-                    break;
-                case 2:
-                    list.ChangeStateOfElement(players, true, "забанить");
-                    break;
-                case 3:
-                    list.ChangeStateOfElement(players, false, "разбанить");
-                    break;
-                case 4:
-                    list.DeleteElement(ref players);
-                    break;
-                default:
-                    Console.WriteLine("Такой команды нет!!!");
-                    break;
             }
         }
     }
@@ -79,48 +73,50 @@ namespace Player_Database
 
     class List
     {
-        public void DeleteElement(ref Player[] players)
+        private Player[] _players = new Player[0]; 
+
+        public void DeleteElement()
         {
             Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < _players.Length; i++)
             {
                 if (playerIndex == i)
                 {
-                    List<Player> tempPlayers = players.ToList();
+                    List<Player> tempPlayers = _players.ToList();
                     tempPlayers.RemoveAt(i);
-                    players = tempPlayers.ToArray();
+                    _players = tempPlayers.ToArray();
                 }
             }
         }
 
-        public void ChangeStateOfElement(Player[] players, bool playerState, string message)
+        public void ChangeStateOfElement(bool playerState, string message)
         {
             Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < _players.Length; i++)
             {
                 if (playerIndex == i)
                 {
-                    players[i].StateChange(playerState);
+                    _players[i].StateChange(playerState);
                 }
             }
         }
 
-        public void DisplayListOfElement(Player[] players)
+        public void DisplayListOfElement()
         {
             Console.WriteLine("Список игроков:");
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < _players.Length; i++)
             {
-                players[i].ShowInfo(i);
+                _players[i].ShowInfo(i);
             }
         }
 
-        public void AddElement(ref Player[] players)
+        public void AddElement()
         {
             string nameOfPLayer;
             int level;
-            Player[] tempPlayers = new Player[players.Length + 1];
+            Player[] tempPlayers = new Player[_players.Length + 1];
 
             Console.Write("\nВведите имя игрока: ");
             nameOfPLayer = Console.ReadLine();
@@ -128,11 +124,11 @@ namespace Player_Database
             level = Convert.ToInt32(Console.ReadLine());
             tempPlayers[tempPlayers.Length - 1] = new Player(nameOfPLayer, level, false);
 
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < _players.Length; i++)
             {
-                tempPlayers[i] = players[i];
+                tempPlayers[i] = _players[i];
             }
-            players = tempPlayers;
+            _players = tempPlayers;
         }
     }
 }
