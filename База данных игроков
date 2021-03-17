@@ -23,6 +23,7 @@ namespace Player_Database
                     "\n4)Удаление игрока.");
                 Console.WriteLine();
                 Console.Write("Ответ: ");
+
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
@@ -73,7 +74,7 @@ namespace Player_Database
 
     class List
     {
-        private Player[] _players = new Player[0]; 
+        private Player[] _players = new Player[0];
 
         public void DeleteElement()
         {
