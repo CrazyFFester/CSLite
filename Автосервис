@@ -8,14 +8,9 @@ namespace Car_service
     {
         private static void Main()
         {
-            CarService carService = new CarService(100, new Detail[] { new Detail("мотор", 100), new Detail("выхлопная труба", 100), new Detail("тормоза", 100) });
+            CarService carService = new CarService(100, new List<Detail> { new Detail("мотор", 100), new Detail("выхлопная труба", 100), new Detail("тормоза", 100) });
 
-            CustomersCar[] сustomersСars =
-            {
-                new CustomersCar("мотор"),
-                new CustomersCar("лобовое стекло"),
-                new CustomersCar("тормоза")
-            };
+            CustomersCar[] сustomersСars = { new CustomersCar("мотор"), new CustomersCar("лобовое стекло"), new CustomersCar("тормоза") };
 
             for (int i = 0; i < сustomersСars.Length; i++)
             {
@@ -56,9 +51,9 @@ namespace Car_service
     class CarService
     {
         public int Money { get; private set; }
-        private Detail[] _details;
+        private List<Detail> _details;
 
-        public CarService(int money, Detail[] details)
+        public CarService(int money, List<Detail> details)
         {
             Money = money;
             _details = details;
@@ -67,7 +62,7 @@ namespace Car_service
         public void ShowDetails()
         {
             Console.WriteLine("Ваши детали:");
-            for (int i = 0; i < _details.Length; i++)
+            for (int i = 0; i < _details.Count; i++)
             {
                 Console.WriteLine($"{i + 1}){_details[i].NameOfDetail}");
             }
@@ -75,12 +70,12 @@ namespace Car_service
 
         public bool DeleteDetail(int detailNumber, bool success, CustomersCar customersCar)
         {
-            for (int i = 0; i <= detailNumber; i++)
+            for (int i = 0; i < _details.Count; i++)
             {
-                if (_details[i].NameOfDetail == customersCar.Breaking)
+                if (detailNumber == i && _details[i].NameOfDetail == customersCar.Breaking)
                 {
                     ReplenishBalance(i);
-                    _details = _details.Where(detail => detail.NameOfDetail != _details[i].NameOfDetail).ToArray();
+                    _details = _details.Where(detail => detail.NameOfDetail != _details[i].NameOfDetail).ToList();
 
                     success = true;
 
