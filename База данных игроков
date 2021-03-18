@@ -92,8 +92,7 @@ namespace Player_Database
         {
             Console.Write("\nВведите порядковый индекс игрока, которого хотите удалить: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            bool isOnList = playerIndex >= Array.IndexOf(_players.ToArray(), _players.Min()) & playerIndex <= Array.IndexOf(_players.ToArray(), _players.Max());
-            if (isOnList)
+            if (playerIndex >= 0 & playerIndex <= _players.Count -1)
             {
                 _players.RemoveAt(playerIndex);
             }
@@ -103,12 +102,11 @@ namespace Player_Database
         {
             Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            bool isOnList = playerIndex >= Array.IndexOf(_players.ToArray(), _players.Min()) & playerIndex <= Array.IndexOf(_players.ToArray(), _players.Max());
-            if (isOnList & playerState == true)
+            if (playerIndex >= 0 & playerIndex <= _players.Count - 1 & playerState == true)
             {
                 _players[playerIndex].Ban();
             }
-            else if(isOnList & playerState == false)
+            else if (playerIndex >= 0 & playerIndex <= _players.Count - 1 & playerState == false)
             {
                 _players[playerIndex].UnBan();
             }
