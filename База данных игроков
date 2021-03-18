@@ -2,134 +2,151 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Player_Database
+namespace Car_service
 {
     class Program
     {
         private static void Main()
         {
-            List list = new List();
+            CarService carService = new CarService(100, new Detail[] { new Detail("мотор", 100), new Detail("выхлопная труба", 100), new Detail("тормоза", 100) });
 
-            while (true)
+            CustomersCar[] сustomersСars =
             {
-                Console.SetCursorPosition(0, 20);
-                list.DisplayListOfElement();
+                new CustomersCar("мотор"),
+                new CustomersCar("лобовое стекло"),
+                new CustomersCar("тормоза")
+            };
+
+            for (int i = 0; i < сustomersСars.Length; i++)
+            {
+                Console.SetCursorPosition(0, 21);
+                Console.WriteLine($"Ваш баланс: {carService.Money}$");
                 Console.SetCursorPosition(0, 0);
 
-                Console.WriteLine("Команды:" +
-                    "\n1)Добавление игрока." +
-                    "\n2)Бан игрока." +
-                    "\n3)Разбан игрока." +
-                    "\n4)Удаление игрока.");
+                Console.WriteLine("Поломанка: " + сustomersСars[i].Breaking);
                 Console.WriteLine();
-                Console.Write("Ответ: ");
+                Console.SetCursorPosition(0, 16);
+                carService.ShowDetails();
+                Console.SetCursorPosition(0, 1);
+                Console.WriteLine();
 
-                switch (Convert.ToInt32(Console.ReadLine()))
+                Console.WriteLine("Действия:" +
+                "\n1)принять заказ" +
+                "\n2)отказаться");
+                Console.WriteLine();
+                Console.Write("Выберите действие: ");
+                switch (Console.ReadLine())
                 {
-                    case 1:
-                        list.AddElement();
-                        break;
-                    case 2:
-                        list.ChangeStateOfElement(true, "забанить");
-                        break;
-                    case 3:
-                        list.ChangeStateOfElement(false, "разбанить");
-                        break;
-                    case 4:
-                        list.DeleteElement();
+                    case "1":
+                        Console.Write("Выберите деталь: ");
+                        int detailNumber = Convert.ToInt32(Console.ReadLine()) - 1;
+                        carService.ReplaceDetail(detailNumber, carService, сustomersСars[i]);
                         break;
                     default:
-                        Console.WriteLine("Такой команды нет!!!");
+                        carService.PayFine();
                         break;
                 }
 
+                Console.ReadKey();
                 Console.Clear();
             }
         }
     }
 
-    class Player
+    class CarService
     {
-        private string _nameOfPLayer;
-        private int _level;
-        private bool _isBanned;
+        public int Money { get; private set; }
+        private Detail[] _details;
 
-        public Player(string nameOfPLayer, int level, bool isBanned)
+        public CarService(int money, Detail[] details)
         {
-            _nameOfPLayer = nameOfPLayer;
-            _level = level;
-            _isBanned = isBanned;
+            Money = money;
+            _details = details;
         }
 
-        public void ShowInfo(int i)
+        public void ShowDetails()
         {
-            Console.WriteLine($"{i + 1})Name - {_nameOfPLayer}, Level - {_level}, Is banned - {_isBanned}.");
+            Console.WriteLine("Ваши детали:");
+            for (int i = 0; i < _details.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}){_details[i].NameOfDetail}");
+            }
         }
 
-        public void StateChange(bool playerState)
+        public bool DeleteDetail(int detailNumber, bool success, CustomersCar customersCar)
         {
-            _isBanned = playerState;
+            for (int i = 0; i < _details.Length; i++)
+            {
+                if (detailNumber == i &&_details[i].NameOfDetail == customersCar.Breaking)
+                {
+                    ReplenishBalance(i);
+                    _details = _details.Where(detail => detail.NameOfDetail != _details[i].NameOfDetail).ToArray();
+
+                    success = true;
+
+                }
+            }
+
+            return success;
+        }
+
+        public void ReplaceDetail(int detailNumber, CarService carService, CustomersCar customersCar)
+        {
+            bool success = false;
+
+            success = carService.DeleteDetail(detailNumber, success, customersCar);
+            Console.WriteLine();
+            if (success == true)
+            {
+                Console.WriteLine("Заказ успешно выполнен!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка: замена не удалась.");
+                carService.PayFine();
+            }
+        }
+
+        public void PayFine()
+        {
+            int fine = 100;
+
+            if (Money < fine)
+            {
+                Console.WriteLine("Ошибка: Недостаточно средств для выплаты штрафа.");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            Money -= fine;
+            Console.WriteLine("Вы заплатили штраф в размере 100$");
+        }
+
+        public void ReplenishBalance(int detailNumber)
+        {
+            int priceForWork = 50;
+            Money += priceForWork + _details[detailNumber].DetailCost;
         }
     }
 
-    class List
+    class Detail
     {
-        private Player[] _players = new Player[0];
+        public string NameOfDetail { get; private set; }
+        public int DetailCost { get; private set; }
 
-        public void DeleteElement()
+        public Detail(string nameOfDetail, int detailCost)
         {
-            Console.Write("\nВведите порядковый номер игрока, которого хотите удалить: ");
-            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < _players.Length; i++)
-            {
-                if (playerIndex == i)
-                {
-                    List<Player> tempPlayers = _players.ToList();
-                    tempPlayers.RemoveAt(i);
-                    _players = tempPlayers.ToArray();
-                }
-            }
+            NameOfDetail = nameOfDetail;
+            DetailCost = detailCost;
         }
+    }
 
-        public void ChangeStateOfElement(bool playerState, string message)
+    class CustomersCar
+    {
+        public string Breaking { get; private set; }
+
+        public CustomersCar(string breaking)
         {
-            Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
-            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            for (int i = 0; i < _players.Length; i++)
-            {
-                if (playerIndex == i)
-                {
-                    _players[i].StateChange(playerState);
-                }
-            }
-        }
-
-        public void DisplayListOfElement()
-        {
-            Console.WriteLine("Список игроков:");
-            for (int i = 0; i < _players.Length; i++)
-            {
-                _players[i].ShowInfo(i);
-            }
-        }
-
-        public void AddElement()
-        {
-            string nameOfPLayer;
-            int level;
-            Player[] tempPlayers = new Player[_players.Length + 1];
-
-            Console.Write("\nВведите имя игрока: ");
-            nameOfPLayer = Console.ReadLine();
-            Console.Write("Введите уровень игрока: ");
-            level = Convert.ToInt32(Console.ReadLine());
-            tempPlayers[tempPlayers.Length - 1] = new Player(nameOfPLayer, level, false);
-
-            for (int i = 0; i < _players.Length; i++)
-            {
-                tempPlayers[i] = _players[i];
-            }
-            _players = tempPlayers;
+            Breaking = breaking;
         }
     }
 }
