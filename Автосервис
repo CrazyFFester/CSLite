@@ -78,7 +78,6 @@ namespace Car_service
                     _details = _details.Where(detail => detail.NameOfDetail != _details[i].NameOfDetail).ToList();
 
                     success = true;
-
                 }
             }
 
