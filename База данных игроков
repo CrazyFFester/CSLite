@@ -8,13 +8,13 @@ namespace Player_Database
     {
         private static void Main()
         {
-            List listOfPeople = new List();
+            List listOfPlayers = new List();
             bool programIsOn = true;
 
             while (programIsOn)
             {
                 Console.SetCursorPosition(0, 20);
-                listOfPeople.DisplayListOfElement();
+                listOfPlayers.DisplayListOfElement();
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("Команды:" +
@@ -29,16 +29,16 @@ namespace Player_Database
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        listOfPeople.AddElement();
+                        listOfPlayers.AddElement();
                         break;
                     case "2":
-                        listOfPeople.ChangeStateOfElement(true, "забанить");
+                        listOfPlayers.BanElement();
                         break;
                     case "3":
-                        listOfPeople.ChangeStateOfElement(false, "разбанить");
+                        listOfPlayers.UnbanElement();
                         break;
                     case "4":
-                        listOfPeople.DeleteElement();
+                        listOfPlayers.DeleteElement();
                         break;
                     case "5":
                         programIsOn = false;
@@ -73,14 +73,9 @@ namespace Player_Database
             Console.WriteLine($"{index + 1})Name - {_name}, Level - {_level}, Is banned - {_isBanned}.");
         }
 
-        public void Ban()
+        public void ChangeState(bool playerState)
         {
-            _isBanned = true;
-        }
-
-        public void UnBan()
-        {
-            _isBanned = false;
+            _isBanned = playerState;
         }
     }
 
@@ -92,23 +87,29 @@ namespace Player_Database
         {
             Console.Write("\nВведите порядковый индекс игрока, которого хотите удалить: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            if (playerIndex >= 0 & playerIndex <= _players.Count -1)
+            if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
                 _players.RemoveAt(playerIndex);
             }
         }
 
-        public void ChangeStateOfElement(bool playerState, string message)
+        public void BanElement()
         {
-            Console.Write($"\nВведите порядковый номер игрока, которого хотите {message}: ");
+            Console.Write($"\nВведите порядковый номер игрока, которого хотите забанить: ");
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            if (playerIndex >= 0 & playerIndex <= _players.Count - 1 & playerState == true)
+            if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
-                _players[playerIndex].Ban();
+                _players[playerIndex].ChangeState(true);
             }
-            else if (playerIndex >= 0 & playerIndex <= _players.Count - 1 & playerState == false)
+        }
+
+        public void UnbanElement()
+        {
+            Console.Write($"\nВведите порядковый номер игрока, которого хотите разбанить: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
-                _players[playerIndex].UnBan();
+                _players[playerIndex].ChangeState(false);
             }
         }
 
