@@ -73,9 +73,9 @@ namespace Player_Database
             Console.WriteLine($"{index + 1})Name - {_name}, Level - {_level}, Is banned - {_isBanned}.");
         }
 
-        public void ChangeState(bool playerState)
+        public void ChangeState(bool IsBanned)
         {
-            _isBanned = playerState;
+            _isBanned = IsBanned;
         }
     }
 
