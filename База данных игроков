@@ -100,13 +100,10 @@ namespace Player_Database
 
         public void AddElement()
         {
-            string nameOfPLayer;
-            int level;
-
             Console.Write("\nВведите имя игрока: ");
-            nameOfPLayer = Console.ReadLine();
+            string nameOfPLayer = Console.ReadLine();
             Console.Write("Введите уровень игрока: ");
-            level = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out int level);
 
             _players.Add(new Player(nameOfPLayer, level, false));
         }
