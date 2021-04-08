@@ -25,9 +25,9 @@ namespace Player_Database
                     "\n5)Выйти");
                 Console.WriteLine();
                 Console.Write("Ответ: ");
-                int.TryParse(Console.ReadLine(), out int userInput);
+                int.TryParse(Console.ReadLine(), out int userCommand);
 
-                switch (userInput)
+                switch (userCommand)
                 {
                     case 1:
                         database.AddElement();
@@ -89,14 +89,26 @@ namespace Player_Database
     {
         private List<Player> _players = new List<Player>();
 
-        public void DeleteElement()
+        public void DisplayListOfElement()
         {
-            Console.Write("\nВведите порядковый индекс игрока, которого хотите удалить: ");
-            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
-            if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
+            Console.WriteLine("Список игроков:");
+            for (int i = 0; i < _players.Count; i++)
             {
-                _players.RemoveAt(playerIndex);
+                _players[i].ShowInfo(i);
             }
+        }
+
+        public void AddElement()
+        {
+            string nameOfPLayer;
+            int level;
+
+            Console.Write("\nВведите имя игрока: ");
+            nameOfPLayer = Console.ReadLine();
+            Console.Write("Введите уровень игрока: ");
+            level = Convert.ToInt32(Console.ReadLine());
+
+            _players.Add(new Player(nameOfPLayer, level, false));
         }
 
         public void BanElement()
@@ -119,26 +131,14 @@ namespace Player_Database
             }
         }
 
-        public void DisplayListOfElement()
+        public void DeleteElement()
         {
-            Console.WriteLine("Список игроков:");
-            for (int i = 0; i < _players.Count; i++)
+            Console.Write("\nВведите порядковый индекс игрока, которого хотите удалить: ");
+            int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+            if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
-                _players[i].ShowInfo(i);
+                _players.RemoveAt(playerIndex);
             }
-        }
-
-        public void AddElement()
-        {
-            string nameOfPLayer;
-            int level;
-
-            Console.Write("\nВведите имя игрока: ");
-            nameOfPLayer = Console.ReadLine();
-            Console.Write("Введите уровень игрока: ");
-            level = Convert.ToInt32(Console.ReadLine());
-
-            _players.Add(new Player(nameOfPLayer, level, false));
         }
     }
 }
