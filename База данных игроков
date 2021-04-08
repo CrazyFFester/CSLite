@@ -8,13 +8,13 @@ namespace Player_Database
     {
         private static void Main()
         {
-            List listOfPlayers = new List();
+            Database database = new Database();
             bool programIsOn = true;
 
             while (programIsOn)
             {
                 Console.SetCursorPosition(0, 20);
-                listOfPlayers.DisplayListOfElement();
+                database.DisplayListOfElement();
                 Console.SetCursorPosition(0, 0);
 
                 Console.WriteLine("Команды:" +
@@ -25,22 +25,23 @@ namespace Player_Database
                     "\n5)Выйти");
                 Console.WriteLine();
                 Console.Write("Ответ: ");
+                int.TryParse(Console.ReadLine(), out int userInput);
 
-                switch (Console.ReadLine())
+                switch (userInput)
                 {
-                    case "1":
-                        listOfPlayers.AddElement();
+                    case 1:
+                        database.AddElement();
                         break;
-                    case "2":
-                        listOfPlayers.BanElement();
+                    case 2:
+                        database.BanElement();
                         break;
-                    case "3":
-                        listOfPlayers.UnbanElement();
+                    case 3:
+                        database.UnbanElement();
                         break;
-                    case "4":
-                        listOfPlayers.DeleteElement();
+                    case 4:
+                        database.DeleteElement();
                         break;
-                    case "5":
+                    case 5:
                         programIsOn = false;
                         break;
                     default:
@@ -73,13 +74,18 @@ namespace Player_Database
             Console.WriteLine($"{index + 1})Name - {_name}, Level - {_level}, Is banned - {_isBanned}.");
         }
 
-        public void ChangeState(bool isBanned)
+        public void Ban()
         {
-            _isBanned = isBanned;
+            _isBanned = true;
+        }
+
+        public void UnBan()
+        {
+            _isBanned = false;
         }
     }
 
-    class List
+    class Database
     {
         private List<Player> _players = new List<Player>();
 
@@ -99,7 +105,7 @@ namespace Player_Database
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
             if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
-                _players[playerIndex].ChangeState(true);
+                _players[playerIndex].Ban();
             }
         }
 
@@ -109,7 +115,7 @@ namespace Player_Database
             int playerIndex = Convert.ToInt32(Console.ReadLine()) - 1;
             if (playerIndex >= 0 & playerIndex <= _players.Count - 1)
             {
-                _players[playerIndex].ChangeState(false);
+                _players[playerIndex].UnBan();
             }
         }
 
