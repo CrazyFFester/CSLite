@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace Shop
@@ -9,7 +8,7 @@ namespace Shop
         private static void Main()
         {
             Person person1 = new Player(new List<Good>(0), 500);
-            Person person2 = new Seller(new List<Good> 
+            Person person2 = new Seller(new List<Good>
             {
                 new Good("Алмазный меч", 200),
                 new Good("Золотой меч", 100),
@@ -54,9 +53,9 @@ namespace Shop
             int.TryParse(Console.ReadLine(), out int productNumber);
             productNumber--;
 
-            if (productNumber >= 0 & productNumber <= seller.Goods.Count -1)
+            if (productNumber >= 0 & productNumber <= seller.Goods.Count - 1)
             {
-                if(player.Money > seller.Goods[productNumber].ProductPrice)
+                if (player.Money > seller.Goods[productNumber].ProductPrice)
                 {
                     player.TransferMoney(seller.Goods[productNumber]);
                     player.AddingItemToInventory(seller.Goods[productNumber]);
@@ -97,7 +96,7 @@ namespace Shop
             Console.WriteLine($"\nИнвентарь {inventoryOwner}:");
             for (int i = 0; i < Goods.Count; i++)
             {
-                if(Goods[i].ProductPrice != 0)
+                if (Goods[i].ProductPrice != 0)
                 {
                     Console.WriteLine($"{i + 1}){Goods[i].Product} - {Goods[i].ProductPrice}");
                 }
@@ -115,13 +114,13 @@ namespace Shop
 
         public void RemoveItemFromInventory(int productNumber)
         {
-        Goods.RemoveAt(productNumber);
+            Goods.RemoveAt(productNumber);
         }
     }
 
     class Seller : Person
     {
-        public Seller (List<Good> goods, int money = 0) : base(goods, money)
+        public Seller(List<Good> goods, int money = 0) : base(goods, money)
         {
         }
     }
@@ -138,10 +137,10 @@ namespace Shop
             Console.WriteLine($"Ваш баланс - {Money}");
             Console.SetCursorPosition(0, 0);
         }
-        
+
         public void TransferMoney(Good good)
         {
-             Money -= good.ProductPrice;
+            Money -= good.ProductPrice;
         }
     }
 }
