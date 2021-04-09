@@ -50,8 +50,9 @@ namespace Car_service
 
     class CarService
     {
-        public int Money { get; private set; }
         private List<Detail> _details;
+
+        public int Money { get; private set; }
 
         public CarService(int money, List<Detail> details)
         {
@@ -70,9 +71,9 @@ namespace Car_service
 
         public bool DeleteDetail(int detailIndex, bool success, CustomersCar customersCar)
         {
-            if (detailIndex >= 0 & detailIndex <= _details.Count -1 )
+            if (detailIndex >= 0 & detailIndex <= _details.Count - 1)
             {
-                if(_details[detailIndex].NameOfDetail == customersCar.Breaking)
+                if (_details[detailIndex].NameOfDetail == customersCar.Breaking)
                 {
                     ReplenishBalance(detailIndex);
                     _details = _details.Where(detail => detail.NameOfDetail != _details[detailIndex].NameOfDetail).ToList();
