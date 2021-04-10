@@ -7,20 +7,20 @@ namespace Shop
     {
         private static void Main()
         {
-            Shop shop = new Shop(new Player(new List<Product>(0), 500), 
+            Shop shop = new Shop(new Player(new List<Product>(0), 500),
                 new Seller(new List<Product>
                 {
                     new Product("Алмазный меч", 200),
                     new Product("Золотой меч", 100),
                     new Product("Лук", 50),
                     new Product("Алмазная броня", 300),
-                    new Product("Топор", 75) 
+                    new Product("Топор", 75)
                 }));
             bool programIsOn = true;
 
             while (programIsOn)
             {
-                shop.ActionSelection(programIsOn);
+                shop.ActionSelection(ref programIsOn);
             }
         }
     }
@@ -30,7 +30,7 @@ namespace Shop
         public string Name { get; private set; }
         public int Price { get; private set; }
 
-        public Product(string name, int price = 0)
+        public Product(string name, int price)
         {
             Name = name;
             Price = price;
@@ -41,7 +41,7 @@ namespace Shop
     {
         protected List<Product> Products;
         public int Money { get; protected set; }
-        
+
         public Person(List<Product> products, int money = 0)
         {
             Products = products;
@@ -123,7 +123,7 @@ namespace Shop
             _seller = seller;
         }
 
-        public void ActionSelection(bool programIsOn)
+        public void ActionSelection(ref bool programIsOn)
         {
             Console.SetCursorPosition(0, 20);
             _player.ShowBalance();
