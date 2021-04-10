@@ -7,59 +7,87 @@ namespace Shop
     {
         private static void Main()
         {
-            Person person1 = new Player(new List<Good>(0), 500);
-            Person person2 = new Seller(new List<Good>
-            {
-                new Good("Алмазный меч", 200),
-                new Good("Золотой меч", 100),
-                new Good("Лук", 50),
-                new Good("Алмазная броня", 300),
-                new Good("Топор", 75)
-            });
-            Player player = (Player)person1;
-            Seller seller = (Seller)person2;
-
-            while (true)
-            {
-                player.ShowBalance();
-                Console.WriteLine("Комманды:" +
-                "\n1)Помотреть товары продавца" +
-                "\n2)Купить товар" +
-                "\n3)Посмотреть свой инвентарь");
-                Console.Write("\nОтвет: ");
-
-                switch (Convert.ToInt32(Console.ReadLine()))
+            Shop shop = new Shop(new Player(new List<Product>(0), 500), 
+                new Seller(new List<Product>
                 {
-                    case 1:
-                        seller.ShowInventory("продавца");
-                        break;
-                    case 2:
-                        PurchaseOfGoods(player, seller);
-                        break;
-                    case 3:
-                        player.ShowInventory("игрока");
-                        break;
-                }
+                    new Product("Алмазный меч", 200),
+                    new Product("Золотой меч", 100),
+                    new Product("Лук", 50),
+                    new Product("Алмазная броня", 300),
+                    new Product("Топор", 75) 
+                }));
+            bool programIsOn = true;
 
-                Console.ReadKey();
-                Console.Clear();
+            while (programIsOn)
+            {
+                shop.ActionSelection(programIsOn);
+            }
+        }
+    }
+
+    class Product
+    {
+        public string Name { get; private set; }
+        public int Price { get; private set; }
+
+        public Product(string name, int price = 0)
+        {
+            Name = name;
+            Price = price;
+        }
+    }
+
+    class Person
+    {
+        protected List<Product> Products;
+        public int Money { get; protected set; }
+        
+        public Person(List<Product> products, int money = 0)
+        {
+            Products = products;
+            Money = money;
+        }
+
+        public void ShowInventory(string inventoryOwner)
+        {
+            Console.WriteLine($"\nИнвентарь {inventoryOwner}:");
+            for (int i = 0; i < Products.Count; i++)
+            {
+                if (Products[i].Price != 0)
+                {
+                    Console.WriteLine($"{i + 1}){Products[i].Name} - {Products[i].Price}");
+                }
+                else
+                {
+                    Console.WriteLine($"{i + 1}){Products[i].Name}");
+                }
             }
         }
 
-        private static void PurchaseOfGoods(Player player, Seller seller)
+        public void AddItemToInventory(Product product)
         {
-            seller.ShowInventory("продавца");
-            Console.Write("\nВведите индекс товара, который хотите купить: ");
-            int.TryParse(Console.ReadLine(), out int productNumber);
-            productNumber--;
+            Products.Add(product);
+        }
 
-            if (productNumber >= 0 & productNumber <= seller.Goods.Count - 1)
+        public void RemoveItemFromInventory(int productNumber)
+        {
+            Products.RemoveAt(productNumber);
+        }
+    }
+
+    class Seller : Person
+    {
+        public Seller(List<Product> products, int money = 0) : base(products, money) { }
+
+        public void TransferProduct(int productNumber, Player player)
+        {
+            if (productNumber >= 0 & productNumber <= Products.Count - 1)
             {
-                if (player.Money > seller.Goods[productNumber].ProductPrice)
+                if (player.Money > Products[productNumber].Price)
                 {
-                    player.TransferMoney(seller.Goods[productNumber]);
-                    player.AddingItemToInventory(seller.Goods[productNumber]);
-                    seller.RemoveItemFromInventory(productNumber);
+                    player.TransferMoney(Products[productNumber]);
+                    player.AddItemToInventory(Products[productNumber]);
+                    RemoveItemFromInventory(productNumber);
                 }
                 else
                 {
@@ -69,78 +97,74 @@ namespace Shop
         }
     }
 
-    class Good
-    {
-        public string Product { get; private set; }
-        public int ProductPrice { get; private set; }
-        public Good(string product, int productPrice = 0)
-        {
-            Product = product;
-            ProductPrice = productPrice;
-        }
-    }
-
-    class Person
-    {
-        public int Money { get; protected set; }
-        public List<Good> Goods { get; private set; }
-
-        public Person(List<Good> goods = null, int money = 0)
-        {
-            Goods = goods;
-            Money = money;
-        }
-
-        public void ShowInventory(string inventoryOwner)
-        {
-            Console.WriteLine($"\nИнвентарь {inventoryOwner}:");
-            for (int i = 0; i < Goods.Count; i++)
-            {
-                if (Goods[i].ProductPrice != 0)
-                {
-                    Console.WriteLine($"{i + 1}){Goods[i].Product} - {Goods[i].ProductPrice}");
-                }
-                else
-                {
-                    Console.WriteLine($"{i + 1}){Goods[i].Product}");
-                }
-            }
-        }
-
-        public void AddingItemToInventory(Good good)
-        {
-            Goods.Add(good);
-        }
-
-        public void RemoveItemFromInventory(int productNumber)
-        {
-            Goods.RemoveAt(productNumber);
-        }
-    }
-
-    class Seller : Person
-    {
-        public Seller(List<Good> goods, int money = 0) : base(goods, money)
-        {
-        }
-    }
-
     class Player : Person
     {
-        public Player(List<Good> goods, int money) : base(goods, money)
-        {
-        }
+        public Player(List<Product> products, int money) : base(products, money) { }
 
         public void ShowBalance()
         {
-            Console.SetCursorPosition(0, 20);
             Console.WriteLine($"Ваш баланс - {Money}");
-            Console.SetCursorPosition(0, 0);
         }
 
-        public void TransferMoney(Good good)
+        public void TransferMoney(Product product)
         {
-            Money -= good.ProductPrice;
+            Money -= product.Price;
+        }
+    }
+
+    class Shop
+    {
+        private Player _player;
+        private Seller _seller;
+
+        public Shop(Player player, Seller seller)
+        {
+            _player = player;
+            _seller = seller;
+        }
+
+        public void ActionSelection(bool programIsOn)
+        {
+            Console.SetCursorPosition(0, 20);
+            _player.ShowBalance();
+            Console.SetCursorPosition(0, 0);
+
+            Console.WriteLine("Команды:" +
+            "\n1)Помотреть товары продавца" +
+            "\n2)Купить товар" +
+            "\n3)Посмотреть свой инвентарь" +
+            "\n4)Выход");
+            Console.Write("\nОтвет: ");
+            int.TryParse(Console.ReadLine(), out int userCommand);
+
+            switch (userCommand)
+            {
+                case 1:
+                    _seller.ShowInventory("продавца");
+                    break;
+                case 2:
+                    PurchaseProduct();
+                    break;
+                case 3:
+                    _player.ShowInventory("игрока");
+                    break;
+                case 4:
+                    programIsOn = false;
+                    break;
+            }
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public void PurchaseProduct()
+        {
+            _seller.ShowInventory("продавца");
+            Console.Write("\nВведите индекс товара, который хотите купить: ");
+            int.TryParse(Console.ReadLine(), out int productNumber);
+            productNumber--;
+
+            _seller.TransferProduct(productNumber, _player);
         }
     }
 }
