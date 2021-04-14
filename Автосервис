@@ -34,7 +34,8 @@ namespace Car_service
                 {
                     case "1":
                         Console.Write("Выберите деталь: ");
-                        int detailIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+                        int.TryParse(Console.ReadLine(), out int detailIndex);
+                        detailIndex--;
                         carService.ReplaceDetail(detailIndex, carService, сustomersСars[i]);
                         break;
                     default:
@@ -65,7 +66,7 @@ namespace Car_service
             Console.WriteLine("Ваши детали:");
             for (int i = 0; i < _details.Count; i++)
             {
-                Console.WriteLine($"{i + 1}){_details[i].NameOfDetail}");
+                Console.WriteLine($"{i + 1}){_details[i].Name}");
             }
         }
 
@@ -73,10 +74,10 @@ namespace Car_service
         {
             if (detailIndex >= 0 & detailIndex <= _details.Count - 1)
             {
-                if (_details[detailIndex].NameOfDetail == customersCar.Breaking)
+                if (_details[detailIndex].Name == customersCar.Breaking)
                 {
                     ReplenishBalance(detailIndex);
-                    _details = _details.Where(detail => detail.NameOfDetail != _details[detailIndex].NameOfDetail).ToList();
+                    _details = _details.Where(detail => detail.Name != _details[detailIndex].Name).ToList();
 
                     success = true;
                 }
@@ -119,19 +120,19 @@ namespace Car_service
         public void ReplenishBalance(int detailNumber)
         {
             int priceForWork = 50;
-            Money += priceForWork + _details[detailNumber].DetailCost;
+            Money += priceForWork + _details[detailNumber].Price;
         }
     }
 
     class Detail
     {
-        public string NameOfDetail { get; private set; }
-        public int DetailCost { get; private set; }
+        public string Name { get; private set; }
+        public int Price { get; private set; }
 
         public Detail(string nameOfDetail, int detailCost)
         {
-            NameOfDetail = nameOfDetail;
-            DetailCost = detailCost;
+            Name = nameOfDetail;
+            Price = detailCost;
         }
     }
 
