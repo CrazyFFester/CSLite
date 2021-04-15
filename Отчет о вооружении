@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Armament_report
+{
+    class Program
+    {
+        private static void Main()
+        {
+            List<Soldier> soldiers = new List<Soldier> {new Soldier("Билл", "автомат",  "рядовой", 1), new Soldier("Джон", "автомат", "ефрейтор", 7),
+                new Soldier("Илон", "пулемёт", "сержант", 28), new Soldier("Майкл", "винтовка", "прапорщик", 42), new Soldier("Эдвард", "снайперская винтовка", "капитан", 49) };
+
+            var newSoldiers = soldiers.Select(soldier => new
+            {
+                Name = soldier.Name,
+                Rank = soldier.Rank
+            });
+
+            Console.WriteLine("Солдаты:");
+            foreach(var soldier in newSoldiers)
+            {
+                Console.WriteLine($"{soldier.Name} - {soldier.Rank}");
+            }
+
+            Console.ReadKey();
+        }
+    }
+
+    class Soldier
+    {
+        private string _armament;
+        private int _serviceLife;
+
+        public string Name { get; private set; }
+        public string Rank { get; private set; }
+
+        public Soldier(string name, string armament, string rank, int serviceLife)
+        {
+            Name = name;
+            _armament = armament; 
+            Rank = rank;
+            _serviceLife = serviceLife;
+        }
+    }
+}
